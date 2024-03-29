@@ -35,10 +35,26 @@ public class Person {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "status")
+    private String status;
+
     // Список опросников
     // Список лекарств
 
     public Person() {}
+
+    public Person(String sername, String name, String patronymic, String gender, String birthday, String email,
+            String password, String role) {
+        this.sername = sername;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        if(role.equals("ROLE_USER")) this.status = "В процессе";
+    }
 
     public int getId() {
         return id;
@@ -72,7 +88,7 @@ public class Person {
         this.patronymic = patronymic;
     }
 
-    public String isGender() {
+    public String getGender() {
         return gender;
     }
 
@@ -110,6 +126,14 @@ public class Person {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

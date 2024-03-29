@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>UserData</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <header th:insert="blocks/headers :: header-admin-page"></header>
+
+    <div class="container mt-5">
+        <h1>Личные данные пользователя</h1>
+        <br>
+
+        <p th:text="'Фамилия: ' + ${user.sername}"/>
+        <p th:text="'Имя: ' + ${user.name}"/>
+        <p th:text="'Отчество: ' + ${user.patronymic}"/>
+        <p th:text="'Пол: ' + ${user.gender}"/>
+        <p th:text="'День Рождения: ' + ${user.birthday}"/>
+        <p th:text="'Почта: ' + ${user.email}"/>
+        <p th:text="'Статус лечения: ' + ${user.status}"/>
+
+        <a th:href="'/adminpage/user/' + ${user.id} + '/edit'" class="btn btn-warning">Редактировать</a><br><br>
+        <!--
+        <form th:action="'/adminpage/user/' + ${user.id} + '/remove'" method="post">
+            <button class="btn btn-danger" type="submit">Удалить</button>
+        </form>
+        -->
+
+    </div>
+   
+    <div th:insert="blocks/footer :: footer"></div>
+    
+</body>
+</html>

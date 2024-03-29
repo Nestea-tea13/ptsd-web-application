@@ -3,19 +3,23 @@
 --     sername varchar(50) NOT NULL,
 --     name varchar(50) NOT NULL,
 --     patronymic varchar(50),
---     gender varchar(1) NOT NULL,
+--     gender varchar(7) NOT NULL,
 --     birthday varchar(10) NOT NULL,
 --     email varchar(50) NOT NULL UNIQUE,
 --     password varchar(50) NOT NULL,
---     role varchar(100) NOT NULL
+--     role varchar(100) NOT NULL,
+--     status varchar(10)
 -- );
 
 -- INSERT INTO Person(sername, name, patronymic, gender, birthday, email, "password", "role") 
---     VALUES ('Пуха', 'Анастасия', 'Николаевна', 'w', '23.09.2002', 'pukha_an@mail.ru', 'pass', 'ROLE_ADMIN');
+--     VALUES ('Пуха', 'Анастасия', 'Николаевна', 'женщина', '23.09.2002', 'pukha_an@mail.ru', 'pass', 'ROLE_ADMIN');
 
--- INSERT INTO Person(sername, name, patronymic, gender, birthday, email, "password", "role") 
---     VALUES ('Терещенко', 'Василий', 'Геннадьевич', 'm', '11.03.1991', 'vasilii1991@gmail.com', 'pass', 'ROLE_USER');
+-- INSERT INTO Person(sername, name, patronymic, gender, birthday, email, "password", "role", status) 
+--     VALUES ('Терещенко', 'Василиса', 'Геннадьевич', 'женщина', '11.03.1991', 'vasilii1991@gmail.com', 'pass', 'ROLE_USER', 'В процессе');
 
-select * from Person;
+-- INSERT INTO Person(sername, name, patronymic, gender, birthday, email, "password", "role", status) 
+--      VALUES ('Потринкин', 'Кирилл', 'Иванович', 'мужчина', '30.04.1979', 'kirill@gmail.com', 'pass', 'ROLE_USER', 'Завершено');
+
+-- select * from Person;
 
 -- DROP TABLE Person;
