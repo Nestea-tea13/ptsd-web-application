@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Настройка авторизации и обработка формы входа
         http.authorizeRequests(requests -> requests
-                .antMatchers("/adminpage", "/adminpage/users", "/adminpage/admins", "/adminpage/user/{id}", "/adminpage/user/{id}/edit").hasRole("ADMIN")
+                .antMatchers("/adminpage/**").hasRole("ADMIN")
                 .antMatchers("/", "/login").permitAll()
                 .anyRequest().hasAnyRole("USER"))
             .formLogin(login -> login.loginPage("/login")

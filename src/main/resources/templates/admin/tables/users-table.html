@@ -11,22 +11,20 @@
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
     <div class="container mt-5 mb-5">
-        <h1>Список пользователей</h1>
-        <br>
+        <h1>Список пользователей</h1><br>
+        <a href="/adminpage/user/add" class="btn btn-success">Добавить</a><br><br>
+
         <table class="table table-bordered table-hover">
             <thead>
                 <th th:each="h : ${headers}" th:text="${h}"/>
             </thead>
             <tbody>
-                <!-- th:onclick="th:href='@{/adminpage/user/{id}(id=${user.id})}'; return false"
-                <script> var url = "/adminpage/user/"; </script>
-                th:data-url="'/adminpage/user/' + ${u.id}" th:onclick="window.location.href=data-url; return false" -->
-                <tr th:each="u, iter : ${users}"> <!-- onclick="window.location.href='/adminpage/user/' + ${user.id}; return false" тройные кавычки?-->
+                <tr th:each="u, iter : ${users}"> 
                     <td th:text="${iter.index}+1"></td>
                     <td th:text="${u.sername}"></td>
                     <td th:text="${u.name}"></td>
                     <td th:text="${u.email}"></td>
-                    <td th:text="${u.status}" th:style="${u.status} == 'В процессе' ? 'color: red' : 'color: green'"></td> 
+                    <td><span th:text="${u.status}" th:class="${u.status} == 'В процессе' ? 'badge badge-danger rounded-pill d-inline' : 'badge badge-success rounded-pill d-inline'"/></td>
                     <td><a th:href="'/adminpage/user/' + ${u.id}">Подробнее</a></td>
                 </tr>
             </tbody>

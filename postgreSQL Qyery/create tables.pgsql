@@ -12,14 +12,15 @@
 -- );
 
 -- INSERT INTO Person(sername, name, patronymic, gender, birthday, email, "password", "role") 
---     VALUES ('Пуха', 'Анастасия', 'Николаевна', 'женщина', '23.09.2002', 'pukha_an@mail.ru', 'pass', 'ROLE_ADMIN');
+--     VALUES ('Пуха', 'Анастасия', 'Николаевна', 'женщина', '2002-09-23', 'pukha_an@mail.ru', 'pass', 'ROLE_ADMIN');
 
 -- INSERT INTO Person(sername, name, patronymic, gender, birthday, email, "password", "role", status) 
---     VALUES ('Терещенко', 'Василиса', 'Геннадьевич', 'женщина', '11.03.1991', 'vasilii1991@gmail.com', 'pass', 'ROLE_USER', 'В процессе');
+--     VALUES ('Терещенко', 'Василиса', 'Геннадьевич', 'женщина', '1991-03-11', 'vasilii1991@gmail.com', 'pass', 'ROLE_USER', 'В процессе');
 
 -- INSERT INTO Person(sername, name, patronymic, gender, birthday, email, "password", "role", status) 
---      VALUES ('Потринкин', 'Кирилл', 'Иванович', 'мужчина', '30.04.1979', 'kirill@gmail.com', 'pass', 'ROLE_USER', 'Завершено');
+--      VALUES ('Потринкин', 'Кирилл', 'Иванович', 'мужчина', '1987-04-30', 'kirill@gmail.com', 'pass', 'ROLE_USER', 'Завершено');
 
--- select * from Person;
+select * from Person;
 
 -- DROP TABLE Person;
+-- DELETE FROM Person WHERE id=5;

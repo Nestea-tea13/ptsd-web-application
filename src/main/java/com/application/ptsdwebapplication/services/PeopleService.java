@@ -37,4 +37,19 @@ public class PeopleService {
         return updatedUser;
     }
 
+    @Transactional
+    public Person addUser(Person user) {
+        user.generateRandomPassword(); // ДОБАВИТЬ ОТПРАВКУ ДАННЫХ НА ПОЧТУ ДЛЯ ВХОДА
+        user.setRole("ROLE_USER");
+        user.setStatus("В процессе");
+        peopleRepository.save(user);
+        return user;
+    }
+
+    @Transactional
+    public void removePerson(int id) {
+        Person person = peopleRepository.findById(id).orElseThrow();
+        peopleRepository.delete(person);
+    }
+
 }

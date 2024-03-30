@@ -2,9 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>UserData</title>
+    <title>User Data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/remodal/remodal.css" />
+    <link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/remodal/remodal-default-theme.css" />
+    <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+    <script src="https://bootstraptema.ru/plugins/2016/remodal/remodal.js"></script>
 </head>
 
 <body>
@@ -23,12 +27,26 @@
         <p th:text="'Почта: ' + ${user.email}"/>
         <p th:text="'Статус лечения: ' + ${user.status}"/>
 
-        <a th:href="'/adminpage/user/' + ${user.id} + '/edit'" class="btn btn-warning">Редактировать</a><br><br>
-        <!--
-        <form th:action="'/adminpage/user/' + ${user.id} + '/remove'" method="post">
-            <button class="btn btn-danger" type="submit">Удалить</button>
-        </form>
-        -->
+        <a data-remodal-target="modal-edit" class="btn btn-warning" th:href="'/adminpage/user/' + ${user.id} + '/edit'">Редактировать</a><br><br> <!--  -->
+
+        <div class="remodal text-center" data-remodal-id="modal-edit">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <h1>Подтверждение</h1>
+            <p>Вы действительно хотите изменить пользователя?</p>
+            <a class="remodal-confirm" th:href="'/adminpage/user/' + ${user.id} + '/edit'" onclick="setTimeout(function(){window.close()}, 1)" >Да</a>
+            <button data-remodal-action="cancel" class="remodal-cancel">Нет</button>
+        </div>
+
+        <a data-remodal-target="modal-remove" class="btn btn-danger">Удалить</a>
+        
+        <div class="remodal text-center" data-remodal-id="modal-remove">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <h1>Подтверждение</h1>
+            <p>Вы действительно хотите удалить пользователя?<br>Данное действие невозможно будет отменить.</p>
+            <form th:action="'/adminpage/' + ${user.id} + '/remove'" method="post" id="secretKey" style="display: none;"></form>
+            <a class="remodal-confirm" href="#" onclick="document.getElementById('secretKey').submit();">Да, удалить</a>
+            <button data-remodal-action="cancel" class="remodal-cancel">Нет</button>
+        </div>
 
     </div>
    

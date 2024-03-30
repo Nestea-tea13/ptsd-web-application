@@ -1,6 +1,13 @@
 package com.application.ptsdwebapplication.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Person")
@@ -11,9 +18,11 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
+    @NotEmpty(message = "Фамилия не должна быть пустой")
     @Column(name = "sername")
     private String sername;
 
+    @NotEmpty(message = "Имя не должно быть пустым")
     @Column(name = "name")
     private String name;
 
@@ -26,6 +35,8 @@ public class Person {
     @Column(name = "birthday")
     private String birthday;
 
+    @NotEmpty(message = "Почта не должна быть пустой")
+    @Email(message = "Корректный формат: name@example.com")
     @Column(name = "email")
     private String email;
 
@@ -42,19 +53,6 @@ public class Person {
     // Список лекарств
 
     public Person() {}
-
-    public Person(String sername, String name, String patronymic, String gender, String birthday, String email,
-            String password, String role) {
-        this.sername = sername;
-        this.name = name;
-        this.patronymic = patronymic;
-        this.gender = gender;
-        this.birthday = birthday;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        if(role.equals("ROLE_USER")) this.status = "В процессе";
-    }
 
     public int getId() {
         return id;
@@ -134,6 +132,17 @@ public class Person {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void generateRandomPassword() {
+        String randomPassword = "";
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int charactersLength = characters.length();
+
+        for (int i = 0; i < 10; i++)
+            randomPassword += characters.charAt((int) Math.floor(Math.random() * charactersLength));
+
+        this.password = randomPassword;
     }
 
 }
