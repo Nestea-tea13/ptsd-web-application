@@ -15,7 +15,6 @@
         <br>
 
         <form th:action="@{/adminpage/user/{id}(id=${user.id})}" method="post" th:object="${user}" style="display: inline-block; width: 25rem;">
-            <!-- Скрытые поля, которые не меняем, если используем th:object="${user}"-->
             <input type="hidden" th:field="*{password}"/>
             <input type="hidden" th:field="*{role}"/>
             
@@ -54,23 +53,6 @@
                 <label for="2" th:text="*{status} == 'В процессе' ? 'Завершено' : 'В процессе'"/>
             </div>
 
-            <!--<input type="text" th:value="${user.sername}" name="sername" placeholder="Введите фамилию" class="form-control"><br>
-            <input type="text" th:value="${user.name}" name="name" placeholder="Введите имя" class="form-control"><br>
-            <input type="text" th:value="${user.patronymic}" name="patronymic" placeholder="Введите отчество" class="form-control"><br>
-            <div>
-                <input type="radio" id="1" name="gender" th:value="${user.gender}" checked required/>
-                <label for="1" th:text="${user.gender}"/>
-                <input type="radio" id="2" name="gender" th:value="${user.gender} == 'женщина' ? 'мужчина' : 'женщина'"/>
-                <label for="2" th:text="${user.gender} == 'женщина' ? 'мужчина' : 'женщина'"/>
-            </div>
-            <input type="text" th:value="${user.birthday}" name="birthday" placeholder="Введите день рождения" class="form-control"><br>
-            <input type="email" th:value="${user.email}" name="email" placeholder="Введите почту" class="form-control"><br>
-            <div>
-                <input type="radio" id="1" name="status" th:value="${user.status}" checked required/>
-                <label for="1" th:text="${user.status}"/>
-                <input type="radio" id="2" name="status" th:value="${user.status} == 'В процессе' ? 'Завершено' : 'В процессе'"/>
-                <label for="2" th:text="${user.status} == 'В процессе' ? 'Завершено' : 'В процессе'"/>
-            </div>-->
             <br>
             <button type="submit" class="btn btn-success">Обновить</button>
             <a th:href="'/adminpage/user/' + ${user.id}" class="btn btn-secondary">Отмена</a>

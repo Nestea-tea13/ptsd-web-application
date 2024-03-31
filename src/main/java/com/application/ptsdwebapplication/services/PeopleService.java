@@ -11,7 +11,10 @@ import com.application.ptsdwebapplication.repositories.PeopleRepository;
 @Transactional(readOnly = true)
 public class PeopleService {
 
-     private final PeopleRepository peopleRepository;
+    private final PeopleRepository peopleRepository;
+
+    @Autowired
+    private MailSender mailSender;
 
     @Autowired
     public PeopleService(PeopleRepository peopleRepository) {
@@ -38,12 +41,16 @@ public class PeopleService {
     }
 
     @Transactional
-    public Person addUser(Person user) {
-        user.generateRandomPassword(); // ДОБАВИТЬ ОТПРАВКУ ДАННЫХ НА ПОЧТУ ДЛЯ ВХОДА
-        user.setRole("ROLE_USER");
-        user.setStatus("В процессе");
-        peopleRepository.save(user);
-        return user;
+    public Person addPerson(Person person, String role) {
+        person.generateRandomPassword(); // ДОБАВИТЬ ШИФРОВАНИЕ ПАРОЛЯ
+        person.setRole(role);
+        if (role.equals("ROLE_USER")) person.setStatus("В процессе");
+        peopleRepository.save(person);
+
+        mailSender.send(person.getEmail(), "Регистрация в приложении", 
+            "Здравствуйте, " + person.getName() + "!\n" + "Вы были зарегистрированы администратором больницы в web-приложении для оценки динамики посттравматического стрессового расстройства в процессе лечения.\n\n" 
+            + "Ссылка на сайт: //http..\nВаш логин: " + person.getEmail() + "\nПароль: " + person.getPassword() + "\nДанный регистрационный пароль можно изменить на свой в личном кабинете.");
+        return person;
     }
 
     @Transactional

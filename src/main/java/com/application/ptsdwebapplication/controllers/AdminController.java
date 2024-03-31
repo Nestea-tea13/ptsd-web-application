@@ -37,16 +37,8 @@ public class AdminController {
         model.addAttribute("headers", Labels.usersTableHeaders);
         return "admin/tables/users-table";
     }
-
-    @GetMapping("/admins")
-    public String getAdminsTable(Model model) {
-        Iterable<Person> admins = peopleService.findByRole("ROLE_ADMIN");
-        model.addAttribute("admins", admins);
-        model.addAttribute("headers", Labels.adminsTableHeaders);
-        return "admin/tables/admins-table";
-    }
     
-     @GetMapping("/user/{id}")
+    @GetMapping("/user/{id}")
     public String userDetails(@PathVariable(value = "id") int id, Model model) {
         if(!peopleService.existsUserById(id)) {
             return "redirect:/adminpage/users";
@@ -93,22 +85,37 @@ public class AdminController {
         if (bindingResult.hasErrors())
             return "admin/user-add";
 
-        model.addAttribute("user", peopleService.addUser(user));
+        model.addAttribute("user", peopleService.addPerson(user, "ROLE_USER"));
         return "admin/user-details";
     }
-
-    /*@PostMapping(/user/add)
-    public String createUser(@RequestParam String surname, @RequestParam String name, @RequestParam String patronymic, 
-        @RequestParam String gender, @RequestParam String birthday, @RequestParam String email, Model model) {
-
-    model.addAttribute("user", peopleService.addUser(surname, name, patronymic, gender, birthday, email));
-    return "admin/user-details";
-    }*/
 
     @PostMapping("/{id}/remove")
     public String personRemove(@PathVariable(value = "id") int id, Model model) {
         peopleService.removePerson(id);
         return "redirect:/adminpage/users";
+    }
+
+    @GetMapping("/admins")
+    public String getAdminsTable(Model model) {
+        Iterable<Person> admins = peopleService.findByRole("ROLE_ADMIN");
+        model.addAttribute("admins", admins);
+        model.addAttribute("headers", Labels.adminsTableHeaders);
+        return "admin/tables/admins-table";
+    }
+
+    @GetMapping("/admin/add")
+    public String newAdmin(@ModelAttribute("person") Person person) {
+        return "admin/admin-add";
+    }
+
+    @PostMapping("/admin/add")
+    public String createAdmin(@ModelAttribute("person") @Valid Person admin, BindingResult bindingResult, Model model) {
+        personValidator.validate(admin, bindingResult);
+        if (bindingResult.hasErrors())
+            return "admin/admin-add";
+
+        model.addAttribute("admin", peopleService.addPerson(admin, "ROLE_ADMIN"));
+        return "admin/admins-table";
     }
 
     @GetMapping("/drugs")

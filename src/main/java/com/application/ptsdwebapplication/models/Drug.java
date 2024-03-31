@@ -7,9 +7,8 @@ public class Drug {
 
     private String name;
 
-    private String dose;
-
-    private String description;
+    /*private String dose;
+    private String description;*/
 
     // Список пользующихся
 
@@ -31,7 +30,7 @@ public class Drug {
         this.name = name;
     }
 
-    public String getDose() {
+    /*public String getDose() {
         return dose;
     }
 
@@ -45,6 +44,6 @@ public class Drug {
 
     public void setDescription(String description) {
         this.description = description;
-    }
+    }*/
 
 }

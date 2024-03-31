@@ -11,7 +11,9 @@
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
     <div class="container mt-5 mb-5">
-        <h1>Список администраторов</h1>
+        <h1>Список администраторов</h1><br>
+        <a href="/adminpage/admin/add" class="btn btn-success">Добавить</a><br><br>
+
         <table class="table table-bordered table-hover">
             <thead>
                 <th th:each="h : ${headers}" th:text="${h}"/>
