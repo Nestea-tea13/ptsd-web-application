@@ -1,5 +1,7 @@
 package com.application.ptsdwebapplication.controllers;
 
+import java.util.regex.Pattern;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.application.ptsdwebapplication.data.Labels;
 import com.application.ptsdwebapplication.models.Person;
@@ -37,63 +40,6 @@ public class AdminController {
         model.addAttribute("headers", Labels.usersTableHeaders);
         return "admin/tables/users-table";
     }
-    
-    @GetMapping("/user/{id}")
-    public String userDetails(@PathVariable(value = "id") int id, Model model) {
-        if(!peopleService.existsUserById(id)) {
-            return "redirect:/adminpage/users";
-        }
-
-        model.addAttribute("user", peopleService.findUserById(id));
-        return "admin/user-details";
-    }
-
-    @GetMapping("/user/{id}/edit")
-    public String userEdit(@PathVariable(value = "id") int id, Model model) {
-        if(!peopleService.existsUserById(id)) {
-            return "redirect:/adminpage/users";
-        }
-
-        model.addAttribute("user", peopleService.findUserById(id));
-        return "admin/user-edit";
-    }
-
-    @PostMapping("/user/{id}")
-    public String userUpdate(@ModelAttribute("user") @Valid Person user, BindingResult bindingResult,
-            @PathVariable(value = "id") int id, Model model) {
-        
-        if(!peopleService.existsUserById(id)) {
-            return "redirect:/adminpage/users";
-        }
-
-        personValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors())
-            return "admin/user-edit";
-
-        model.addAttribute("user", peopleService.update(id, user));
-        return "admin/user-details";
-    }
-
-    @GetMapping("/user/add")
-    public String newUser(@ModelAttribute("person") Person person) {
-        return "admin/user-add";
-    }
-
-    @PostMapping("/user/add")
-    public String createUser(@ModelAttribute("person") @Valid Person user, BindingResult bindingResult, Model model) {
-        personValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors())
-            return "admin/user-add";
-
-        model.addAttribute("user", peopleService.addPerson(user, "ROLE_USER"));
-        return "admin/user-details";
-    }
-
-    @PostMapping("/{id}/remove")
-    public String personRemove(@PathVariable(value = "id") int id, Model model) {
-        peopleService.removePerson(id);
-        return "redirect:/adminpage/users";
-    }
 
     @GetMapping("/admins")
     public String getAdminsTable(Model model) {
@@ -102,20 +48,69 @@ public class AdminController {
         model.addAttribute("headers", Labels.adminsTableHeaders);
         return "admin/tables/admins-table";
     }
+    
+    @GetMapping("/user/{id}")
+    public String userDetails(@PathVariable(value = "id") int id, Model model) {
+        if(!peopleService.existsPersonById(id)) {
+            return "redirect:/adminpage/users";
+        }
 
-    @GetMapping("/admin/add")
-    public String newAdmin(@ModelAttribute("person") Person person) {
-        return "admin/admin-add";
+        model.addAttribute("user", peopleService.findPersonById(id));
+        return "admin/user-details";
     }
 
-    @PostMapping("/admin/add")
-    public String createAdmin(@ModelAttribute("person") @Valid Person admin, BindingResult bindingResult, Model model) {
-        personValidator.validate(admin, bindingResult);
-        if (bindingResult.hasErrors())
-            return "admin/admin-add";
+    @GetMapping({"/user/{id}/edit", "/admin/{id}/edit"})
+    public String editUserOrOtherAdmin(@PathVariable(value = "id") int id, Model model) {
+        if(!peopleService.existsPersonById(id)) {
+            return "redirect:/adminpage";
+        }
 
-        model.addAttribute("admin", peopleService.addPerson(admin, "ROLE_ADMIN"));
-        return "admin/admins-table";
+        model.addAttribute("person", peopleService.findPersonById(id));
+        model.addAttribute("flagEditUser", peopleService.findPersonById(id).getRole().equals("ROLE_USER"));
+        return "admin/person-edit";
+    }
+
+    @PostMapping({"/user/{id}", "/admin/{id}"})
+    public String userUpdate(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
+            @PathVariable(value = "id") int id, Model model) {
+
+        personValidator.validate(person, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("flagEditUser", peopleService.findPersonById(id).getRole().equals("ROLE_USER"));
+            return "admin/person-edit";
+        }
+
+        model.addAttribute("user", peopleService.update(id, person));
+
+        if (person.getRole().equals("ROLE_USER")) return "admin/user-details";
+        else return "redirect:/adminpage/admins";
+    }
+
+    @GetMapping("/person/add")
+    public String addNewPerson(@ModelAttribute("person") Person person, @RequestParam(value = "role", required = false) String role, Model model) {
+        if(!role.equals("ROLE_USER") && !role.equals("ROLE_ADMIN")) return "redirect:/adminpage";
+        model.addAttribute("flagEditUser", role.equals("ROLE_USER"));
+        return "admin/person-add";
+    }
+
+    @PostMapping("/person/add")
+    public String createNewPerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, Model model) {
+
+        personValidator.validate(person, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("flagEditUser", person.getRole().equals("ROLE_USER"));
+            return "admin/person-add";
+        }
+            
+        model.addAttribute("person", peopleService.addPerson(person));
+        if (person.getRole().equals("ROLE_USER")) return "redirect:/adminpage/users";
+        else return "redirect:/adminpage/admins";
+    }
+
+    @PostMapping("/{id}/remove")
+    public String personRemove(@PathVariable(value = "id") int id, Model model) {
+        peopleService.removePerson(id);
+        return "redirect:/adminpage/users";
     }
 
     @GetMapping("/drugs")

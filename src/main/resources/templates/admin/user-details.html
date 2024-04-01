@@ -27,12 +27,12 @@
         <p th:text="'Почта: ' + ${user.email}"/>
         <p th:text="'Статус лечения: ' + ${user.status}"/>
 
-        <a data-remodal-target="modal-edit" class="btn btn-warning" th:href="'/adminpage/user/' + ${user.id} + '/edit'">Редактировать</a><br><br> <!--  -->
+        <a data-remodal-target="modal-edit" class="btn btn-warning" th:href="'/adminpage/user/' + ${user.id} + '/edit'">Редактировать</a><br><br>
 
         <div class="remodal text-center" data-remodal-id="modal-edit">
             <button data-remodal-action="close" class="remodal-close"></button>
             <h1>Подтверждение</h1>
-            <p>Вы действительно хотите изменить пользователя?</p>
+            <p>Вы действительно хотите изменить данные пользователя?</p>
             <a class="remodal-confirm" th:href="'/adminpage/user/' + ${user.id} + '/edit'" onclick="setTimeout(function(){window.close()}, 1)" >Да</a>
             <button data-remodal-action="cancel" class="remodal-cancel">Нет</button>
         </div>

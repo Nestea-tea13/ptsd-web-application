@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Profile</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/remodal/remodal.css" />
+    <link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/remodal/remodal-default-theme.css" />
+    <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+    <script src="https://bootstraptema.ru/plugins/2016/remodal/remodal.js"></script>
+</head>
+
+<body>
+    <header th:if="${flagRoleAdmin}" th:insert="blocks/headers::header-admin-page"/>
+    <header th:unless="${flagRoleAdmin}" th:insert="blocks/headers::header-user-page"/>
+
+    <div class="container mt-5">
+        <h1>Ваши личные данные</h1>
+        <br>
+
+        <p th:text="'Фамилия: ' + ${person.sername}"/>
+        <p th:text="'Имя: ' + ${person.name}"/>
+        <p th:text="'Отчество: ' + ${person.patronymic}"/>
+        <p th:text="'Пол: ' + ${person.gender}"/>
+        <p th:text="'День Рождения: ' + ${person.birthday}"/>
+        <p th:text="'Почта: ' + ${person.email}"/>
+
+        <a th:if="${flagRoleAdmin}" class="btn btn-warning" href="/adminpage/profile/edit">Редактировать</a>
+        <a th:unless="${flagRoleAdmin}" class="btn btn-warning" href="/profile/edit">Редактировать</a>
+        <br><br>
+
+        <a th:if="${flagRoleAdmin}" class="btn btn-secondary" href="/adminpage/profile/changepassword">Изменить пароль</a>
+        <a th:unless="${flagRoleAdmin}" class="btn btn-secondary" href="/profile/changepassword">Изменить пароль</a>
+        <br>
+      
+    </div>
+   
+    <div th:insert="blocks/footer :: footer"></div>
+    
+</body>
+
+<style>
+
+    .input-group-text {
+        width: 20%;
+    }
+
+</style>
+
+</html>

@@ -11,10 +11,11 @@
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
     <div class="container mt-5 mb-5 text-center">
-        <h1>Редактирование данных пользователя</h1>
+        <h1 th:if="${flagEditUser}">Редактирование данных пользователя</h1>
+        <h1 th:unless="${flagEditUser}">Редактирование данных другого администратора</h1>
         <br>
 
-        <form th:action="@{/adminpage/user/{id}(id=${user.id})}" method="post" th:object="${user}" style="display: inline-block; width: 25rem;">
+        <form th:action="${flagEditUser} ? @{/adminpage/user/{id}(id=${person.id})} : @{/adminpage/admin/{id}(id=${person.id})}" method="post" th:object="${person}" style="display: inline-block; width: 25rem;">
             <input type="hidden" th:field="*{password}"/>
             <input type="hidden" th:field="*{role}"/>
             
@@ -45,17 +46,21 @@
             <input type="email" th:field="*{email}" id="email"/> <br>
             <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
 
-            <div>
+            <div th:if="${flagEditUser}">
                 <label>Статус лечения: </label>
                 <input type="radio" id="1" th:field="*{status}" th:value="*{status}" checked required/>
                 <label for="1" th:text="*{status}"/>
                 <input type="radio" id="2" th:field="*{status}" th:value="*{status} == 'В процессе' ? 'Завершено' : 'В процессе'"/>
                 <label for="2" th:text="*{status} == 'В процессе' ? 'Завершено' : 'В процессе'"/>
             </div>
+            <input th:unless="${flagEditUser}" type="hidden" th:field="*{status}"/>
 
             <br>
             <button type="submit" class="btn btn-success">Обновить</button>
-            <a th:href="'/adminpage/user/' + ${user.id}" class="btn btn-secondary">Отмена</a>
+
+            <a th:if="${flagEditUser}" th:href="'/adminpage/user/' + ${person.id}" class="btn btn-secondary">Отмена</a>
+            <a th:unless="${flagEditUser}" href="/adminpage/admins" class="btn btn-secondary">Отмена</a>
+            
         </form>
 
     </div>

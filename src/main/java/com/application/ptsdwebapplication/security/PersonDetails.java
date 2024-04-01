@@ -27,26 +27,32 @@ public class PersonDetails implements UserDetails {
     public String getPassword() {
         return this.person.getPassword();
     }
+
     @Override
     public String getUsername() {
         return this.person.getEmail();
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @Override
     public boolean isEnabled() {
         return true;
     }
+    
     // Нужно, чтобы получать данные аутентифицированного пользователя
     public Person getPerson() {
         return this.person;
