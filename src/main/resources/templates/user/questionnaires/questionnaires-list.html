@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Questionnaires</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <header th:insert="blocks/headers :: header-user-page"></header>
+
+    <div class="container mt-5">
+        <h1 class="text-center"> Список опросников </h1>
+
+        <a href="/questionnaires/CAPS">1. CAPS</a><br><br>
+        <a href="/questionnaires/IESR">2. IES-R</a><br><br>
+        <a href="/questionnaires/BHS">3. BHS</a><br><br>
+        <a href="/questionnaires/TOP8">4. TOP-8</a><br><br>
+
+
+    </div>
+   
+    <div th:insert="blocks/footer :: footer"></div>
+    
+</body>
+</html>

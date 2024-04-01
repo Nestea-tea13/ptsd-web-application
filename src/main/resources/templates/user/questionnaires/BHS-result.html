@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <header th:insert="blocks/headers :: header-user-page"></header>
+
+    <div class="container mt-5">
+        <h1>Ваши ответы</h1>
+
+        <p th:text="${date}"/><br>
+
+        <p th:text="'Сумма баллов: ' + ${result}"/><br>
+
+        <div th:each="answer, iter : ${answers.answers}">
+            <p th:text="${iter.count} + '. ' + ${answer} + ' - ' + ${answerOptions[__${answer}__]}"/>
+        </div>
+        
+    </div>
+   
+    <div th:insert="blocks/footer :: footer"></div>
+    
+</body>
+</html>
