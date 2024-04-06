@@ -14,13 +14,13 @@
     <div class="container mt-5">
         <h1>Ваши ответы</h1>
 
-        <p th:text="${date}"/><br>
+        <p th:text="${results.date}"/><br>
 
-        <p th:text="'Шкала «вторжение»: ' + ${result[0]}"/>
-        <p th:text="'Шкала «избегание»: ' + ${result[1]}"/>
-        <p th:text="'Шкала «возбудимость»: ' + ${result[2]}"/><br>
+        <p th:text="'Шкала «вторжение»: ' + ${results.resultIN}"/>
+        <p th:text="'Шкала «избегание»: ' + ${results.resultAV}"/>
+        <p th:text="'Шкала «возбудимость»: ' + ${results.resultAR}"/><br>
 
-        <div th:each="answer, iter : ${answers.answers}">
+        <div th:each="answer, iter : ${results.answers}">
             <p th:text="${iter.count} + '. ' + ${answer} + ' - ' + ${answerOptions[__${answer}__]}"/>
         </div>
         

@@ -14,11 +14,11 @@
     <div class="container mt-5">
         <h1>Ваши ответы</h1>
 
-        <p th:text="${date}"/><br>
+        <p th:text="${results.date}"/><br>
 
-        <p th:text="'Сумма баллов: ' + ${result}"/><br>
+        <p th:text="'Сумма баллов: ' + ${results.result}"/><br>
 
-        <div th:each="answer, iter : ${answers.answers}">
+        <div th:each="answer, iter : ${results.answers}">
             <p th:text="${iter.count} + '. ' + ${answer} + ' - ' + ${answerOptions[__${iter.index}__][__${answer}__]}"/>
         </div>
         

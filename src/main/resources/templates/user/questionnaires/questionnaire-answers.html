@@ -12,14 +12,15 @@
     <header th:insert="blocks/headers :: header-user-page"></header>
 
     <div class="container mt-5">
-        <h1>Ваши ответы</h1>
+        <h1>Ваши ответы</h1><br>
 
-        <p th:text="${results.date}"/><br>
+        <p th:text="'Дата прохождения: ' + ${results.date}"/>
 
         <p th:text="'Сумма баллов: ' + ${results.result}"/><br>
 
         <div th:each="answer, iter : ${results.answers}">
-            <p th:text="${iter.count} + '. ' + ${answer} + ' - ' + ${answerOptions[__${answer}__]}"/>
+            <p th:text="${iter.count} + '. ' + ${questions[__${iter.index}__]}"/>
+            <p th:text="' - ' + ${answerOptions[__${iter.index}__][__${answer}__]}"/>
         </div>
         
     </div>
