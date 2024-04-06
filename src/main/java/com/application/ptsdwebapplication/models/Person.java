@@ -1,10 +1,14 @@
 package com.application.ptsdwebapplication.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -49,8 +53,10 @@ public class Person {
     @Column(name = "status")
     private String status;
 
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
+    private List<PersonDrug> drugs;
+
     // Список опросников
-    // Список лекарств
 
     public Person() {}
 
@@ -143,6 +149,14 @@ public class Person {
             randomPassword += characters.charAt((int) Math.floor(Math.random() * charactersLength));
 
         this.password = randomPassword;
+    }
+
+    public List<PersonDrug> getDrugs() {
+        return drugs;
+    }
+
+    public void setDrugs(List<PersonDrug> drugs) {
+        this.drugs = drugs;
     }
 
 }

@@ -1,7 +1,5 @@
 package com.application.ptsdwebapplication.controllers;
 
-import java.util.regex.Pattern;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.application.ptsdwebapplication.data.Labels;
+import com.application.ptsdwebapplication.models.Drug;
 import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.services.DrugsService;
 import com.application.ptsdwebapplication.services.PeopleService;
+import com.application.ptsdwebapplication.util.DrugValidator;
 import com.application.ptsdwebapplication.util.PersonValidator;
 
 @Controller
@@ -25,26 +26,29 @@ import com.application.ptsdwebapplication.util.PersonValidator;
 public class AdminController {
 
     private final PeopleService peopleService;
+    private final DrugsService drugsService;
     private final PersonValidator personValidator;
+    private final DrugValidator drugValidator;
 
     @Autowired
-    public AdminController(PeopleService peopleService, PersonValidator personValidator) { 
+    public AdminController(PeopleService peopleService, DrugsService drugsService, 
+                        PersonValidator personValidator, DrugValidator drugValidator) { 
         this.peopleService = peopleService;
+        this.drugsService = drugsService;
         this.personValidator = personValidator;
+        this.drugValidator = drugValidator;
     }
 
     @GetMapping("/users")
     public String getUsersTable(Model model) {
-        Iterable<Person> users = peopleService.findByRole("ROLE_USER");
-        model.addAttribute("users", users);
+        model.addAttribute("users", peopleService.findByRole("ROLE_USER"));
         model.addAttribute("headers", Labels.usersTableHeaders);
         return "admin/tables/users-table";
     }
 
     @GetMapping("/admins")
     public String getAdminsTable(Model model) {
-        Iterable<Person> admins = peopleService.findByRole("ROLE_ADMIN");
-        model.addAttribute("admins", admins);
+        model.addAttribute("admins", peopleService.findByRole("ROLE_ADMIN"));
         model.addAttribute("headers", Labels.adminsTableHeaders);
         return "admin/tables/admins-table";
     }
@@ -112,11 +116,28 @@ public class AdminController {
         peopleService.removePerson(id);
         return "redirect:/adminpage/users";
     }
-
+    
     @GetMapping("/drugs")
-    public String getDrugsTable(Model model) {
-        // ПОЛУЧЕНИЕ СПИСКА ЛЕКАРСТВ ИЗ БД
+    public String getDrugsTable(@ModelAttribute("drug") Drug drug, Model model) {
+        model.addAttribute("drugs", drugsService.findAll());
         return "admin/tables/drugs-table";
     }
 
+    @GetMapping("/drug/add")
+    public String settingNewDrug(@ModelAttribute("drug") Drug drug, Model model) {
+        return "admin/drug-add";
+    }
+
+    @PostMapping("/drug/add")
+    public String addNewDrug(@ModelAttribute("drug") @Valid Drug drug, BindingResult bindingResult, Model model) {
+
+        drugValidator.validate(drug, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "admin/drug-add";
+        }
+
+        drugsService.addDrug(drug);
+        return "redirect:/adminpage/drugs";
+    }
+        
 }

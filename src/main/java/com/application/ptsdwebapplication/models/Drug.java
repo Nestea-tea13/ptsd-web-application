@@ -1,16 +1,32 @@
 package com.application.ptsdwebapplication.models;
 
+import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+@Entity
+@Table(name = "Drug")
 public class Drug {
     
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotEmpty(message = "Название не должно быть пустым")
+    @Column(name = "name")
     private String name;
 
-    /*private String dose;
-    private String description;*/
-
-    // Список пользующихся
+    @OneToMany(mappedBy = "drug", fetch = FetchType.EAGER)
+    private List<PersonDrug> persons;
 
     public Drug() {}
 
@@ -30,20 +46,12 @@ public class Drug {
         this.name = name;
     }
 
-    /*public String getDose() {
-        return dose;
+    public List<PersonDrug> getPersons() {
+        return persons;
     }
 
-    public void setDose(String dose) {
-        this.dose = dose;
+    public void setPersons(List<PersonDrug> persons) {
+        this.persons = persons;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }*/
 
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+    <title>Add user</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <header th:insert="blocks/headers :: header-user-page"></header>
+
+    <div class="container mt-5 mb-5 text-center">
+        <h1>Добавление нового лекарства для отслеживания</h1>
+        <br>
+
+        <form th:action="@{/drugs/add}" method="post" th:object="${personDrug}" style="display: inline-block; width: 25rem;">  
+            <input type="hidden" th:field="*{person}"/>
+            <input type="hidden" th:field="*{drug}"/>
+
+            <label for="drugname">Лекарство: </label>
+            <input type="text" id="drugname" name="drugname" list="list-of-names" th:value="${name}" multiple oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()">
+            <datalist id="list-of-names">
+                <option th:each="n : ${names}" th:value="${n}"/>
+            </datalist><br>
+            <div style="color:red" th:if="${#fields.hasErrors('drug')}" th:errors="*{drug}">drug Error</div>
+
+            <label for="dose">Доза: </label>
+            <input type="text" th:field="*{dose}" id="dose" placeholder="000 мг/сут" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> <br>
+
+            <label for="startDate">Дата начала приемов: </label><br>
+            <input type="date" id="startDate" th:field="*{startDate}" min="2024-01-01" max="2025-01-01" /> <br>
+            <div style="color:red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">startDate Error</div>
+
+            <label for="endDate">Дата завершения приемов (включая): </label><br>
+            <input type="date" id="endDate" th:field="*{endDate}" min="2024-01-01" max="2025-01-01" /> <br>
+            <div style="color:red" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">endDate Error</div>
+
+            <label for="period">Период принятия: </label>
+            <p><select id="period" name="period"> 
+                <option th:each="p, iter : ${periodoptions}" th:field="*{period}" th:text="${p}" th:value="${p}" selected="${p} == *{period} ? selected"/>
+            </select></p>
+
+            <button type="submit" class="btn btn-success">Добавить</button>
+
+            <a href="/drugs" class="btn btn-secondary">Отмена</a>
+        </form>
+
+    </div>
+
+    <div th:insert="blocks/footer :: footer"></div>
+</body>
+
+</html>

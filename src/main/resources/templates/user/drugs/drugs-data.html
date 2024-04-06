@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Drugs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <header th:insert="blocks/headers :: header-user-page"></header>
+
+    <div class="container mt-5 text-center">
+        <h1 class="text-center"> Ваши лекарства </h1>
+
+        <br><a href="/drugs/add" class="btn btn-success">Добавить лекарство</a><br><br>
+
+        <div th:if="${drugs}">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <th th:each="h : ${headers}" th:text="${h}"/>
+                </thead>
+                <tbody>
+                    <tr th:each="d, iter : ${drugs}"> 
+                        <td th:text="${iter.index}+1"></td>
+                        <td th:text="${d.drug.name}"></td>
+                        <td th:text="${d.dose}"></td>
+                        <td th:text="${d.period}"></td>
+                        <td th:text="${d.startDate}"></td>
+                        <td th:text="${d.endDate}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:unless="${drugs}">
+            <p> Нет выбранных лекарств для ведения отметок </p>
+        </div>
+
+    </div>
+   
+    <div th:insert="blocks/footer :: footer"></div>
+
+</body>
+</html>
