@@ -47,6 +47,7 @@ public class GeneralController {
             model.addAttribute("lastPassword", lastPassword);
             model.addAttribute("newPassword", newPassword);
             model.addAttribute("newPasswordRepeat", newPasswordRepeat);
+            model.addAttribute("flagRoleAdmin", peopleService.getCurrentPerson().getRole().equals("ROLE_ADMIN"));
             return "general/change-password";
         }
 
@@ -63,6 +64,7 @@ public class GeneralController {
     }
 
     // Страница редактирования данных своего профиля
+    // Добавлю, как выберу оформление страницы для редактирования
     //@PostMapping({"/profile/edit", "/adminpage/profile/edit"})
 
 }

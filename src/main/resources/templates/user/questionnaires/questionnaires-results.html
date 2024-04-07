@@ -30,11 +30,11 @@
         <div class="collapse" id="collapseCAPS">
             <div class="card card-body">
 
-                <div class="header-info-rightbox">
-                    <canvas id="CAPSResultsChart"></canvas>
-                </div><br>
-
                 <div th:if="${CAPSResults}"> 
+                    <div class="header-info-rightbox">
+                        <canvas id="CAPSResultsChart"></canvas>
+                    </div><br>
+
                     <table class="table table-bordered table-hover">
                         <thead>
                             <th th:each="h : ${headers[0]}" th:text="${h}"/>
@@ -71,12 +71,12 @@
 
         <div class="collapse" id="collapseIESR">
             <div class="card card-body">
-
-                <div class="header-info-rightbox">
-                    <canvas id="IESRResultsChart"></canvas>
-                </div><br>
                 
                 <div th:if="${IESRResults}"> 
+                    <div class="header-info-rightbox">
+                        <canvas id="IESRResultsChart"></canvas>
+                    </div><br>
+
                     <table class="table table-bordered table-hover">
                         <thead>
                             <th th:each="h : ${headers[1]}" th:text="${h}"/>
@@ -114,12 +114,12 @@
 
         <div class="collapse" id="collapseBHS">
             <div class="card card-body">
-
-                <div class="header-info-rightbox">
-                    <canvas id="BHSResultsChart"></canvas>
-                </div><br>
                 
                 <div th:if="${BHSResults}"> 
+                    <div class="header-info-rightbox">
+                        <canvas id="BHSResultsChart"></canvas>
+                    </div><br>
+
                     <table class="table table-bordered table-hover">
                         <thead>
                             <th th:each="h : ${headers[2]}" th:text="${h}"/>
@@ -156,11 +156,11 @@
         <div class="collapse" id="collapseTOP8">
             <div class="card card-body">
                 
-                <div class="header-info-rightbox">
-                    <canvas id="TOP8ResultsChart"></canvas>
-                </div><br>
-                
-                <div th:if="${TOP8Results}"> 
+                <div th:if="${TOP8Results}">
+                    <div class="header-info-rightbox">
+                        <canvas id="TOP8ResultsChart"></canvas>
+                    </div><br>
+
                     <table class="table table-bordered table-hover">
                         <thead>
                             <th th:each="h : ${headers[3]}" th:text="${h}"/>

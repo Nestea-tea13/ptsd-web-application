@@ -191,12 +191,4 @@ public class QuestionnaireDataCAPS {
            
     };
 
-    /*
-    public static String[] frequencyQuestions = {};
-    public static String[] intensityQuestions = {};
-
-	public static String[][] frequencyAnswerOptions = {};
-    public static String[][] intensityAnswerOptions = {};
-    */
-
 }

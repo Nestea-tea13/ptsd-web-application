@@ -11,7 +11,6 @@ import com.application.ptsdwebapplication.models.PersonDrug;
 @Repository
 public interface PersonDrugsRepository extends CrudRepository<PersonDrug, Integer> {
 
-    //@Query("select ...")
     List<PersonDrug> findByPerson(Person person);
     
 }

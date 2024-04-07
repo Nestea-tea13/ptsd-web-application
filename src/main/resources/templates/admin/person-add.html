@@ -11,12 +11,10 @@
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
     <div class="container mt-5 mb-5 text-center">
-        <!-- <h1>Регистрация нового пользователя</h1> -->
         <h1 th:if="${flagEditUser}">Регистрация нового пользователя</h1>
         <h1 th:unless="${flagEditUser}">Регистрация нового администратора</h1>
         <br>
 
-        <!-- th:action="${flagEditUser} ? @{/adminpage/person/add?role=ROLE_USER} : @{/adminpage/person/add?role=ROLE_ADMIN}" -->
         <form th:action="@{/adminpage/person/add}" method="post" th:object="${person}" style="display: inline-block; width: 25rem;">  
             <input type="hidden" th:field="*{password}"/>
             <input type="hidden" th:field="*{role}"/>
@@ -50,7 +48,9 @@
             <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div> <br><br>
 
             <button type="submit" class="btn btn-success">Добавить</button>
-            <a href="/adminpage/users" class="btn btn-secondary">Отмена</a>
+
+            <a th:if="${flagEditUser}" href="/adminpage/users" class="btn btn-secondary">Отмена</a>
+            <a th:unless="${flagEditUser}" href="/adminpage/admins" class="btn btn-secondary">Отмена</a>
         </form>
 
     </div>
