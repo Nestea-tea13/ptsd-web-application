@@ -1,7 +1,9 @@
 package com.application.ptsdwebapplication.services;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,7 @@ public class QuestionnairesService {
     private final BHSRepository bhsRepository;
     private final TOP8Repository top8Repository;
 
+    @Autowired
     public QuestionnairesService(PeopleService peopleService, CAPSRepository capsRepository, IESRRepository iesrRepository,
                         BHSRepository bhsRepository, TOP8Repository top8Repository) {
         this.peopleService = peopleService;
@@ -116,46 +119,6 @@ public class QuestionnairesService {
         return saveQuestionnaire;
     }
 
-    /*@Transactional
-    public Questionnaire saveQuestionnaire(String[] answers, String questionnaireName) {
-        if (questionnaireName.equals("CAPS")) return saveCAPS(answers);
-        else if (questionnaireName.equals("IESR")) return saveIESR(answers);
-        else if (questionnaireName.equals("BHS")) return saveBHS(answers);
-        else return saveTOP8(answers);
-    }
-
-    @Transactional
-    public CAPSResults saveCAPS(String[] answers) {
-        CAPSResults results = new CAPSResults(answers, peopleService.getCurrentPerson());
-        //peopleService.getCurrentPerson().getResultsCAPS().add(results);
-        capsRepository.save(results);
-        return results;
-    }
-
-    @Transactional
-    public IESRResults saveIESR(String[] answers) {
-        IESRResults results = new IESRResults(answers, peopleService.getCurrentPerson());
-        //peopleService.getCurrentPerson().getResultsIESR().add(results);
-        iesrRepository.save(results);
-        return results;
-    }
-
-    @Transactional
-    public BHSResults saveBHS(String[] answers) {
-        BHSResults results = new BHSResults(answers, peopleService.getCurrentPerson());
-        //peopleService.getCurrentPerson().getResultsBHS().add(results);
-        bhsRepository.save(results);
-        return results;
-    }
-
-    @Transactional
-    public TOP8Results saveTOP8(String[] answers) {
-        TOP8Results results = new TOP8Results(answers, peopleService.getCurrentPerson());
-        //peopleService.getCurrentPerson().getResultsTOP8().add(results);
-        top8Repository.save(results);
-        return results;
-    }*/
-
     public String[] getQuestions(String questionnaireName) {
         if (questionnaireName.equals("CAPS")) return QuestionnaireDataCAPS.Questions;
         else if (questionnaireName.equals("IESR")) return QuestionnaireDataIESR.Questions;
@@ -179,6 +142,71 @@ public class QuestionnairesService {
         else if (questionnaireName.equals("BHS")) return "user/questionnaires/BHS";
         else if (questionnaireName.equals("TOP8")) return "user/questionnaires/TOP8";
         else return "redirect:/questionnaires";
+    }
+  
+    public String[] getChartLabelsCAPS(List<CAPSResults> CAPSResults) {
+        String[] ChartLabels = new String[CAPSResults.size()];
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for(int i = 0; i < CAPSResults.size(); i++) 
+            ChartLabels[i] = formatter.format(CAPSResults.get(i).getDate());
+        return ChartLabels;
+    }
+
+    public String[] getChartLabelsIESR(List<IESRResults> IESRResults) {
+        String[] ChartLabels = new String[IESRResults.size()];
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for(int i = 0; i < IESRResults.size(); i++) 
+            ChartLabels[i] = formatter.format(IESRResults.get(i).getDate());
+        return ChartLabels;
+    }
+
+    public String[] getChartLabelsBHS(List<BHSResults> BHSResults) {
+        String[] ChartLabels = new String[BHSResults.size()];
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for(int i = 0; i < BHSResults.size(); i++) 
+            ChartLabels[i] = formatter.format(BHSResults.get(i).getDate());
+        return ChartLabels;
+    }
+
+    public String[] getChartLabelsTOP8(List<TOP8Results> TOP8Results) {
+        String[] ChartLabels = new String[TOP8Results.size()];
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for(int i = 0; i < TOP8Results.size(); i++) 
+            ChartLabels[i] = formatter.format(TOP8Results.get(i).getDate());
+        return ChartLabels;
+    }
+
+    public int[][] getChartDataCAPS(List<CAPSResults> CAPSResults) {
+        int[][] ChartDate = new int[2][CAPSResults.size()];
+        for(int i = 0; i < CAPSResults.size(); i++) {
+            ChartDate[0][i] = CAPSResults.get(i).getResultFrequency();
+            ChartDate[1][i] = CAPSResults.get(i).getResultIntensity();
+        }
+        return ChartDate;
+    }
+
+    public int[][] getChartDataIESR(List<IESRResults> IESRResults) {
+        int[][] ChartDate = new int[3][IESRResults.size()];
+        for(int i = 0; i < IESRResults.size(); i++) {
+            ChartDate[0][i] = IESRResults.get(i).getResultIN();
+            ChartDate[1][i] = IESRResults.get(i).getResultAV();
+            ChartDate[2][i] = IESRResults.get(i).getResultAR();
+        }
+        return ChartDate;
+    }
+
+    public int[] getChartDataBHS(List<BHSResults> BHSResults) {
+        int[] ChartDate = new int[BHSResults.size()];
+        for(int i = 0; i < BHSResults.size(); i++)
+            ChartDate[i] = BHSResults.get(i).getResult();
+        return ChartDate;
+    }
+
+    public int[] getChartDataTOP8(List<TOP8Results> TOP8Results) {
+        int[] ChartDate = new int[TOP8Results.size()];
+        for(int i = 0; i < TOP8Results.size(); i++)
+            ChartDate[i] = TOP8Results.get(i).getResult();
+        return ChartDate;
     }
 
 }

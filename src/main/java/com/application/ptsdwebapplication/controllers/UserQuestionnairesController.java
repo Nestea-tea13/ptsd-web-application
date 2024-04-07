@@ -2,6 +2,7 @@ package com.application.ptsdwebapplication.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class UserQuestionnairesController {
 
     private final QuestionnairesService questionnairesService;
     
+    @Autowired
     public UserQuestionnairesController(QuestionnairesService questionnairesService) {
         this.questionnairesService = questionnairesService;
     }
@@ -72,10 +74,26 @@ public class UserQuestionnairesController {
         List<BHSResults> BHSResults = questionnairesService.getAllBHSForUser();
         List<TOP8Results> TOP8Results = questionnairesService.getAllTOP8ForUser();
 
-        if (!CAPSResults.isEmpty()) model.addAttribute("CAPSResults", CAPSResults);
-        if (!IESRResults.isEmpty()) model.addAttribute("IESRResults", IESRResults);
-        if (!BHSResults.isEmpty()) model.addAttribute("BHSResults", BHSResults);
-        if (!TOP8Results.isEmpty()) model.addAttribute("TOP8Results", TOP8Results);
+        if (!CAPSResults.isEmpty()) {
+            model.addAttribute("CAPSResults", CAPSResults);
+            model.addAttribute("ChartLabelsCAPS", questionnairesService.getChartLabelsCAPS(CAPSResults));
+            model.addAttribute("ChartDateCAPS", questionnairesService.getChartDataCAPS(CAPSResults));        
+        }
+        if (!IESRResults.isEmpty()) {
+            model.addAttribute("IESRResults", IESRResults);
+            model.addAttribute("ChartLabelsIESR", questionnairesService.getChartLabelsIESR(IESRResults));
+            model.addAttribute("ChartDateIESR", questionnairesService.getChartDataIESR(IESRResults));
+        }
+        if (!BHSResults.isEmpty()) {
+            model.addAttribute("BHSResults", BHSResults);
+            model.addAttribute("ChartLabelsBHS", questionnairesService.getChartLabelsBHS(BHSResults));
+            model.addAttribute("ChartDateBHS", questionnairesService.getChartDataBHS(BHSResults));
+        }    
+        if (!TOP8Results.isEmpty()) {
+            model.addAttribute("TOP8Results", TOP8Results);
+            model.addAttribute("ChartLabelsTOP8", questionnairesService.getChartLabelsTOP8(TOP8Results));
+            model.addAttribute("ChartDateTOP8", questionnairesService.getChartDataTOP8(TOP8Results));
+        }
 
         model.addAttribute("headers", Labels.QuestionnairesResultsTableHeaders);
         return "user/questionnaires/questionnaires-results";

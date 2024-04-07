@@ -30,6 +30,10 @@
         <div class="collapse" id="collapseCAPS">
             <div class="card card-body">
 
+                <div class="header-info-rightbox">
+                    <canvas id="CAPSResultsChart"></canvas>
+                </div><br>
+
                 <div th:if="${CAPSResults}"> 
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -67,6 +71,10 @@
 
         <div class="collapse" id="collapseIESR">
             <div class="card card-body">
+
+                <div class="header-info-rightbox">
+                    <canvas id="IESRResultsChart"></canvas>
+                </div><br>
                 
                 <div th:if="${IESRResults}"> 
                     <table class="table table-bordered table-hover">
@@ -106,6 +114,10 @@
 
         <div class="collapse" id="collapseBHS">
             <div class="card card-body">
+
+                <div class="header-info-rightbox">
+                    <canvas id="BHSResultsChart"></canvas>
+                </div><br>
                 
                 <div th:if="${BHSResults}"> 
                     <table class="table table-bordered table-hover">
@@ -144,6 +156,10 @@
         <div class="collapse" id="collapseTOP8">
             <div class="card card-body">
                 
+                <div class="header-info-rightbox">
+                    <canvas id="TOP8ResultsChart"></canvas>
+                </div><br>
+                
                 <div th:if="${TOP8Results}"> 
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -168,6 +184,152 @@
     </div>
    
     <div th:insert="blocks/footer :: footer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script> 
+
+    <script th:inline="javascript">
+        var ctxCAPS = document.querySelector('#CAPSResultsChart').getContext('2d');
+
+        /*<![CDATA[*/ var xLabelsCAPS = /*[[ ${ChartLabelsCAPS} ]]*/ 'labels' /*]]*/;
+        /*<![CDATA[*/ var yDataCAPS = /*[[ ${ChartDateCAPS} ]]*/ 'data' /*]]*/;
+
+        var CAPSResultsChart = new Chart(ctxCAPS, {
+            type: 'line',
+            data: {
+                labels: xLabelsCAPS,
+                datasets: [
+                    {
+                        label: 'Частота',
+                        data: yDataCAPS[0],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Интенсивность',
+                        data: yDataCAPS[1],
+                        fill: false,
+                        borderColor: 'rgb(204, 153, 255)',
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 68,
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script th:inline="javascript">
+        var ctxIESR = document.querySelector('#IESRResultsChart').getContext('2d');
+
+        /*<![CDATA[*/ var xLabelsIESR = /*[[ ${ChartLabelsIESR} ]]*/ 'labels' /*]]*/;
+        /*<![CDATA[*/ var yDataIESR = /*[[ ${ChartDateIESR} ]]*/ 'data' /*]]*/;
+
+        var IESRResultsChart = new Chart(ctxIESR, {
+            type: 'line',
+            data: {
+                labels: xLabelsIESR,
+                datasets: [
+                    {
+                        label: 'Шкала «вторжение» (IN)',
+                        data: yDataIESR[0],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Шкала «избегание» (AV)',
+                        data: yDataIESR[1],
+                        fill: false,
+                        borderColor: 'rgb(204, 153, 255)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Шкала возбуждение» (AR)',
+                        data: yDataIESR[2],
+                        fill: false,
+                        borderColor: 'rgb(153, 255, 153)',
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 40,
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script th:inline="javascript">
+        var ctxBHS = document.querySelector('#BHSResultsChart').getContext('2d');
+
+        /*<![CDATA[*/ var xLabelsBHS = /*[[ ${ChartLabelsBHS} ]]*/ 'labels' /*]]*/;
+        /*<![CDATA[*/ var yDataBHS = /*[[ ${ChartDateBHS} ]]*/ 'data' /*]]*/;
+
+        var BHSResultsChart = new Chart(ctxBHS, {
+            type: 'line',
+            data: {
+                labels: xLabelsBHS,
+                datasets: [{
+                    label: 'Результаты',
+                    data: yDataBHS,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 20,
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script th:inline="javascript">
+        var ctxTOP8 = document.querySelector('#TOP8ResultsChart').getContext('2d');
+
+        /*<![CDATA[*/ var xLabelsTOP8 = /*[[ ${ChartLabelsTOP8} ]]*/ 'labels' /*]]*/;
+        /*<![CDATA[*/ var yDataTOP8 = /*[[ ${ChartDateTOP8} ]]*/ 'data' /*]]*/;
+
+        let TOP8ResultsChart = new Chart(ctxTOP8, {
+            type: 'line',
+            data: {
+                labels: xLabelsTOP8,
+                datasets: [{
+                    label: 'Результаты', 
+                    data: yDataTOP8,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 32,
+                        ticks: {
+                            stepSize: 4
+                        }
+                    }
+                }
+            }
+        });
+    </script>
     
 </body>
 </html>
