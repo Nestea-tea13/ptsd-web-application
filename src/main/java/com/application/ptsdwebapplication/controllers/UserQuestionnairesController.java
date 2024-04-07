@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.application.ptsdwebapplication.data.Labels;
-import com.application.ptsdwebapplication.data.QuestionnaireDataBHS;
-import com.application.ptsdwebapplication.data.QuestionnaireDataCAPS;
-import com.application.ptsdwebapplication.data.QuestionnaireDataIESR;
-import com.application.ptsdwebapplication.data.QuestionnaireDataTOP8;
 import com.application.ptsdwebapplication.models.BHSResults;
 import com.application.ptsdwebapplication.models.CAPSResults;
 import com.application.ptsdwebapplication.models.IESRResults;
@@ -37,73 +33,35 @@ public class UserQuestionnairesController {
         return "user/questionnaires/questionnaires-list";
     }
 
-    @GetMapping("/CAPS")
-    public String questionnaireCAPS(@ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        model.addAttribute("questions", QuestionnaireDataCAPS.Questions);
-        model.addAttribute("answerOptions", QuestionnaireDataCAPS.AnswerOptions);
-        return "user/questionnaires/CAPS";
+    @GetMapping("/{name}")
+    public String fillingQuestionnaire(@PathVariable(value = "name") String name, @ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
+        model.addAttribute("questions", questionnairesService.getQuestions(name));
+        if (name.equals("IESR") || name.equals("BHS")) model.addAttribute("answerOptions", questionnairesService.getSingleAnswerOptions(name));
+        else model.addAttribute("answerOptions", questionnairesService.getDoubleAnswerOptions(name));
+        return questionnairesService.getQuestionnaireURL(name);
     }
 
-    @PostMapping("/CAPS")
-    public String resultQuestionnaireCAPS(@ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        model.addAttribute("results", questionnairesService.saveCAPS(answers.getAnswers()));
-        model.addAttribute("answerOptions", QuestionnaireDataCAPS.AnswerOptions);
-        return "user/questionnaires/CAPS-result";
+    @PostMapping("/{name}")
+    public String saveQuestionnaireResults(@PathVariable(value = "name") String name, @ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
+        model.addAttribute("questionnare", name);
+        model.addAttribute("questions", questionnairesService.getQuestions(name));
+        if (name.equals("IESR") || name.equals("BHS")) model.addAttribute("answerOptions", questionnairesService.getSingleAnswerOptions(name));
+        else model.addAttribute("answerOptions", questionnairesService.getDoubleAnswerOptions(name));
+        model.addAttribute("results", questionnairesService.saveQuestionnaire(answers.getAnswers(), name));     
+        return "user/questionnaires/questionnaire-answers";
     }
 
-
-    @GetMapping("/IESR")
-    public String questionnaireIESR(@ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        model.addAttribute("questions", QuestionnaireDataIESR.Questions);
-        model.addAttribute("answerOptions", QuestionnaireDataIESR.AnswerOptions);
-        return "user/questionnaires/IES-R";
-    }
-
-    @PostMapping("/IESR")
-    public String resultQuestionnaireIESR(@ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        model.addAttribute("results", questionnairesService.saveIESR(answers.getAnswers()));
-        model.addAttribute("answerOptions", QuestionnaireDataIESR.AnswerOptions);
-        return "user/questionnaires/IES-R-result";
-    }
-
-    @GetMapping("/BHS")
-    public String questionnaireBHS(@ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        model.addAttribute("questions", QuestionnaireDataBHS.Questions);
-        model.addAttribute("answerOptions", QuestionnaireDataBHS.AnswerOptions);
-        return "user/questionnaires/BHS";
-    }
-
-    @PostMapping("/BHS")
-    public String resultQuestionnaireBHS(@ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        model.addAttribute("results", questionnairesService.saveBHS(answers.getAnswers())); 
-        model.addAttribute("answerOptions", QuestionnaireDataBHS.AnswerOptions);
-        return "user/questionnaires/BHS-result";
-    }
-
-    @GetMapping("/TOP8")
-    public String questionnaireTOP8(@ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        model.addAttribute("questions", QuestionnaireDataTOP8.Questions);
-        model.addAttribute("answerOptions", QuestionnaireDataTOP8.AnswerOptions);
-        return "user/questionnaires/TOP-8";
-    }
-
-    // ЗАМЕНИТЬ вывод результатов этих функций?
-    @PostMapping("/TOP8")
-    public String resultQuestionnaireTOP8(@ModelAttribute("answers") QuestionnaireAnswers answers, Model model) { 
-        model.addAttribute("results", questionnairesService.saveTOP8(answers.getAnswers())); 
-        model.addAttribute("answerOptions", QuestionnaireDataTOP8.AnswerOptions);
-        return "user/questionnaires/TOP-8-result";
-    }
-
-    @GetMapping("/TOP8/{id}")
-    public String getTOP8Results(@PathVariable(value = "id") int id, Model model) {
-        if(!questionnairesService.existsResultsById(id, "TOP8")) {
-            return "redirect:/adminpage/users";
+    @GetMapping("/{name}/{id}")
+    public String getQuestionnaireResults(@PathVariable(value = "id") int id, @PathVariable(value = "name") String name, Model model) {
+        if(!questionnairesService.existsQuestionnaireResults(id, name)) {
+            return "redirect:/questionnaires/questionnaires-results";
         }
         
-        model.addAttribute("questions", QuestionnaireDataTOP8.Questions);
-        model.addAttribute("answerOptions", QuestionnaireDataTOP8.AnswerOptions);
-        model.addAttribute("results", questionnairesService.findTOP8ResultsById(id));
+        model.addAttribute("questionnare", name);
+        model.addAttribute("questions", questionnairesService.getQuestions(name));
+        if (name.equals("IESR") || name.equals("BHS")) model.addAttribute("answerOptions", questionnairesService.getSingleAnswerOptions(name));
+        else model.addAttribute("answerOptions", questionnairesService.getDoubleAnswerOptions(name));
+        model.addAttribute("results", questionnairesService.findQuestionnaireResults(id, name));     
         return "user/questionnaires/questionnaire-answers";
     }
 
@@ -120,7 +78,7 @@ public class UserQuestionnairesController {
         if (!TOP8Results.isEmpty()) model.addAttribute("TOP8Results", TOP8Results);
 
         model.addAttribute("headers", Labels.QuestionnairesResultsTableHeaders);
-        return "user/questionnaires/results";
+        return "user/questionnaires/questionnaires-results";
     }
 
 }

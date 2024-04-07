@@ -42,7 +42,7 @@
                                 <td th:text="${r.resultFrequency}"></td>
                                 <td th:text="${r.resultIntensity}"></td>
                                 <td>К ответам</td>
-                                 <!-- <td><a th:href="'/questionnaires/CAPS/' + ${r.id}">К ответам</a></td> -->
+                                <td><a th:href="@{/questionnaires/{name}/{id}(name='CAPS',id=${r.id})}">К ответам</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -81,7 +81,7 @@
                                 <td th:text="${r.resultAV}"></td>
                                 <td th:text="${r.resultAR}"></td>
                                 <td>К ответам</td>
-                                 <!-- <td><a th:href="'/questionnaires/IESR/' + ${r.id}">К ответам</a></td> -->
+                                <td><a th:href="@{/questionnaires/{name}/{id}(name='IESR',id=${r.id})}">К ответам</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -118,7 +118,7 @@
                                 <td th:text="${r.date}"></td>
                                 <td th:text="${r.result}"></td>
                                 <td>К ответам</td>
-                                 <!-- <td><a th:href="'/questionnaires/BHS/' + ${r.id}">К ответам</a></td> -->
+                                <td><a th:href="@{/questionnaires/{name}/{id}(name='BHS',id=${r.id})}">К ответам</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -154,7 +154,7 @@
                                 <td th:text="${iter.index}+1"></td>
                                 <td th:text="${r.date}"></td>
                                 <td th:text="${r.result}"></td>
-                                <td><a th:href="'/questionnaires/TOP8/' + ${r.id}">К ответам</a></td>
+                                <td><a th:href="@{/questionnaires/{name}/{id}(name='TOP8',id=${r.id})}">К ответам</a></td>
                             </tr>
                         </tbody>
                     </table>

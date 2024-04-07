@@ -14,7 +14,7 @@
     <div class="container mt-5">
         <h1 class="text-center"> Опросник CAPS </h1>
 
-        <form th:action="@{/questionnaires/CAPS}" th:object="${answers}" method="post">
+        <form th:action="@{/questionnaires/{name}(name='CAPS')}" th:object="${answers}" method="post">
 
             <div th:each="question, iter1 : ${questions}">
                 <p th:text="${iter1.count} + '. ' + ${question}"/>

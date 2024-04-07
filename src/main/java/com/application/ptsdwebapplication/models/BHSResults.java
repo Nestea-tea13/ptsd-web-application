@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "BHSResults")
-public class BHSResults {
+public class BHSResults implements Questionnaire {
 
     @Id
     @Column(name = "id")

@@ -18,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "CAPSResults")
-public class CAPSResults {
+public class CAPSResults implements Questionnaire {
 
     @Id
     @Column(name = "id")
@@ -413,7 +413,7 @@ public class CAPSResults {
         this.answers[25] = this.answer26;
         this.answers[26] = this.answer27;
         this.answers[27] = this.answer28;
-        this.answers[18] = this.answer29;
+        this.answers[28] = this.answer29;
         this.answers[29] = this.answer30;
         this.answers[30] = this.answer31;
         this.answers[31] = this.answer32;

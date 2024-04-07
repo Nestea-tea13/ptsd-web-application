@@ -16,11 +16,22 @@
 
         <p th:text="'Дата прохождения: ' + ${results.date}"/>
 
-        <p th:text="'Сумма баллов: ' + ${results.result}"/><br>
-
-        <div th:each="answer, iter : ${results.answers}">
+        <p th:if="${questionnare.equals('BHS')} or ${questionnare.equals('TOP8')}" th:text="'Сумма баллов: ' + ${results.result}"/>
+        <div th:if="${questionnare.equals('CAPS')}">
+            <p th:text="'Показатель частоты: ' + ${results.resultFrequency}"/>
+            <p th:text="'Показатель интенсивности: ' + ${results.resultIntensity}"/>  
+        </div>
+        <div th:if="${questionnare.equals('IESR')}">
+            <p th:text="'Шкала «вторжение»: ' + ${results.resultIN}"/>
+            <p th:text="'Шкала «избегание»: ' + ${results.resultAV}"/>
+            <p th:text="'Шкала «возбудимость»: ' + ${results.resultAR}"/>
+        </div>
+        <br>  
+ 
+        <div  th:each="answer, iter : ${results.answers}">
             <p th:text="${iter.count} + '. ' + ${questions[__${iter.index}__]}"/>
-            <p th:text="' - ' + ${answerOptions[__${iter.index}__][__${answer}__]}"/>
+            <p th:if="${questionnare.equals('CAPS')} or ${questionnare.equals('TOP8')}" th:text="' - ' + ${answerOptions[__${iter.index}__][__${answer}__]}"/>
+            <p th:if="${questionnare.equals('IESR')} or ${questionnare.equals('BHS')}" th:text="' - ' + ${answerOptions[__${answer}__]}"/>
         </div>
         
     </div>
