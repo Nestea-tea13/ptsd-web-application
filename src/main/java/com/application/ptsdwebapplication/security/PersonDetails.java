@@ -11,7 +11,7 @@ import com.application.ptsdwebapplication.models.Person;
 
 public class PersonDetails implements UserDetails {
     
-    private final Person person;
+    private Person person;
 
     public PersonDetails(Person person) {
         this.person = person;
@@ -56,6 +56,10 @@ public class PersonDetails implements UserDetails {
     // Нужно, чтобы получать данные аутентифицированного пользователя
     public Person getPerson() {
         return this.person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
 }

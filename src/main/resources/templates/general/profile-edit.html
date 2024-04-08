@@ -15,14 +15,77 @@
     <div class="container mt-5 mb-5 text-center">
         <h1>Редактирование персональных данных</h1>
 
-        <!-- ДОБАВИТСЯ ФОРМА ДЛЯ РЕДАКТИРОВАНИЯ-->
+        <form th:action="${flagRoleAdmin} ? @{/adminpage/profile} : @{/profile}" method="post" th:object="${person}" style="display: inline-block; width: 30rem;">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{password}"/>
+            <input type="hidden" th:field="*{role}"/>
+            <input type="hidden" th:field="*{status}"/>
 
-        <a th:if="${flagRoleAdmin}" href="/adminpage/profile" class="btn btn-secondary">Отмена</a>
-        <a th:unless="${flagRoleAdmin}" href="/profile" class="btn btn-secondary">Отмена</a>
+            <div style="color:red" th:if="${#fields.hasErrors('sername')}" th:errors="*{sername}">Sername Error</div>
+            <div class="form-group row">
+                <label class="input-group-text">Фамилия</label>
+                <div class="col"> <input type="text" th:field="*{sername}" class="form-control" placeholder="Фамилия" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
+            </div>
+
+            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+            <div class="form-group row">
+                <label class="input-group-text">Имя</label>
+                <div class="col"> <input type="text" th:field="*{name}" class="form-control" placeholder="Имя" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="input-group-text">Отчество</label>
+                <div class="col"> <input type="text" th:field="*{patronymic}" class="form-control" placeholder="Отчество" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
+            </div>
+
+            <div style="color:red" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Gender Error</div> 
+            <div class="form-group row">
+                <label class="input-group-text">Пол</label>
+                <div class="col-md-1"></div>
+                <div class="form-check form-check-inline col-md-2">
+                    <input class="form-check-input" type="radio" id="1" th:field="*{gender}" value="женщина"/>
+                    <label class="form-check-label" for="1">женщина</label>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="form-check form-check-inline col-md-2">
+                    <input class="form-check-input" type="radio" id="2" th:field="*{gender}" value="мужчина"/>
+                    <label class="form-check-label" for="2">мужчина</label>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <div style="color:red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday Error</div> 
+            <div class="form-group row">
+                <label class="input-group-text">День рождения</label>
+                <div class="col"> <input type="date" th:field="*{birthday}" class="form-control" min="1940-01-01" max="2020-01-01"/> </div>
+            </div>
+            
+            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+            <div class="form-group row">
+                <label class="input-group-text">Почта</label>
+                <div class="col"> <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="name@example.com"/> </div>
+            </div>
+            <br>
+
+            <button type="submit" class="btn btn-success">Обновить</button>
+
+            <a th:if="${flagRoleAdmin}" href="/adminpage/profile" class="btn btn-secondary">Отмена</a>
+            <a th:unless="${flagRoleAdmin}" href="/profile" class="btn btn-secondary">Отмена</a>
+            
+        </form>
 
     </div>
    
     <div th:insert="blocks/footer :: footer"></div>
     
 </body>
+
+<style>
+
+    .input-group-text {
+        width: 30%;
+    }
+
+</style>
+
 </html>

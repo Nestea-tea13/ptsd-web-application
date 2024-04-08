@@ -47,6 +47,15 @@ public class PeopleService {
         peopleRepository.save(updatedUser);
         return updatedUser;
     }
+    
+    @Transactional
+    public Person updateCurrentPerson(Person updatedUser) {
+        PersonDetails userDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        updatedUser.setId(userDetails.getPerson().getId());
+        userDetails.setPerson(updatedUser);
+        peopleRepository.save(updatedUser);
+        return updatedUser;
+    }
 
     @Transactional
     public Person addPerson(Person person) {
