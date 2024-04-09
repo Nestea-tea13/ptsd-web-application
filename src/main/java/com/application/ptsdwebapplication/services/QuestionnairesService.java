@@ -1,7 +1,9 @@
 package com.application.ptsdwebapplication.services;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,6 +126,38 @@ public class QuestionnairesService {
         else if (questionnaireName.equals("IESR")) return QuestionnaireDataIESR.Questions;
         else if (questionnaireName.equals("BHS")) return QuestionnaireDataBHS.Questions;
         else return QuestionnaireDataTOP8.Questions;
+    }
+
+    public Boolean checkPeriodQuestionnaire(String questionnaireName) {
+        Questionnaire questionnaire = null;
+        if (questionnaireName.equals("CAPS")) {
+            List<CAPSResults> capsQuestionnaires = capsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
+            if (capsQuestionnaires.size() != 0) questionnaire = capsQuestionnaires.get(0);
+        } else if (questionnaireName.equals("IESR")) {
+            List<IESRResults> capsQuestionnaires = iesrRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
+            if (capsQuestionnaires.size() != 0) questionnaire = capsQuestionnaires.get(0);
+        } else if (questionnaireName.equals("BHS")) {
+            List<BHSResults> capsQuestionnaires = bhsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
+            if (capsQuestionnaires.size() != 0) questionnaire = capsQuestionnaires.get(0);
+        } else {
+            List<TOP8Results> capsQuestionnaires = top8Repository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
+            if (capsQuestionnaires.size() != 0) questionnaire = capsQuestionnaires.get(0);
+        }
+
+        if (questionnaire != null) {
+            int needDiff;
+            if (questionnaireName.equals("CAPS")) needDiff = 30; else needDiff = 7;
+            if (TimeUnit.DAYS.convert(new Date().getTime() - questionnaire.getDate().getTime(), TimeUnit.MILLISECONDS) < needDiff) 
+                return false;
+        }
+        return true;
+    }
+
+    public String getErrorPeriodName(String questionnaireName) {
+        if (questionnaireName.equals("CAPS")) return "errorCAPSPeriod";
+        else if (questionnaireName.equals("IESR")) return "errorIESRPeriod";
+        else if (questionnaireName.equals("BHS")) return "errorBHSPeriod";
+        else return "errorTOP8Period";
     }
 
     public String[] getSingleAnswerOptions(String questionnaireName) {

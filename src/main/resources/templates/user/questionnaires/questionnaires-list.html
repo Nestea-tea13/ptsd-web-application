@@ -27,12 +27,19 @@
       </div>
     </div>
 
+    <div th:if="${errorCAPSPeriod}" style="color: red">
+      Еще не прошел месяц с последнего прохождения!<br> 
+      Повторно можно будет пройти опросник через 30 дней после предыдущего заполнения.
+      <br><br>
+    </div>
+
     <div class="collapse" id="collapseCAPS">
       <div class="card card-body">
         <p><u>Период прохождений:</u> раз в месяц</p>
         <p>По результатам прохождения будут получены значения <b>частоты</b> и <b>интенсивности</b> проявления индивидуальных симптомов расстройства.</p>
       </div>
     </div><br>
+
 
     <div class="p-3 mb-2 bg-light text-dark">
       <div class="row">
@@ -43,6 +50,11 @@
         </div>
         <div class="col-md-4 text-center"><a href="/questionnaires/IESR" class="btn btn-primary w-50">Пройти</a></div>
       </div>
+    </div>
+
+    <div th:if="${errorIESRPeriod}" style="color: red">
+      Еще не прошла неделя с последнего прохождения!
+      <br><br>
     </div>
 
     <div class="collapse" id="collapseIESR">
@@ -57,6 +69,7 @@
       </div>
     </div><br>
 
+
     <div class="p-3 mb-2 bg-light text-dark">
       <div class="row">
         <div class="col-md-8" data-toggle="collapse" href="#collapseBHS" role="button" aria-expanded="false" aria-controls="collapseBHS">
@@ -68,12 +81,18 @@
       </div>
     </div>
 
+    <div th:if="${errorBHSPeriod}" style="color: red">
+      Еще не прошла неделя с последнего прохождения!
+      <br><br>
+    </div>
+
     <div class="collapse" id="collapseBHS">
       <div class="card card-body">
         <p><u>Период прохождений:</u> раз в неделю</p>
         <p>По результатам прохождения будет оценена выраженность негативного отношения по отношению к собственному будущему.</p>
       </div>
     </div><br>
+
 
     <div class="p-3 mb-2 bg-light text-dark">
       <div class="row">
@@ -86,12 +105,18 @@
       </div>
     </div>
 
+    <div th:if="${errorTOP8Period}" style="color: red">
+      Еще не прошла неделя с последнего прохождения!
+      <br><br>
+    </div> 
+
     <div class="collapse" id="collapseTOP8">
       <div class="card card-body">
         <p><u>Период прохождений:</u> раз в неделю</p>
         <p>Помогает оценить, насколько мешали симптомы на прошлой неделе.</p>
       </div>
     </div><br>
+
   </div>
   
   <div th:insert="blocks/footer :: footer"></div>

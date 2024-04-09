@@ -37,6 +37,11 @@ public class UserQuestionnairesController {
 
     @GetMapping("/{name}")
     public String fillingQuestionnaire(@PathVariable(value = "name") String name, @ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
+        if (!questionnairesService.checkPeriodQuestionnaire(name)) {
+            model.addAttribute(questionnairesService.getErrorPeriodName(name), true);
+            return "user/questionnaires/questionnaires-list";
+        }
+
         model.addAttribute("questions", questionnairesService.getQuestions(name));
         if (name.equals("IESR") || name.equals("BHS")) model.addAttribute("answerOptions", questionnairesService.getSingleAnswerOptions(name));
         else model.addAttribute("answerOptions", questionnairesService.getDoubleAnswerOptions(name));

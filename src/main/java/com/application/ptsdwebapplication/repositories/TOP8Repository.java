@@ -14,6 +14,8 @@ public interface TOP8Repository extends JpaRepository<TOP8Results, Integer> {
 
     List<TOP8Results> findByUser(Person currentPerson);
 
+    List<TOP8Results> findByUserOrderByDateDesc(Person currentPerson);
+
     void save(Questionnaire saveQuestionnaire);
     
 }

@@ -14,6 +14,8 @@ public interface BHSRepository extends JpaRepository<BHSResults, Integer> {
 
     List<BHSResults> findByUser(Person currentPerson);
 
+    List<BHSResults> findByUserOrderByDateDesc(Person currentPerson);
+
     void save(Questionnaire saveQuestionnaire);
     
 }

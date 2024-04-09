@@ -17,3 +17,4 @@ select * from TOP8Results;
 
 -- DROP TABLE TOP8Results;
 -- DELETE FROM TOP8Results WHERE id=1;
+-- UPDATE TOP8Results SET date='2024-04-02' WHERE id=10;

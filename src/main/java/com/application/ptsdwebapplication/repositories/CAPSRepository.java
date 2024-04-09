@@ -14,6 +14,8 @@ public interface CAPSRepository extends JpaRepository<CAPSResults, Integer> {
 
     List<CAPSResults> findByUser(Person currentPerson);
 
+    List<CAPSResults> findByUserOrderByDateDesc(Person currentPerson);
+
     void save(Questionnaire saveQuestionnaire);
     
 }

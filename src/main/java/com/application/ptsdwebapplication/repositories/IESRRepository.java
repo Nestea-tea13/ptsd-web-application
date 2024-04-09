@@ -14,6 +14,8 @@ public interface IESRRepository extends JpaRepository<IESRResults, Integer> {
 
     List<IESRResults> findByUser(Person currentPerson);
 
+    List<IESRResults> findByUserOrderByDateDesc(Person currentPerson); // не нужен? обращаться к последнему элементу в findByUser?
+
     void save(Questionnaire saveQuestionnaire);
     
 }
