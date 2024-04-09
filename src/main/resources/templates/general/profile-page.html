@@ -15,16 +15,44 @@
     <header th:if="${flagRoleAdmin}" th:insert="blocks/headers::header-admin-page"/>
     <header th:unless="${flagRoleAdmin}" th:insert="blocks/headers::header-user-page"/>
 
-    <div class="container mt-5">
+    <div class="container mt-5 text-center">
         <h1>Ваши личные данные</h1>
         <br>
 
-        <p th:text="'Фамилия: ' + ${person.sername}"/>
-        <p th:text="'Имя: ' + ${person.name}"/>
-        <p th:text="'Отчество: ' + ${person.patronymic}"/>
-        <p th:text="'Пол: ' + ${person.gender}"/>
-        <p th:text="'День Рождения: ' + ${person.birthday}"/>
-        <p th:text="'Почта: ' + ${person.email}"/>
+        <div class="card card-body" style="width: 60%; margin: 0 auto;">
+            <div class="row">
+                <div class="col-md-4">
+                    <small class="text-muted">Фамилия</small>
+                    <br><b><p th:text="${person.sername}"/></b>
+                </div>
+                <div class="col-md-4">
+                    <small class="text-muted">Имя</small>
+                    <br><b><p th:text="${person.name}"/></b>
+                </div>
+                <div class="col-md-4">
+                    <small class="text-muted">Отчество</small>
+                    <br><b><p th:text="${person.patronymic}"/></b>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <small class="text-muted">Пол</small>
+                    <br><b><p th:text="${person.gender}"/></b>
+                </div>
+                <div class="col-md-4">
+                    <small class="text-muted">День рождения</small>
+                    <br><b><p th:text="${person.birthday}"/></b>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <small class="text-muted">Почта</small>
+                    <br><b><p th:text="${person.email}"/></b>
+                </div>
+            </div>
+        </div><br>
 
         <a th:if="${flagRoleAdmin}" class="btn btn-warning" href="/adminpage/profile/edit">Редактировать</a>
         <a th:unless="${flagRoleAdmin}" class="btn btn-warning" href="/profile/edit">Редактировать</a>

@@ -15,17 +15,50 @@
 
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
-    <div class="container mt-5">
+    <div class="container mt-5 text-center">
         <h1>Личные данные пользователя</h1>
         <br>
 
-        <p th:text="'Фамилия: ' + ${user.sername}"/>
-        <p th:text="'Имя: ' + ${user.name}"/>
-        <p th:text="'Отчество: ' + ${user.patronymic}"/>
-        <p th:text="'Пол: ' + ${user.gender}"/>
-        <p th:text="'День Рождения: ' + ${user.birthday}"/>
-        <p th:text="'Почта: ' + ${user.email}"/>
-        <p th:text="'Статус лечения: ' + ${user.status}"/>
+        <div class="card card-body" style="width: 60%; margin: 0 auto;">
+            <div class="row">
+                <div class="col-md-4">
+                    <small class="text-muted">Фамилия</small>
+                    <br><b><p th:text="${user.sername}"/></b>
+                </div>
+                <div class="col-md-4">
+                    <small class="text-muted">Имя</small>
+                    <br><b><p th:text="${user.name}"/></b>
+                </div>
+                <div class="col-md-4">
+                    <small class="text-muted">Отчество</small>
+                    <br><b><p th:text="${user.patronymic}"/></b>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <small class="text-muted">Пол</small>
+                    <br><b><p th:text="${user.gender}"/></b>
+                </div>
+                <div class="col-md-4">
+                    <small class="text-muted">День рождения</small>
+                    <br><b><p th:text="${user.birthday}"/></b>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <small class="text-muted">Почта</small>
+                    <br><b><p th:text="${user.email}"/></b>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <small class="text-muted">Статус лечения</small>
+                    <br><span th:text="${user.status}" th:class="${user.status} == 'В процессе' ? 'badge badge-danger rounded-pill d-inline' : 'badge badge-success rounded-pill d-inline'"/>
+                </div>
+            </div>
+        </div><br>
 
         <a data-remodal-target="modal-edit" class="btn btn-secondary" th:href="'/adminpage/user/' + ${user.id} + '/edit'">Редактировать</a><br><br>
 

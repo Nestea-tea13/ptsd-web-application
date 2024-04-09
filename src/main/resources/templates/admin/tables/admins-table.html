@@ -5,28 +5,36 @@
     <title>Admins</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
     <div class="container mt-5 mb-5">
-        <h1>Список администраторов</h1><br>
-        <a href="/adminpage/person/add?role=ROLE_ADMIN" class="btn btn-success">Добавить</a><br><br>
+        <h1 class="text-center">Список администраторов</h1><br>
+       
+        <div class="row">
+            <div class="col-md-2"><a href="/adminpage/person/add?role=ROLE_ADMIN" class="btn btn-success">Добавить</a></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-6"><input class="form-control" id="inputFilter" onkeyup="filterFunction()" type="text" placeholder="Поиск"></div>
+        </div>
+        <br>
 
         <table class="table table-bordered table-hover">
             <thead>
                 <th th:each="h : ${headers}" th:text="${h}"/>
             </thead>
-            <tbody>
+            <tbody id="adminsTable">
                 <tr th:each="admin, iter : ${admins}">
-                    <td th:text="${iter.index}+1"></td>
-                    <td th:text="${admin.sername}"></td>
-                    <td th:text="${admin.name}"></td>
-                    <td th:text="${admin.patronymic}"></td>
-                    <td th:text="${admin.gender}"></td>
-                    <td th:text="${admin.birthday}"></td>
-                    <td th:text="${admin.email}"></td>
+                    <td class="filterData" th:text="${iter.index}+1"></td>
+                    <td class="filterData" th:text="${admin.sername}"></td>
+                    <td class="filterData" th:text="${admin.name}"></td>
+                    <td class="filterData" th:text="${admin.patronymic}"></td>
+                    <td class="filterData" th:text="${admin.gender}"></td>
+                    <td class="filterData" th:text="${admin.birthday}"></td>
+                    <td class="filterData" th:text="${admin.email}"></td>
                     <td><a th:href="'/adminpage/admin/' + ${admin.id} + '/edit'">Редактировать</a></td>
                 </tr>
             </tbody>
@@ -34,6 +42,18 @@
     </div>
 
     <div th:insert="blocks/footer :: footer"></div>
+
+    <script> 
+        $(document).ready(function(){
+          $("#inputFilter").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#adminsTable tr").filter(function() {
+              $(this).toggle($(this).children('.filterData').text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+    </script>
+
 </body>
 
 </html>
