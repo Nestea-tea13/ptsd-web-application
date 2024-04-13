@@ -12,11 +12,13 @@
     <header th:insert="blocks/headers :: header-user-page"></header>
 
     <div class="container mt-5">
-        <h1>Ваши ответы</h1><br>
+        <h1 class="text-center">Ваши ответы</h1>
+
+        <a th:href="@{/questionnaires/{name}/{id}/pdf(name=${questionnare},id=${results.id})}" class="btn btn-dark">Сохранить ответы в pdf-файл</a><br><br>
 
         <p th:text="'Дата прохождения: ' + ${results.date}"/>
 
-        <p th:if="${questionnare.equals('BHS')} or ${questionnare.equals('TOP8')}" th:text="'Сумма баллов: ' + ${results.result}"/>
+        <p th:if="${questionnare.equals('BHS')} or ${questionnare.equals('TOP8')}" th:text="'Результат: ' + ${results.result}"/>
         <div th:if="${questionnare.equals('CAPS')}">
             <p th:text="'Показатель частоты: ' + ${results.resultFrequency}"/>
             <p th:text="'Показатель интенсивности: ' + ${results.resultIntensity}"/>  

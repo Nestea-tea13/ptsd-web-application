@@ -1,5 +1,6 @@
 package com.application.ptsdwebapplication.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,8 @@ public interface CAPSRepository extends JpaRepository<CAPSResults, Integer> {
     List<CAPSResults> findByUser(Person currentPerson);
 
     List<CAPSResults> findByUserOrderByDateDesc(Person currentPerson);
+
+    List<CAPSResults> findByUserAndDateBetween(Person currentPerson, Date start, Date end);
 
     void save(Questionnaire saveQuestionnaire);
     

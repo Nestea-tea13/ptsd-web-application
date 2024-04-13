@@ -43,6 +43,13 @@ public class Labels {
         "1 раз в месяц"      
     };
 
+    public static String[] QuestionnairesNames = {
+        "Шкала для клинической диагностики ПТСР (Clinical-administered PTSD Scale - CAPS)",
+        "Шкала оценки влияния травматического события (Impact of Event Scale-R - IES-R)", 
+        "Шкала Безнадежности Бека (Beck Hopelessness Scale, BHS)", 
+        "Опросник для оценки терапевтической динамики ПТСР «Treatment Outcome PTSD Scale» (TOP-8)"     
+    };
+
     public static String[][] QuestionnairesResultsTableHeaders = {
         {"№", "Дата прохождения", "Частота", "Интенсивность", ""}, // CAPS
         {"№", "Дата прохождения", "Шкала «вторжение»", "Шкала «избегание»", "Шкала «возбуждение»", ""}, // IESR

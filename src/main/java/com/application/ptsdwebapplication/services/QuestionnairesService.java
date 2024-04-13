@@ -1,5 +1,6 @@
 package com.application.ptsdwebapplication.services;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -9,10 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.application.ptsdwebapplication.data.QuestionnaireDataBHS;
-import com.application.ptsdwebapplication.data.QuestionnaireDataCAPS;
-import com.application.ptsdwebapplication.data.QuestionnaireDataIESR;
-import com.application.ptsdwebapplication.data.QuestionnaireDataTOP8;
 import com.application.ptsdwebapplication.models.BHSResults;
 import com.application.ptsdwebapplication.models.CAPSResults;
 import com.application.ptsdwebapplication.models.IESRResults;
@@ -121,27 +118,20 @@ public class QuestionnairesService {
         return saveQuestionnaire;
     }
 
-    public String[] getQuestions(String questionnaireName) {
-        if (questionnaireName.equals("CAPS")) return QuestionnaireDataCAPS.Questions;
-        else if (questionnaireName.equals("IESR")) return QuestionnaireDataIESR.Questions;
-        else if (questionnaireName.equals("BHS")) return QuestionnaireDataBHS.Questions;
-        else return QuestionnaireDataTOP8.Questions;
-    }
-
     public Boolean checkPeriodQuestionnaire(String questionnaireName) {
         Questionnaire questionnaire = null;
         if (questionnaireName.equals("CAPS")) {
-            List<CAPSResults> capsQuestionnaires = capsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
-            if (capsQuestionnaires.size() != 0) questionnaire = capsQuestionnaires.get(0);
+            List<CAPSResults> questionnaires = capsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
+            if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
         } else if (questionnaireName.equals("IESR")) {
-            List<IESRResults> capsQuestionnaires = iesrRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
-            if (capsQuestionnaires.size() != 0) questionnaire = capsQuestionnaires.get(0);
+            List<IESRResults> questionnaires = iesrRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
+            if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
         } else if (questionnaireName.equals("BHS")) {
-            List<BHSResults> capsQuestionnaires = bhsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
-            if (capsQuestionnaires.size() != 0) questionnaire = capsQuestionnaires.get(0);
+            List<BHSResults> questionnaires = bhsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
+            if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
         } else {
-            List<TOP8Results> capsQuestionnaires = top8Repository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
-            if (capsQuestionnaires.size() != 0) questionnaire = capsQuestionnaires.get(0);
+            List<TOP8Results> questionnaires = top8Repository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
+            if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
         }
 
         if (questionnaire != null) {
@@ -153,94 +143,54 @@ public class QuestionnairesService {
         return true;
     }
 
-    public String getErrorPeriodName(String questionnaireName) {
-        if (questionnaireName.equals("CAPS")) return "errorCAPSPeriod";
-        else if (questionnaireName.equals("IESR")) return "errorIESRPeriod";
-        else if (questionnaireName.equals("BHS")) return "errorBHSPeriod";
-        else return "errorTOP8Period";
-    }
-
-    public String[] getSingleAnswerOptions(String questionnaireName) {
-        if (questionnaireName.equals("IESR")) return QuestionnaireDataIESR.AnswerOptions;
-        else return QuestionnaireDataBHS.AnswerOptions;
-    }
-
-    public String[][] getDoubleAnswerOptions(String questionnaireName) {
-        if (questionnaireName.equals("CAPS")) return QuestionnaireDataCAPS.AnswerOptions;
-        else return QuestionnaireDataTOP8.AnswerOptions;
-    }
-
-    public String getQuestionnaireURL(String questionnaireName) {
-        if (questionnaireName.equals("CAPS")) return "user/questionnaires/CAPS";
-        else if (questionnaireName.equals("IESR")) return "user/questionnaires/IESR";
-        else if (questionnaireName.equals("BHS")) return "user/questionnaires/BHS";
-        else if (questionnaireName.equals("TOP8")) return "user/questionnaires/TOP8";
-        else return "redirect:/questionnaires";
-    }
-  
-    public String[] getChartLabelsCAPS(List<CAPSResults> CAPSResults) {
-        String[] ChartLabels = new String[CAPSResults.size()];
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for(int i = 0; i < CAPSResults.size(); i++) 
-            ChartLabels[i] = formatter.format(CAPSResults.get(i).getDate());
-        return ChartLabels;
-    }
-
-    public String[] getChartLabelsIESR(List<IESRResults> IESRResults) {
-        String[] ChartLabels = new String[IESRResults.size()];
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for(int i = 0; i < IESRResults.size(); i++) 
-            ChartLabels[i] = formatter.format(IESRResults.get(i).getDate());
-        return ChartLabels;
-    }
-
-    public String[] getChartLabelsBHS(List<BHSResults> BHSResults) {
-        String[] ChartLabels = new String[BHSResults.size()];
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for(int i = 0; i < BHSResults.size(); i++) 
-            ChartLabels[i] = formatter.format(BHSResults.get(i).getDate());
-        return ChartLabels;
-    }
-
-    public String[] getChartLabelsTOP8(List<TOP8Results> TOP8Results) {
-        String[] ChartLabels = new String[TOP8Results.size()];
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for(int i = 0; i < TOP8Results.size(); i++) 
-            ChartLabels[i] = formatter.format(TOP8Results.get(i).getDate());
-        return ChartLabels;
-    }
-
-    public int[][] getChartDataCAPS(List<CAPSResults> CAPSResults) {
-        int[][] ChartDate = new int[2][CAPSResults.size()];
-        for(int i = 0; i < CAPSResults.size(); i++) {
-            ChartDate[0][i] = CAPSResults.get(i).getResultFrequency();
-            ChartDate[1][i] = CAPSResults.get(i).getResultIntensity();
+    public String getMinMaxIntervalDate(String questionnaireName, String typeNeedValue) {
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        if (questionnaireName.equals("CAPS")) { 
+            List<CAPSResults> resultsCAPS = getAllCAPSForUser(); 
+            if (typeNeedValue.equals("min")) return dateFormatter.format(resultsCAPS.get(0).getDate());
+            else return dateFormatter.format(resultsCAPS.get(resultsCAPS.size() - 1).getDate());
+        } else if (questionnaireName.equals("IESR")) { 
+            List<IESRResults> resultsIESR = getAllIESRForUser();
+            if (typeNeedValue.equals("min")) return dateFormatter.format(resultsIESR.get(0).getDate());
+            else return dateFormatter.format(resultsIESR.get(resultsIESR.size() - 1).getDate());
+        } else if (questionnaireName.equals("BHS")) {
+            List<BHSResults> resultsBHS = getAllBHSForUser();
+            if (typeNeedValue.equals("min")) return dateFormatter.format(resultsBHS.get(0).getDate());
+            else return dateFormatter.format(resultsBHS.get(resultsBHS.size() - 1).getDate());
+        } else {
+            List<TOP8Results> resultsTOP8 = getAllTOP8ForUser();
+            if (typeNeedValue.equals("min")) return dateFormatter.format(resultsTOP8.get(0).getDate());
+            else return dateFormatter.format(resultsTOP8.get(resultsTOP8.size() - 1).getDate());
         }
-        return ChartDate;
     }
 
-    public int[][] getChartDataIESR(List<IESRResults> IESRResults) {
-        int[][] ChartDate = new int[3][IESRResults.size()];
-        for(int i = 0; i < IESRResults.size(); i++) {
-            ChartDate[0][i] = IESRResults.get(i).getResultIN();
-            ChartDate[1][i] = IESRResults.get(i).getResultAV();
-            ChartDate[2][i] = IESRResults.get(i).getResultAR();
+    public Boolean existsQuestionnaireResultsBetweenDates(String questionnaireName, Date start, Date end) {
+        if (questionnaireName.equals("CAPS")) {
+            if (capsRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end).size() != 0) return true;
+        } else if (questionnaireName.equals("IESR")) {
+            if (iesrRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end).size() != 0) return true;
+        } else if (questionnaireName.equals("BHS")) {
+            if (bhsRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end).size() != 0) return true;
+        } else if (questionnaireName.equals("TOP8")) {
+            if (top8Repository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end).size() != 0) return true;
         }
-        return ChartDate;
+        return false;
     }
 
-    public int[] getChartDataBHS(List<BHSResults> BHSResults) {
-        int[] ChartDate = new int[BHSResults.size()];
-        for(int i = 0; i < BHSResults.size(); i++)
-            ChartDate[i] = BHSResults.get(i).getResult();
-        return ChartDate;
+    public List<CAPSResults> getCAPSResultsBetweenDates(Date start, Date end) {
+        return capsRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end);
     }
 
-    public int[] getChartDataTOP8(List<TOP8Results> TOP8Results) {
-        int[] ChartDate = new int[TOP8Results.size()];
-        for(int i = 0; i < TOP8Results.size(); i++)
-            ChartDate[i] = TOP8Results.get(i).getResult();
-        return ChartDate;
+    public List<IESRResults> getIESRResultsBetweenDates(Date start, Date end) {
+        return iesrRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end);
+    }
+
+    public List<BHSResults> getBHSResultsBetweenDates(Date start, Date end) {
+        return bhsRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end);
+    }
+
+    public List<TOP8Results> getTOP8ResultsBetweenDates(Date start, Date end) {
+        return top8Repository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end);
     }
 
 }

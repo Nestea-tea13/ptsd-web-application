@@ -1,5 +1,6 @@
 package com.application.ptsdwebapplication.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,8 @@ public interface BHSRepository extends JpaRepository<BHSResults, Integer> {
     List<BHSResults> findByUser(Person currentPerson);
 
     List<BHSResults> findByUserOrderByDateDesc(Person currentPerson);
+
+    List<BHSResults> findByUserAndDateBetween(Person currentPerson, Date start, Date end);
 
     void save(Questionnaire saveQuestionnaire);
     

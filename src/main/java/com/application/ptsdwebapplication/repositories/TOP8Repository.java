@@ -1,5 +1,6 @@
 package com.application.ptsdwebapplication.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,8 @@ public interface TOP8Repository extends JpaRepository<TOP8Results, Integer> {
     List<TOP8Results> findByUser(Person currentPerson);
 
     List<TOP8Results> findByUserOrderByDateDesc(Person currentPerson);
+
+    List<TOP8Results> findByUserAndDateBetween(Person currentPerson, Date start, Date end);
 
     void save(Questionnaire saveQuestionnaire);
     

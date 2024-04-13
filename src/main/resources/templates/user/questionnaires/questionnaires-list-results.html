@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Questionnaires</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <header th:insert="blocks/headers :: header-user-page"></header>
+
+    <div class="container mt-5">
+
+        <h1 class="text-center"> Ваши результаты опросов </h1><br>
+
+        <div class="p-3 mb-2 bg-light text-dark">
+            <div class="row">
+                <div class="col-md-8" data-toggle="collapse" href="#collapseCAPS" role="button" aria-expanded="false" aria-controls="collapseCAPS">
+                    <b><p data-toggle="tooltip" data-placement="bottom" title="Нажмите, чтобы открыть/закрыть информацию о данном опроснике" th:text="'1. ' + ${fullNames[0]}"></p></b>
+                </div>
+                <div class="col-md-4 text-center"><a th:href="@{/questionnaires/results/{name}(name='CAPS')}" class="btn btn-primary w-50">Подробнее</a></div>
+            </div>
+        </div>
+        <div th:insert="blocks/collapses :: collapseCAPS"></div>
+
+        <div class="p-3 mb-2 bg-light text-dark">
+            <div class="row">
+                <div class="col-md-8" data-toggle="collapse" href="#collapseIESR" role="button" aria-expanded="false" aria-controls="collapseIESR">
+                    <b><p data-toggle="tooltip" data-placement="bottom" title="Нажмите, чтобы открыть/закрыть информацию о данном опроснике" th:text="'2. ' + ${fullNames[1]}"></p></b>
+                </div>
+                <div class="col-md-4 text-center"><a th:href="@{/questionnaires/results/{name}(name='IESR')}" class="btn btn-primary w-50">Подробнее</a></div>
+            </div>
+        </div>
+        <div th:insert="blocks/collapses :: collapseIESR"></div>
+
+        <div class="p-3 mb-2 bg-light text-dark">
+            <div class="row">
+                <div class="col-md-8" data-toggle="collapse" href="#collapseBHS" role="button" aria-expanded="false" aria-controls="collapseBHS">
+                    <b><p data-toggle="tooltip" data-placement="bottom" title="Нажмите, чтобы открыть/закрыть информацию о данном опроснике" th:text="'3. ' + ${fullNames[2]}"></p></b>
+                </div>
+                <div class="col-md-4 text-center"><a th:href="@{/questionnaires/results/{name}(name='BHS')}" class="btn btn-primary w-50">Подробнее</a></div>
+            </div>
+        </div>
+        <div th:insert="blocks/collapses :: collapseBHS"></div>
+
+        <div class="p-3 mb-2 bg-light text-dark">
+            <div class="row">
+                <div class="col-md-8" data-toggle="collapse" href="#collapseTOP8" role="button" aria-expanded="false" aria-controls="collapseTOP8">
+                    <b><p data-toggle="tooltip" data-placement="bottom" title="Нажмите, чтобы открыть/закрыть информацию о данном опроснике" th:text="'4. ' + ${fullNames[3]}"></p></b>
+                </div>
+                <div class="col-md-4 text-center"><a th:href="@{/questionnaires/results/{name}(name='TOP8')}" class="btn btn-primary w-50">Подробнее</a></div>
+            </div>
+        </div>
+        <div th:insert="blocks/collapses :: collapseTOP8"></div>
+
+    </div>
+   
+    <div th:insert="blocks/footer :: footer"></div>
+
+    <script>
+        $('[data-toggle="tooltip"]').tooltip()
+    </script>
+    
+</body>
+
+<style>
+
+    .tooltip-inner {
+        background-color: #000000;
+        max-width: 40rem;
+    }
+  
+</style>
+
+</html>

@@ -1,5 +1,6 @@
 package com.application.ptsdwebapplication.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,8 @@ public interface IESRRepository extends JpaRepository<IESRResults, Integer> {
     List<IESRResults> findByUser(Person currentPerson);
 
     List<IESRResults> findByUserOrderByDateDesc(Person currentPerson); // не нужен? обращаться к последнему элементу в findByUser?
+
+    List<IESRResults> findByUserAndDateBetween(Person currentPerson, Date start, Date end);
 
     void save(Questionnaire saveQuestionnaire);
     

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Questionnaires</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <header th:insert="blocks/headers :: header-user-page"></header>
+
+    <div class="container mt-5">
+        <h2 class="text-center" th:text="'Ваши результаты: ' + ${fullName}"/><br>
+
+        <div class="card card-body">
+
+            <div th:if="${results}"> 
+
+                <div class="text-center">
+                    <form th:action="@{/questionnaires/{name}/pdf(name=${questionnare})}" method="post" th:object="${dates}" style="display: inline-block; width: 75%;">
+                        <div class="form-group row">
+                            <label class="input-group-text">С </label>
+                            <div class="col"> <input type="date" th:field="*{start}" class="form-control" th:min="${minDate}" th:max="${maxDate}"/> </div>
+                        
+                            <label class="input-group-text">По </label>
+                            <div class="col"> <input type="date" th:field="*{end}" class="form-control" th:min="${minDate}" th:max="${maxDate}"/> </div>  
+                            <button type="submit" id="loadButton" class="btn btn-dark">Скачать ответы за указанный период в pdf-файл</button>                     
+                        </div>
+                        <div id="comments">
+                            <div style="color:red" th:if="${#fields.hasErrors('start')}" th:errors="*{start}">StartDate Error</div>
+                            <div style="color:red" th:if="${#fields.hasErrors('end')}" th:errors="*{end}">EndDate Error</div> 
+                        </div>                    
+                    </form><br><br>
+
+                </div>
+
+                <div class="header-info-rightbox">
+                    <canvas th:if="${questionnare.equals('CAPS')}" id="CAPSResultsChart"></canvas>
+                    <canvas th:if="${questionnare.equals('IESR')}" id="IESRResultsChart"></canvas>
+                    <canvas th:if="${questionnare.equals('BHS')}" id="BHSResultsChart"></canvas>
+                    <canvas th:if="${questionnare.equals('TOP8')}" id="TOP8ResultsChart"></canvas>
+                </div><br>
+
+                <div class="text-center"><a th:href="@{/questionnaires/{name}/pdf(name=${questionnare})}" class="btn btn-dark">Скачать таблицу в pdf-файл</a><br><br></div>
+
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <th th:each="h : ${headers}" th:text="${h}"/>
+                    </thead>
+                    <tbody>
+                        <tr th:each="r, iter : ${results}">
+                            <td th:text="${iter.index}+1"></td>
+                            <td th:text="${r.date}"></td>
+                            <td th:if="${questionnare.equals('CAPS')}" th:text="${r.resultFrequency}"></td>
+                            <td th:if="${questionnare.equals('CAPS')}" th:text="${r.resultIntensity}"></td>
+                            <td th:if="${questionnare.equals('IESR')}" th:text="${r.resultIN}"></td>
+                            <td th:if="${questionnare.equals('IESR')}" th:text="${r.resultAV}"></td>
+                            <td th:if="${questionnare.equals('IESR')}" th:text="${r.resultAR}"></td>
+                            <td th:if="${questionnare.equals('BHS')}" th:text="${r.result}"></td>
+                            <td th:if="${questionnare.equals('TOP8')}" th:text="${r.result}"></td>
+                            <td><a th:href="@{/questionnaires/{name}/{id}(name=${questionnare},id=${r.id})}">Ответы</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${results}">
+                <p class="text-center"> Нет пройденных опросов </p>
+            </div>
+
+        </div>
+
+    </div>
+   
+    <div th:insert="blocks/footer :: footer"></div>
+
+    <script>
+        document.getElementById('loadButton').onclick = function() {
+          document.getElementById('comments').hidden = true;
+        }
+      </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script> 
+
+    <script th:inline="javascript">
+        var ctxCAPS = document.querySelector('#CAPSResultsChart').getContext('2d');
+
+        /*<![CDATA[*/ var xLabelsCAPS = /*[[ ${ChartLabelsCAPS} ]]*/ 'labels' /*]]*/;
+        /*<![CDATA[*/ var yDataCAPS = /*[[ ${ChartDateCAPS} ]]*/ 'data' /*]]*/;
+
+        var CAPSResultsChart = new Chart(ctxCAPS, {
+            type: 'line',
+            data: {
+                labels: xLabelsCAPS,
+                datasets: [
+                    {
+                        label: 'Частота',
+                        data: yDataCAPS[0],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Интенсивность',
+                        data: yDataCAPS[1],
+                        fill: false,
+                        borderColor: 'rgb(204, 153, 255)',
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 68,
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script th:inline="javascript">
+        var ctxIESR = document.querySelector('#IESRResultsChart').getContext('2d');
+
+        /*<![CDATA[*/ var xLabelsIESR = /*[[ ${ChartLabelsIESR} ]]*/ 'labels' /*]]*/;
+        /*<![CDATA[*/ var yDataIESR = /*[[ ${ChartDateIESR} ]]*/ 'data' /*]]*/;
+
+        var IESRResultsChart = new Chart(ctxIESR, {
+            type: 'line',
+            data: {
+                labels: xLabelsIESR,
+                datasets: [
+                    {
+                        label: 'Шкала «вторжение» (IN)',
+                        data: yDataIESR[0],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Шкала «избегание» (AV)',
+                        data: yDataIESR[1],
+                        fill: false,
+                        borderColor: 'rgb(204, 153, 255)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Шкала возбуждение» (AR)',
+                        data: yDataIESR[2],
+                        fill: false,
+                        borderColor: 'rgb(153, 255, 153)',
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 40,
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script th:inline="javascript">
+        var ctxBHS = document.querySelector('#BHSResultsChart').getContext('2d');
+
+        /*<![CDATA[*/ var xLabelsBHS = /*[[ ${ChartLabelsBHS} ]]*/ 'labels' /*]]*/;
+        /*<![CDATA[*/ var yDataBHS = /*[[ ${ChartDateBHS} ]]*/ 'data' /*]]*/;
+
+        var BHSResultsChart = new Chart(ctxBHS, {
+            type: 'line',
+            data: {
+                labels: xLabelsBHS,
+                datasets: [{
+                    label: 'Результаты',
+                    data: yDataBHS,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 20,
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script th:inline="javascript">
+        var ctxTOP8 = document.querySelector('#TOP8ResultsChart').getContext('2d');
+
+        /*<![CDATA[*/ var xLabelsTOP8 = /*[[ ${ChartLabelsTOP8} ]]*/ 'labels' /*]]*/;
+        /*<![CDATA[*/ var yDataTOP8 = /*[[ ${ChartDateTOP8} ]]*/ 'data' /*]]*/;
+
+        let TOP8ResultsChart = new Chart(ctxTOP8, {
+            type: 'line',
+            data: {
+                labels: xLabelsTOP8,
+                datasets: [{
+                    label: 'Результаты', 
+                    data: yDataTOP8,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 32,
+                        ticks: {
+                            stepSize: 4
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    
+</body>
+
+</html>
