@@ -5,6 +5,10 @@
     <title>Add user</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -14,32 +18,43 @@
         <h1>Добавление нового лекарства для отслеживания</h1>
         <br>
 
-        <form th:action="@{/drugs/add}" method="post" th:object="${personDrug}" style="display: inline-block; width: 25rem;">  
+        <form th:action="@{/drugs/add}" method="post" th:object="${personDrug}" style="display: inline-block; width: 30rem;">  
             <input type="hidden" th:field="*{person}"/>
             <input type="hidden" th:field="*{drug}"/>
 
-            <label for="drugname">Лекарство: </label>
-            <input type="text" id="drugname" name="drugname" list="list-of-names" th:value="${name}" multiple oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()">
-            <datalist id="list-of-names">
-                <option th:each="n : ${names}" th:value="${n}"/>
-            </datalist><br>
             <div style="color:red" th:if="${#fields.hasErrors('drug')}" th:errors="*{drug}">drug Error</div>
+            <div class="form-group row">
+                <label class="input-group-text">Лекарство</label>
+                <div class="col">
+                    <input type="text" id="inputName" name="drugname" class="form-control"th:value="${name}" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()" placeholder="Название"/> 
+                </div>
+            </div>
 
-            <label for="dose">Доза: </label>
-            <input type="text" th:field="*{dose}" id="dose" placeholder="000 мг/сут" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> <br>
+            <div class="form-group row">
+                <label class="input-group-text">Дозировка</label>
+                <div class="col"> <input type="text" th:field="*{dose}" class="form-control" placeholder="ххх мг/сут"/> </div>
+            </div>
 
-            <label for="startDate">Дата начала приемов: </label><br>
-            <input type="date" id="startDate" th:field="*{startDate}" min="2024-01-01" max="2025-01-01" /> <br>
-            <div style="color:red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">startDate Error</div>
+            <div style="color:red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">startDate Error</div> 
+            <div class="form-group row">
+                <label class="input-group-text myLabel">Дата начала приема</label>
+                <div class="col"> <input type="date" th:field="*{startDate}" class="form-control" th:min="${minDate}" max="2025-01-01"/> </div>
+            </div>
 
-            <label for="endDate">Дата завершения приемов (включая): </label><br>
-            <input type="date" id="endDate" th:field="*{endDate}" min="2024-01-01" max="2025-01-01" /> <br>
-            <div style="color:red" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">endDate Error</div>
+            <div style="color:red" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">endDate Error</div> 
+            <div class="form-group row">
+                <label class="input-group-text myLabel">Дата завершения приема</label>
+                <div class="col"> <input type="date" th:field="*{endDate}" class="form-control" th:min="${minDate}" max="2025-01-01"/> </div>
+            </div>
 
-            <label for="period">Период принятия: </label>
-            <p><select id="period" name="period"> 
-                <option th:each="p, iter : ${periodoptions}" th:field="*{period}" th:text="${p}" th:value="${p}" selected="${p} == *{period} ? selected"/>
-            </select></p>
+            <div class="form-group row">
+                <label class="input-group-text myLabel">Периодичность приема</label>
+                <div class="col"> 
+                    <select class="form-control form-select" name="period"> 
+                        <option th:each="p, iter : ${periodoptions}" th:field="*{period}" th:text="${p}" th:value="${p}" selected="${p} == *{period} ? selected"/>
+                    </select>
+                </div>
+            </div>
 
             <button type="submit" class="btn btn-success">Добавить</button>
 
@@ -49,6 +64,40 @@
     </div>
 
     <div th:insert="blocks/footer :: footer"></div>
+
+    <script th:inline="javascript">
+        $(function() {
+    
+        /*<![CDATA[*/ var names = /*[[ ${names} ]]*/ 'names' /*]]*/;
+        //var array = [[${drugs}]];
+
+        $( "#inputName" ).autocomplete({
+            source: names,
+            minLength: 0
+        });
+    
+    });
+    </script>
+
 </body>
+
+<style>
+
+    .input-group-text {
+        width: 30%;
+    }
+
+    .myLabel {
+        width: 45%;
+    }
+
+    .ui-autocomplete {
+        max-height: 220px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 20px;
+    }
+
+</style>
 
 </html>

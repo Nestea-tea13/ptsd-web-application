@@ -12,10 +12,172 @@
     <header th:insert="blocks/headers :: header-user-page"></header>
 
     <div class="container mt-5">
-        <p class="text-center font-weight-bold"> Страница пользователя </p>
+        <div class="alert alert-primary text-center" role="alert">
+            Здравствуйте, <b><span th:text="${name}"/></b>!
+        </div>
+        
+        <div class="row">
+            <div class="card card-body myCard">
+                <span class="text-center"><b>Напоминание про отметки лекарств</b></span><br>
+
+                <div th:if="${todayMarks}">
+                    <div class="alert alert-warning text-justify">
+                        Есть лекарства, которые необходимо принять <b>сегодня</b>. Ниже можно отметить, приняты ли они. Если вы еще не приняли лекарство и не знаете, примете или нет, не отмечайте пока ничего.
+                    </div>
+
+                    <div th:each="m, iter : ${todayMarks}">
+                        <form th:action="@{/drugs/markupdate/{id}(id=${m.id})}" method="post" style="display: inline-block; width: 30rem;">
+                            <label th:text="'Лекарство: ' + ${m.personDrug.drug.name} + ', '+ ${m.markNumPerDay} + ' раз, дата: ' + ${m.date} "></label><br>
+                            <div class="form-group row">
+                                <div class="form-check form-check-inline ml-3">
+                                    <input class="form-check-input myRadio1" type="radio" th:id="${iter.count}" name="mark" value="Принято" required/>
+                                    <label class="form-check-label" th:for="${iter.count}">Принято</label>
+                                </div>
+
+                                <div class="form-check form-check-inline ml-3">
+                                    <input class="form-check-input myRadio1" type="radio" th:id="${iter.count}" name="mark" value="Пропущено"/>
+                                    <label class="form-check-label" th:for="${iter.count}">Пропущено</label>
+                                </div>
+
+                                <button type="submit" th:name="${iter.count}" class="btn btn-success ml-3 myButton1">Сохранить</button>
+                                <button th:name="${iter.count}" class="btn btn-warning ml-3 myReset1" hidden>Сбросить</button>
+                            </div>
+                            <p class="small myComment1" th:id="${iter.count}" hidden>* Нажмите сохранить или сбросить, чтобы разблокировать доступ к другим отметкам</p>
+                 
+                        </form>
+                    </div>
+                </div><br>
+
+                <div th:if="${missedMarks}">
+                    <div class="alert alert-danger text-justify">
+                        Вы пропустили заполнение отметок. Ответьте, пожалуйста, приняты ли следующие лекарства в указанные даты?
+                    </div>
+
+                    <div th:each="m, iter : ${missedMarks}">
+                        <form th:action="@{/drugs/markupdate/{id}(id=${m.id})}" method="post" style="display: inline-block; width: 30rem;">
+                            <label th:text="'Лекарство: ' + ${m.personDrug.drug.name} + ', '+ ${m.markNumPerDay} + ' раз, дата: ' + ${m.date} "></label><br>
+                            <div class="form-group row">
+                                <div class="form-check form-check-inline ml-3">
+                                    <input class="form-check-input myRadio2" type="radio" th:id="${iter.count}" name="mark" value="Принято" required/>
+                                    <label class="form-check-label" th:for="${iter.count}">Принято</label>
+                                </div>
+
+                                <div class="form-check form-check-inline ml-3">
+                                    <input class="form-check-input myRadio2" type="radio" th:id="${iter.count}" name="mark" value="Пропущено"/>
+                                    <label class="form-check-label" th:for="${iter.count}">Пропущено</label>
+                                </div>
+
+                                <div class="form-check form-check-inline ml-3">
+                                    <input class="form-check-input myRadio2" type="radio" th:id="${iter.count}" name="mark" value="Не помню"/>
+                                    <label class="form-check-label" th:for="${iter.count}">Не помню</label>
+                                </div>
+
+                                <button type="submit" th:name="${iter.count}" class="btn btn-success ml-3 myButton2">Сохранить</button>
+
+                            </div>
+                            <button th:name="${iter.count}" class="btn btn-warning ml-3 mr-3 float-right myReset2" hidden>Сбросить</button>
+
+                            <p class="small myComment2" th:id="${iter.count}" hidden>* Нажмите сохранить или сбросить, чтобы разблокировать доступ к другим отметкам</p>
+
+                        </form>
+                    </div>
+                </div>
+                <div th:unless="${missedMarks}" class="text-center">
+                    <div class="alert alert-success text-center" role="alert">
+                        У вас нет пропущенных отметок о принятии лекарств
+                    </div>
+                </div>
+                
+
+            </div>
+
+            <div class="col-md-1"></div>
+
+            <div class="card card-body myCard">
+                <span class="text-center"><b>Напоминание о прохождении опросов</b></span>
+
+
+            </div>
+        </div>
+
     </div>
-   
+
     <div th:insert="blocks/footer :: footer"></div>
+
+    <script th:inline="javascript">
+        let radio = document.querySelectorAll('.myRadio1');
+        let btn = document.querySelectorAll('.myButton1');
+        let comment = document.querySelectorAll('.myComment1');
+        let btnReset = document.querySelectorAll('.myReset1');
+
+        for (let i = 0; i < radio.length; i++) radio[i].addEventListener('change', changeOthers);
+
+        function changeOthers() {
+            for (let i = 0; i < radio.length; i++) radio[i].disabled = (radio[i].id != this.id);
+            for (let i = 0; i < btn.length; i++) {
+                btn[i].disabled = (btn[i].name != this.id);
+                comment[i].hidden = (comment[i].id != this.id);
+                btnReset[i].hidden = (btnReset[i].name != this.id);
+            }
+        }
+
+        for (let j = 0; j < btnReset.length; j++) {
+            btnReset[j].addEventListener('click', function(event) {
+                event.preventDefault();
+                this.hidden = true;       
+                for (let i = 0; i < radio.length; i++) {
+                    radio[i].disabled = false;
+                    radio[i].checked = false;
+                }
+                for (let i = 0; i < btn.length; i++) {
+                    btn[i].disabled = false;
+                    comment[i].hidden = true;
+                }
+            });
+        }
+    </script>
+
+    <script th:inline="javascript">
+        let radio2 = document.querySelectorAll('.myRadio2');
+        let btn2 = document.querySelectorAll('.myButton2');
+        let comment2 = document.querySelectorAll('.myComment2');
+        let btnReset2 = document.querySelectorAll('.myReset2');
+
+        for (let i = 0; i < radio2.length; i++) radio2[i].addEventListener('change', changeOthers2);
+
+        function changeOthers2() {
+            for (let i = 0; i < radio2.length; i++) radio2[i].disabled = (radio2[i].id != this.id);
+            for (let i = 0; i < btn.length; i++) {
+                btn2[i].disabled = (btn2[i].name != this.id);
+                comment2[i].hidden = (comment2[i].id != this.id);
+                btnReset2[i].hidden = (btnReset2[i].name != this.id);
+            }
+        }
+
+        for (let j = 0; j < btnReset.length; j++) {
+            btnReset2[j].addEventListener('click', function(event) {
+                event.preventDefault();
+                this.hidden = true;       
+                for (let i = 0; i < radio2.length; i++) {
+                    radio2[i].disabled = false;
+                    radio2[i].checked = false;
+                }
+                for (let i = 0; i < btn2.length; i++) {
+                    btn2[i].disabled = false;
+                    comment2[i].hidden = true;
+                }
+            });
+        }
+    </script>
     
 </body>
+
+<style>
+
+    .myCard {
+        width: 40%;
+    }
+
+</style>
+
 </html>

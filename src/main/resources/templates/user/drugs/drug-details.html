@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Drug Marks</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <header th:insert="blocks/headers :: header-user-page"></header>
+
+    <div class="container mt-5 text-center">
+        <h1 class="text-center" th:text="'Ваши отметки для лекарства ' + ${personDrug.drug.name}"/><br>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <th>Дозировка</th>
+                <th>Периодичность приема</th>
+                <th>Дата начала приема</th>
+                <th>Дата завершения приема</th>
+            </thead>
+            <tbody>
+                <tr> 
+                    <td th:text="${personDrug.dose}"></td>
+                    <td th:text="${personDrug.period}"></td>
+                    <td th:text="${personDrug.startDate}"></td>
+                    <td th:text="${personDrug.endDate}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="chart-container">
+                        <canvas id="DrugMarksResultsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="scrollable-table">
+                        <table class="table table-bordered table-hover myTable">
+                            <thead>
+                                <th>№</th>
+                                <th>Дата</th>
+                                <th>Номер приема за день</th>
+                                <th>Ваша отметка о лекарстве</th>
+                            </thead>
+                            <tbody>
+                                <tr th:each="m : ${marks}">
+                                    <td th:text="${m.takingNum}"></td>
+                                    <td th:text="${m.date}"></td>
+                                    <td th:text="${m.markNumPerDay}"></td>
+                                    <td><span th:text="${m.mark}" th:class="${m.mark} == 'Принято' ? 'badge badge-success rounded-pill d-inline' : 
+                                        (${m.mark} == 'Пропущено' ? 'badge badge-danger rounded-pill d-inline' : (${m.mark} == 'Не помню' ? 'badge badge-secondary rounded-pill d-inline'))"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+    <div th:insert="blocks/footer :: footer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script> 
+
+    <script th:inline="javascript">
+        var ctx = document.querySelector('#DrugMarksResultsChart').getContext('2d');
+        /*<![CDATA[*/ var quantityMarks = /*[[ ${quantityMarks} ]]*/ 'data' /*]]*/;
+
+        var ResultsChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Принято', 'Пропущено', 'Не помните', 'Еще не отмечено'],
+                datasets: [
+                    {
+                        label: 'Количество отметок: ',
+                        data: quantityMarks,
+                        backgroundColor: [
+                            '#28a745',
+                            '#dc3545',
+                            'rgb(128, 128, 128)',
+                            'rgb(255, 205, 86)'
+                        ],
+                        hoverOffset: 4
+                    }
+                ]
+            }
+        });
+    </script>
+
+</body>
+
+<style>
+
+    .scrollable-table {
+        height: 450px;
+        overflow-y: auto;
+    }
+
+    .myTable th {
+        background-color:rgb(227, 253, 253);
+        position: sticky;
+        top: 0;
+    }
+
+    /*.myTable tbody tr:nth-of-type(even) {
+        background-color: #f4f5f5;
+    }*/
+
+</style>
+
+</html>
