@@ -59,12 +59,16 @@ public class PeopleService {
 
     @Transactional
     public Person addPerson(Person person) {
-        String textEmail = "Здравствуйте, " + person.getName() + "!\nВы были зарегистрированы администратором больницы в web-приложении для оценки динамики посттравматического стрессового расстройства в процессе лечения.\n";
+        String textEmail = "Здравствуйте, " + person.getName() + "!\nВы зарегистрированы в качестве "; 
         
         person.generateRandomPassword(); // ДОБАВИТЬ ШИФРОВАНИЕ ПАРОЛЯ
-        if (person.getRole().equals("ROLE_USER")) person.setStatus("В процессе");
-        else textEmail += "Вам выданы права администратора.\n";
-        textEmail +="\nСсылка на сайт: //http..\nВаш логин: " + person.getEmail() + "\nПароль: " + person.getPassword() + "\nДанный регистрационный пароль можно изменить на свой в личном кабинете.";
+        if (person.getRole().equals("ROLE_USER")) {
+            person.setStatus("В процессе");
+            textEmail += "пациента ";
+        } else textEmail += "администратора медицинского учреждения ";
+        textEmail +="в web-приложении для оценки динамики посттравматического стрессового расстройства в процессе лечения.\n"
+                + "\nСсылка на сайт: http://localhost:8080/\nЛогин: " + person.getEmail() 
+                + "\nПароль: " + person.getPassword() + "\nДанный пароль можно изменить на свой в личном кабинете.";
         
         peopleRepository.save(person);
 

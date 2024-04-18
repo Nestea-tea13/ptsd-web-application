@@ -15,9 +15,8 @@
     <header th:if="${flagRoleAdmin}" th:insert="blocks/headers::header-admin-page"/>
     <header th:unless="${flagRoleAdmin}" th:insert="blocks/headers::header-user-page"/>
 
-    <div class="container mt-5 text-center">
-        <h1>Ваши личные данные</h1>
-        <br>
+    <div class="container mt-4 text-center">
+        <h2>Ваши личные данные</h2><br>
 
         <div class="card card-body" style="width: 60%; margin: 0 auto;">
             <div class="row">
@@ -41,7 +40,7 @@
                     <br><b><p th:text="${person.gender}"/></b>
                 </div>
                 <div class="col-md-4">
-                    <small class="text-muted">День рождения</small>
+                    <small class="text-muted">Дата рождения</small>
                     <br><b><p th:text="${person.birthday}"/></b>
                 </div>
                 <div class="col-md-2"></div>
@@ -54,18 +53,10 @@
             </div>
         </div><br>
 
-        <a th:if="${flagRoleAdmin}" class="btn btn-warning" href="/adminpage/profile/edit">Редактировать</a>
-        <a th:unless="${flagRoleAdmin}" class="btn btn-warning" href="/profile/edit">Редактировать</a>
-        <br><br>
+        <a th:href="${flagRoleAdmin} ? '/adminpage/profile/edit' : '/profile/edit'" class="btn btn-primary" style="width: 160px;">Редактировать</a><br><br>
+        <a th:href="${flagRoleAdmin} ? '/adminpage/profile/changepassword' : '/profile/changepassword'" class="btn btn-secondary" style="width: 160px;">Изменить пароль</a><br>
 
-        <a th:if="${flagRoleAdmin}" class="btn btn-secondary" href="/adminpage/profile/changepassword">Изменить пароль</a>
-        <a th:unless="${flagRoleAdmin}" class="btn btn-secondary" href="/profile/changepassword">Изменить пароль</a>
-        <br>
-      
     </div>
-   
-    <div th:insert="blocks/footer :: footer"></div>
-    
 </body>
 
 <style>

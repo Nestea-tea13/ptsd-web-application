@@ -12,8 +12,8 @@
     <header th:if="${flagRoleAdmin}" th:insert="blocks/headers::header-admin-page"/>
     <header th:unless="${flagRoleAdmin}" th:insert="blocks/headers::header-user-page"/>
 
-    <div class="container mt-5 mb-5 text-center">
-        <h1>Редактирование персональных данных</h1>
+    <div class="container mt-4 text-center">
+        <h2>Редактирование персональных данных</h2><br>
 
         <form th:action="${flagRoleAdmin} ? @{/adminpage/profile} : @{/profile}" method="post" th:object="${person}" style="display: inline-block; width: 30rem;">
             <input type="hidden" th:field="*{id}"/>
@@ -21,24 +21,27 @@
             <input type="hidden" th:field="*{role}"/>
             <input type="hidden" th:field="*{status}"/>
 
-            <div style="color:red" th:if="${#fields.hasErrors('sername')}" th:errors="*{sername}">Sername Error</div>
+            <div class="text-left" th:if="${#fields.hasErrors('sername')}" th:errors="*{sername}">Sername Error</div>
             <div class="form-group row">
                 <label class="input-group-text">Фамилия</label>
                 <div class="col"> <input type="text" th:field="*{sername}" class="form-control" placeholder="Фамилия" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
             </div>
 
-            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+            <div class="text-left" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
             <div class="form-group row">
                 <label class="input-group-text">Имя</label>
                 <div class="col"> <input type="text" th:field="*{name}" class="form-control" placeholder="Имя" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
             </div>
 
             <div class="form-group row">
-                <label class="input-group-text">Отчество</label>
-                <div class="col"> <input type="text" th:field="*{patronymic}" class="form-control" placeholder="Отчество" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
+                <label class="input-group-text" style="height: 50%;">Отчество</label>
+                <div class="col"> 
+                    <input type="text" th:field="*{patronymic}" class="form-control" placeholder="Отчество" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> 
+                    <p class="small float-left">* При отсутствии отчества ничего не вводить</p>
+                </div>
             </div>
 
-            <div style="color:red" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Gender Error</div> 
+            <div class="text-left" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Gender Error</div> 
             <div class="form-group row">
                 <label class="input-group-text">Пол</label>
                 <div class="col-md-1"></div>
@@ -54,36 +57,34 @@
                 <div class="col-md-2"></div>
             </div>
 
-            <div style="color:red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday Error</div> 
+            <div  class="text-left" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday Error</div> 
             <div class="form-group row">
-                <label class="input-group-text">День рождения</label>
+                <label class="input-group-text">Дата рождения</label>
                 <div class="col"> <input type="date" th:field="*{birthday}" class="form-control" min="1940-01-01" max="2020-01-01"/> </div>
             </div>
             
-            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+            <div  class="text-left" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
             <div class="form-group row">
                 <label class="input-group-text">Почта</label>
                 <div class="col"> <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="name@example.com"/> </div>
             </div>
-            <br>
 
-            <button type="submit" class="btn btn-success">Обновить</button>
-
-            <a th:if="${flagRoleAdmin}" href="/adminpage/profile" class="btn btn-secondary">Отмена</a>
-            <a th:unless="${flagRoleAdmin}" href="/profile" class="btn btn-secondary">Отмена</a>
-            
+            <br><button type="submit" class="btn btn-success mr-4" style="width: 120px;">Обновить</button>
+            <a th:href="${flagRoleAdmin} ? '/adminpage/profile' : '/profile'" class="btn btn-secondary" style="width: 120px;">Отмена</a>     
         </form>
 
     </div>
-   
-    <div th:insert="blocks/footer :: footer"></div>
-    
 </body>
 
 <style>
 
     .input-group-text {
         width: 30%;
+    }
+
+    .text-left {
+        color: red; 
+        margin-left: 32%;
     }
 
 </style>

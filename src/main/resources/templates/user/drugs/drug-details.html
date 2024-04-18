@@ -15,8 +15,8 @@
 
     <header th:insert="blocks/headers :: header-user-page"></header>
 
-    <div class="container mt-5 text-center">
-        <h1 class="text-center" th:text="'Ваши отметки для лекарства ' + ${personDrug.drug.name}"/><br>
+    <div class="container mt-4 text-center">
+        <h2 class="text-center" th:text="'Ваши отметки для лекарства ' + ${personDrug.drug.name}"/><br>
 
         <table class="table table-bordered table-hover">
             <thead>
@@ -108,15 +108,18 @@
         overflow-y: auto;
     }
 
-    .myTable th {
+    .myTable thead {
         background-color:rgb(227, 253, 253);
         position: sticky;
         top: 0;
     }
 
-    /*.myTable tbody tr:nth-of-type(even) {
-        background-color: #f4f5f5;
-    }*/
+    .myTable thead::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        border: 1px solid rgb(224, 226, 226); 
+    }
 
 </style>
 

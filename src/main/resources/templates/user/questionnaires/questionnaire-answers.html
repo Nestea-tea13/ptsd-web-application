@@ -11,8 +11,8 @@
 
     <header th:insert="blocks/headers :: header-user-page"></header>
 
-    <div class="container mt-5">
-        <h1 class="text-center">Ваши ответы</h1>
+    <div class="container mt-4">
+        <h2 class="text-center">Ваши ответы</h2>
 
         <a th:href="@{/questionnaires/{name}/{id}/pdf(name=${questionnare},id=${results.id})}" class="btn btn-dark">Сохранить ответы в pdf-файл</a><br><br>
 

@@ -37,7 +37,7 @@ public class PersonDrugValidator implements Validator {
         PersonDrug drug = (PersonDrug) o;  
         
         if (name.isEmpty())
-            errors.rejectValue("drug", "", "Название лекарства не может быть пустым");
+            errors.rejectValue("drug", "", "Название не может быть пустым");
         else {
             Optional<Drug> drugFromDB = drugsService.findByName(name);
             if (!drugFromDB.isPresent())

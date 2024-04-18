@@ -23,7 +23,7 @@ public class MainController {
 
   @GetMapping("/")
     public String startPage(Model model) {
-    return "main/start-page";
+    return "redirect:/login";
   }
 
   @GetMapping("/login")

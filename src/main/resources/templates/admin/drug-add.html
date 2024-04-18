@@ -10,26 +10,32 @@
 <body>
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
-    <div class="container mt-5 mb-5 text-center">
-        <h1>Добавление нового лекарства</h1>
-        <br>
+    <div class="container mt-4 text-center">
+        <h2>Добавление нового лекарства</h2><br>
 
         <form th:action="@{/adminpage/drug/add}" method="post" th:object="${drug}" style="display: inline-block; width: 25rem;">  
 
-            <label for="name">Название: </label>
-            <input type="text" th:field="*{name}" id="name" placeholder="Название" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> <br>
             <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
-            <br>
-
-            <button type="submit" class="btn btn-success">Добавить</button>
-
-            <a href="/adminpage/drugs" class="btn btn-secondary">Отмена</a>
+            <div class="form-group row">
+                <label class="input-group-text">Название</label>
+                <div class="col"> <input type="text" th:field="*{name}" class="form-control" placeholder="Название" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
+            </div>
+            
+            <br><button type="submit" class="btn btn-success mr-4" style="width: 120px;">Добавить</button>
+            <a href="/adminpage/drugs" class="btn btn-secondary" style="width: 120px;">Отмена</a>
 
         </form>
 
     </div>
 
-    <div th:insert="blocks/footer :: footer"></div>
 </body>
+
+<style>
+
+    .input-group-text {
+        width: 30%;
+    }
+
+</style>
 
 </html>

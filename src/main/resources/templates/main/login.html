@@ -11,7 +11,7 @@
 
     <header th:insert="blocks/headers :: header-simple"></header>
 
-    <div class="container mt-5 mb-5 text-center">
+    <div class="container mt-5 text-center">
         <p class="text-center font-weight-bold" style="margin: 10px;" > Форма для входа </p>
         
         <form action="/process_login" method="post" style="display: inline-block; width: 25rem;">
@@ -31,18 +31,14 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-50 py-2">Войти</button> 
+            <button type="submit" class="btn btn-primary" style="width: 30%;">Войти</button> 
         
             <div th:if="${param.error}" style="color: red">
                 Неправильные логин и/или пароль
             </div>
         </form>
 
-    </div>
-
-   
-    <div th:insert="blocks/footer :: footer"></div>
-    
+    </div>   
 </body>
 
 <style>

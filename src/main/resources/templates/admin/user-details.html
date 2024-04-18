@@ -15,9 +15,8 @@
 
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
-    <div class="container mt-5 text-center">
-        <h1>Личные данные пользователя</h1>
-        <br>
+    <div class="container mt-4 text-center">
+        <h2>Личные данные пациента</h2><br>
 
         <div class="card card-body" style="width: 60%; margin: 0 auto;">
             <div class="row">
@@ -60,7 +59,7 @@
             </div>
         </div><br>
 
-        <a data-remodal-target="modal-edit" class="btn btn-secondary" th:href="'/adminpage/user/' + ${user.id} + '/edit'">Редактировать</a><br><br>
+        <a data-remodal-target="modal-edit" class="btn btn-primary" th:href="'/adminpage/user/' + ${user.id} + '/edit'" style="width: 140px;">Редактировать</a><br><br>
 
         <div class="remodal text-center" data-remodal-id="modal-edit">
             <button data-remodal-action="close" class="remodal-close"></button>
@@ -70,7 +69,7 @@
             <button data-remodal-action="cancel" class="remodal-cancel">Нет</button>
         </div>
 
-        <a data-remodal-target="modal-remove" class="btn btn-danger">Удалить</a>
+        <a data-remodal-target="modal-remove" class="btn btn-danger" style="width: 140px;">Удалить</a>
         
         <div class="remodal text-center" data-remodal-id="modal-remove">
             <button data-remodal-action="close" class="remodal-close"></button>
@@ -82,8 +81,6 @@
         </div>
 
     </div>
-   
-    <div th:insert="blocks/footer :: footer"></div>
     
 </body>
 </html>

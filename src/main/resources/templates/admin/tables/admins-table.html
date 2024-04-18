@@ -12,13 +12,22 @@
 <body>
     <header th:insert="blocks/headers :: header-admin-page"></header>
 
-    <div class="container mt-5 mb-5">
-        <h1 class="text-center">Список администраторов</h1><br>
+    <div class="container mt-4">
+        <h2 class="text-center">Список администраторов</h2><br>
        
         <div class="row">
             <div class="col-md-2"><a href="/adminpage/person/add?role=ROLE_ADMIN" class="btn btn-success">Добавить</a></div>
             <div class="col-md-4"></div>
-            <div class="col-md-6"><input class="form-control" id="inputFilter" onkeyup="filterFunction()" type="text" placeholder="Поиск"></div>
+            <div class="col-md-6">
+                <div class="row">
+                    <input class="form-control" id="inputFilter" type="text" placeholder="Поиск" style="width: 90%;">
+                    <button type="button" class="btn btn-outline-secondary" id="clearButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
         <br>
 
@@ -52,6 +61,11 @@
             });
           });
         });
+
+        document.getElementById("clearButton").onclick = function(e) {
+            document.getElementById("inputFilter").value = "";
+            $("#inputFilter").keyup();
+        }
     </script>
 
 </body>
