@@ -121,11 +121,4 @@ public class QuestionnaireData {
         return ChartDate;
     }
 
-    public static String getErrorPeriodName(String questionnaireName) {
-        if (questionnaireName.equals("CAPS")) return "errorCAPSPeriod";
-        else if (questionnaireName.equals("IESR")) return "errorIESRPeriod";
-        else if (questionnaireName.equals("BHS")) return "errorBHSPeriod";
-        else return "errorTOP8Period";
-    }
-
 }

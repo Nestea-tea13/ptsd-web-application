@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    
     <header th:if="${flagRoleAdmin}" th:insert="blocks/headers::header-admin-page"/>
     <header th:unless="${flagRoleAdmin}" th:insert="blocks/headers::header-user-page"/>
 

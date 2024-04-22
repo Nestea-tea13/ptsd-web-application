@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,6 +56,7 @@ public class UserDrugsController {
         model.addAttribute("periodoptions", Labels.PeriodDrugOptions);
         model.addAttribute("names", drugsService.getAllDrugsNames());
         model.addAttribute("minDate", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
+        model.addAttribute("maxDate", (new SimpleDateFormat("yyyy-MM-dd")).format(DateUtils.addYears(new Date(), 1)));
         return "user/drugs/drug-add";
     }
 
@@ -68,6 +70,7 @@ public class UserDrugsController {
             model.addAttribute("periodoptions", Labels.PeriodDrugOptions);
             model.addAttribute("names", drugsService.getAllDrugsNames());
             model.addAttribute("minDate", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
+            model.addAttribute("maxDate", (new SimpleDateFormat("yyyy-MM-dd")).format(DateUtils.addYears(new Date(), 1)));
             return "user/drugs/drug-add";
         }
 

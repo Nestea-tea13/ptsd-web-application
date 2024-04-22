@@ -57,11 +57,11 @@ public class DrugMarksService {
     }
 
     public List<DrugMark> findByPersonDrugMissedMarks(PersonDrug personDrug) {
-        return drugMarksRepository.findByPersonDrugAndMarkAndDateBefore(personDrug, null, new Date());
+        return drugMarksRepository.findByPersonDrugAndMarkAndDateBeforeOrderByTakingNum(personDrug, null, new Date());
     }
 
     public List<DrugMark> findByPersonDrugTodayNullMarks(PersonDrug personDrug) {
-        return drugMarksRepository.findByPersonDrugAndMarkAndDateBetween(personDrug, null, new Date(), new Date());
+        return drugMarksRepository.findByPersonDrugAndMarkAndDateBetweenOrderByTakingNum(personDrug, null, new Date(), new Date());
     }
 
     public int[] getQuantityMarksForPersonDrug(PersonDrug personDrug) {

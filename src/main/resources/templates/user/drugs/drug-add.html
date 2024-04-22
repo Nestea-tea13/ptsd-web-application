@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    
     <header th:insert="blocks/headers :: header-user-page"></header>
 
     <div class="container mt-4 text-center">
@@ -37,13 +38,13 @@
             <div style="color:red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">startDate Error</div> 
             <div class="form-group row">
                 <label class="input-group-text myLabel">Дата начала приема</label>
-                <div class="col"> <input type="date" th:field="*{startDate}" class="form-control" th:min="${minDate}" max="2025-01-01"/> </div>
+                <div class="col"> <input type="date" th:field="*{startDate}" class="form-control" th:min="${minDate}" th:max="${maxDate}"/> </div> 
             </div>
 
             <div style="color:red" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">endDate Error</div> 
             <div class="form-group row">
                 <label class="input-group-text myLabel">Дата завершения приема</label>
-                <div class="col"> <input type="date" th:field="*{endDate}" class="form-control" th:min="${minDate}" max="2025-01-01"/> </div>
+                <div class="col"> <input type="date" th:field="*{endDate}" class="form-control" th:min="${minDate}" th:max="${maxDate}"/> </div>
             </div>
 
             <div class="form-group row">

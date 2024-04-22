@@ -23,14 +23,16 @@
             <strong>1. Шкала для клинической диагностики ПТСР (Clinical-administered PTSD Scale - CAPS)</strong>
           </span>
         </div>
-        <div class="col-md-4 text-center"><a href="/questionnaires/CAPS" class="btn btn-primary w-50">Пройти</a></div>
+        <div class="col-md-4 text-center"><a href="/questionnaires/CAPS" class="btn btn-primary w-50" id="btnCAPS">Пройти</a></div>
       </div>
     </div>
 
-    <div th:if="${errorCAPSPeriod}" style="color: red">
-      Еще не прошел месяц с последнего прохождения!<br> 
-      Повторно можно будет пройти опросник через 30 дней после предыдущего заполнения.
-      <br><br>
+    <div th:if="${errorCAPSPeriod}" style="color: green">
+      <p class="mb-1">Еще не прошел месяц с последнего прохождения.<br> 
+      Повторно можно будет пройти опросник через 30 дней после предыдущего заполнения.</p>
+    </div>
+    <div th:unless="${errorCAPSPeriod}" style="color: red">
+      <p class="mb-1">Необходимо пройти опрос!</p>
     </div>
     <div th:insert="blocks/collapses :: collapseCAPS"></div>
 
@@ -42,13 +44,15 @@
             <strong>2. Шкала оценки влияния травматического события (Impact of Event Scale-R - IES-R)</strong>
           </span>
         </div>
-        <div class="col-md-4 text-center"><a href="/questionnaires/IESR" class="btn btn-primary w-50">Пройти</a></div>
+        <div class="col-md-4 text-center"><a href="/questionnaires/IESR" class="btn btn-primary w-50" id="btnIESR">Пройти</a></div>
       </div>
     </div>
 
-    <div th:if="${errorIESRPeriod}" style="color: red">
-      Еще не прошла неделя с последнего прохождения!
-      <br><br>
+    <div th:if="${errorIESRPeriod}" style="color: green">
+      <p class="mb-1">Еще не прошла неделя с последнего прохождения.</p>
+    </div>
+    <div th:unless="${errorIESRPeriod}" style="color: red">
+      <p class="mb-1">Необходимо пройти опрос!</p>
     </div>
     <div th:insert="blocks/collapses :: collapseIESR"></div>
 
@@ -60,13 +64,15 @@
             <strong>3. Шкала Безнадежности Бека (Beck Hopelessness Scale, BHS)</strong>
           </span>
         </div>
-        <div class="col-md-4 text-center"><a href="/questionnaires/BHS" class="btn btn-primary w-50">Пройти</a></div>
+        <div class="col-md-4 text-center"><a href="/questionnaires/BHS" class="btn btn-primary w-50" id="btnBHS">Пройти</a></div>
       </div>
     </div>
 
-    <div th:if="${errorBHSPeriod}" style="color: red">
-      Еще не прошла неделя с последнего прохождения!
-      <br><br>
+    <div th:if="${errorBHSPeriod}" style="color: green">
+      <p class="mb-1">Еще не прошла неделя с последнего прохождения.</p>
+    </div>
+    <div th:unless="${errorBHSPeriod}" style="color: red">
+      <p class="mb-1">Необходимо пройти опрос!</p>
     </div>
     <div th:insert="blocks/collapses :: collapseBHS"></div>
 
@@ -78,22 +84,34 @@
             <strong>4. Опросник для оценки терапевтической динамики ПТСР «Treatment Outcome PTSD Scale» (TOP-8)</strong>
           </span>
         </div>
-        <div class="col-md-4 text-center"><a href="/questionnaires/TOP8" class="btn btn-primary w-50">Пройти</a></div>
+        <div class="col-md-4 text-center"><a href="/questionnaires/TOP8" class="btn btn-primary w-50" id="btnTOP8">Пройти</a></div>
       </div>
     </div>
 
-    <div th:if="${errorTOP8Period}" style="color: red">
-      Еще не прошла неделя с последнего прохождения!
-      <br><br>
+    <div th:if="${errorTOP8Period}" style="color: green">
+      <p class="mb-1">Еще не прошла неделя с последнего прохождения.</p>
     </div> 
+    <div th:unless="${errorTOP8Period}" style="color: red">
+      <p class="mb-1">Необходимо пройти опрос!</p>
+    </div>
     <div th:insert="blocks/collapses :: collapseTOP8"></div>
 
   </div>
-  
-  <div th:insert="blocks/footer :: footer"></div>
  
   <script>
     $('[data-toggle="tooltip"]').tooltip()
+  </script>
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/ let errCAPS = /*[[ ${errorCAPSPeriod} ]]*/ 'errCAPS' /*]]*/;
+    /*<![CDATA[*/ let errIESR = /*[[ ${errorIESRPeriod} ]]*/ 'errIESR' /*]]*/;
+    /*<![CDATA[*/ let errBHS = /*[[ ${errorBHSPeriod} ]]*/ 'errBHS' /*]]*/;
+    /*<![CDATA[*/ let errTOP8 = /*[[ ${errorTOP8Period} ]]*/ 'errTOP8' /*]]*/;
+
+    if (errCAPS == true) $('#btnCAPS').attr('class', $('#btnCAPS').attr('class')+ ' disabled');
+    if (errIESR == true) $('#btnIESR').attr('class', $('#btnIESR').attr('class')+ ' disabled');
+    if (errBHS == true) $('#btnBHS').attr('class', $('#btnBHS').attr('class') + ' disabled');
+    if (errTOP8 == true) $('#btnTOP8').attr('class', $('#btnTOP8').attr('class')+ ' disabled');
   </script>
     
 </body>

@@ -18,7 +18,7 @@
         
         <div class="row">
             <div class="card card-body myCard">
-                <span class="text-center"><b>Напоминание про отметки лекарств</b></span><br>
+                <span class="text-center"><b>Напоминания о приеме лекарств</b></span><br>
 
                 <div th:if="${todayMarks}">
                     <div class="alert alert-warning text-justify">
@@ -45,8 +45,8 @@
                             <p class="small myComment1" th:id="${iter.count}" hidden>* Нажмите сохранить или сбросить, чтобы разблокировать доступ к другим отметкам</p>
                  
                         </form>
-                    </div>
-                </div><br>
+                    </div><br>
+                </div>
 
                 <div th:if="${missedMarks}">
                     <div class="alert alert-danger text-justify">
@@ -75,7 +75,7 @@
                                 <button type="submit" th:name="${iter.count}" class="btn btn-success ml-3 myButton2">Сохранить</button>
 
                             </div>
-                            <button th:name="${iter.count}" class="btn btn-warning ml-3 mr-3 float-right myReset2" hidden>Сбросить</button>
+                            <button th:name="${iter.count}" class="btn btn-warning ml-3 float-right myReset2" hidden>Сбросить</button>
 
                             <p class="small myComment2" th:id="${iter.count}" hidden>* Нажмите сохранить или сбросить, чтобы разблокировать доступ к другим отметкам</p>
 
@@ -94,9 +94,65 @@
             <div class="col-md-1"></div>
 
             <div class="card card-body myCard">
-                <span class="text-center"><b>Напоминание о прохождении опросов</b></span>
+                <span class="text-center"><b>Напоминания о прохождении опросов</b></span><br>
 
+                <div th:if="${allQuestionnairesCompleted}">
+                    <div class="alert alert-success text-justify">
+                        На данный момент все необходимые опросники заполнены.
+                    </div>
+                </div>
 
+                <div th:if="${todayCAPS}">
+                    <div class="alert alert-warning text-justify">
+                        Сегодня наступил срок для следующего прохождения опросника <b>CAPS</b>. 
+                        Для этого можно <a th:href="@{/questionnaires/{name}(name='CAPS')}" class="alert-link">перейти по ссылке</a>. 
+                    </div>
+                </div>
+                <div th:if="${missedCAPS}">
+                    <div class="alert alert-danger text-justify">
+                        С последнего прохождения опросника <b>CAPS</b> прошло более 30 дней. 
+                        Необходимо <a th:href="@{/questionnaires/{name}(name='CAPS')}" class="alert-link">перейти по ссылке</a> для его заполнения. 
+                    </div>
+                </div>
+
+                <div th:if="${todayIESR}">
+                    <div class="alert alert-warning text-justify">
+                        Сегодня наступил срок для следующего прохождения опросника <b>IES-R</b>. 
+                        Для этого можно <a th:href="@{/questionnaires/{name}(name='IESR')}" class="alert-link">перейти по ссылке</a>. 
+                    </div>
+                </div>
+                <div th:if="${missedIESR}">
+                    <div class="alert alert-danger text-justify">
+                        С последнего прохождения опросника <b>IES-R</b> прошло более одной недели. 
+                        Необходимо <a th:href="@{/questionnaires/{name}(name='IESR')}" class="alert-link">перейти по ссылке</a> для его заполнения. 
+                    </div>
+                </div>
+
+                <div th:if="${todayBHS}">
+                    <div class="alert alert-warning text-justify">
+                        Сегодня наступил срок для следующего прохождения опросника <b>BHS</b>. 
+                        Для этого можно <a th:href="@{/questionnaires/{name}(name='BHS')}" class="alert-link">перейти по ссылке</a>. 
+                    </div>
+                </div>
+                <div th:if="${missedBHS}">
+                    <div class="alert alert-danger text-justify">
+                        С последнего прохождения опросника <b>BHS</b> прошло более одной недели. 
+                        Необходимо <a th:href="@{/questionnaires/{name}(name='BHS')}" class="alert-link">перейти по ссылке</a> для его заполнения. 
+                    </div>
+                </div>
+
+                <div th:if="${todayTOP8}">
+                    <div class="alert alert-warning text-justify">
+                        Сегодня наступил срок для следующего прохождения опросника <b>TOP-8</b>. 
+                        Для этого можно <a th:href="@{/questionnaires/{name}(name='TOP8')}" class="alert-link">перейти по ссылке</a>. 
+                    </div>
+                </div>
+                <div th:if="${missedTOP8}">
+                    <div class="alert alert-danger text-justify">
+                        С последнего прохождения опросника <b>TOP8</b> прошло более одной недели. 
+                        Необходимо <a th:href="@{/questionnaires/{name}(name='TOP8')}" class="alert-link">перейти по ссылке</a> для его заполнения. 
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -147,14 +203,14 @@
 
         function changeOthers2() {
             for (let i = 0; i < radio2.length; i++) radio2[i].disabled = (radio2[i].id != this.id);
-            for (let i = 0; i < btn.length; i++) {
+            for (let i = 0; i < btn2.length; i++) {
                 btn2[i].disabled = (btn2[i].name != this.id);
                 comment2[i].hidden = (comment2[i].id != this.id);
                 btnReset2[i].hidden = (btnReset2[i].name != this.id);
             }
         }
 
-        for (let j = 0; j < btnReset.length; j++) {
+        for (let j = 0; j < btnReset2.length; j++) {
             btnReset2[j].addEventListener('click', function(event) {
                 event.preventDefault();
                 this.hidden = true;       
@@ -176,6 +232,11 @@
 
     .myCard {
         width: 40%;
+    }
+
+    .myButton1, .myButton2, .myReset1, .myReset2 {
+        margin-right: 9px;
+        width: 105px;
     }
 
 </style>

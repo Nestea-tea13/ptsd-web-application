@@ -34,16 +34,15 @@ public class UserQuestionnairesController {
 
     @GetMapping()
     public String getQuestionnairesList(Model model) {
+        if (!questionnairesService.checkPeriodQuestionnaire("CAPS")) model.addAttribute("errorCAPSPeriod", true);
+        if (!questionnairesService.checkPeriodQuestionnaire("IESR")) model.addAttribute("errorIESRPeriod", true);
+        if (!questionnairesService.checkPeriodQuestionnaire("BHS")) model.addAttribute("errorBHSPeriod", true);
+        if (!questionnairesService.checkPeriodQuestionnaire("TOP8")) model.addAttribute("errorTOP8Period", true);     
         return "user/questionnaires/questionnaires-list";
     }
 
     @GetMapping("/{name}")
     public String fillingQuestionnaire(@PathVariable(value = "name") String name, @ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        if (!questionnairesService.checkPeriodQuestionnaire(name)) {
-            model.addAttribute(QuestionnaireData.getErrorPeriodName(name), true);
-            return "user/questionnaires/questionnaires-list";
-        }
-
         model.addAttribute("questions", QuestionnaireData.getQuestions(name));
         if (name.equals("IESR") || name.equals("BHS")) model.addAttribute("answerOptions", QuestionnaireData.getSingleAnswerOptions(name));
         else model.addAttribute("answerOptions", QuestionnaireData.getDoubleAnswerOptions(name));
@@ -77,6 +76,10 @@ public class UserQuestionnairesController {
     @GetMapping("/results")
     public String getQuestionnairesListForResults(Model model) {
         model.addAttribute("fullNames", Labels.QuestionnairesNames);
+        if (!questionnairesService.existsPassedQuestionnaire("CAPS")) model.addAttribute("nullResultsCAPS", true);
+        if (!questionnairesService.existsPassedQuestionnaire("IESR")) model.addAttribute("nullResultsIESR", true);
+        if (!questionnairesService.existsPassedQuestionnaire("BHS")) model.addAttribute("nullResultsBHS", true);
+        if (!questionnairesService.existsPassedQuestionnaire("TOP8")) model.addAttribute("nullResultsTOP8", true);     
         return "user/questionnaires/questionnaires-list-results";
     }
 

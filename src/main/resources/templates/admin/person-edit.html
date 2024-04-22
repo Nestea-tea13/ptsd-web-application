@@ -5,6 +5,10 @@
     <title>Edit</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/remodal/remodal.css" />
+    <link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/remodal/remodal-default-theme.css" />
+    <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+    <script src="https://bootstraptema.ru/plugins/2016/remodal/remodal.js"></script>
 </head>
 
 <body>
@@ -84,7 +88,16 @@
             <input th:unless="${flagEditUser}" type="hidden" th:field="*{status}"/>
             <br>
             
-            <button type="submit" class="btn btn-success mr-4" style="width: 120px;">Обновить</button>
+            <button type="submit" class="btn btn-success mr-4" style="width: 120px;" data-remodal-target="modal-edit">Обновить</button>
+
+            <div class="remodal text-center" data-remodal-id="modal-edit">
+                <button data-remodal-action="close" class="remodal-close"></button>
+                <h1>Подтверждение</h1>
+                <p>Вы действительно хотите изменить данные пользователя?<br>После подтверждения данные будут обновлены.</p>
+                <a class="remodal-confirm mr-4" onclick="$('form').trigger('submit', true); setTimeout(function(){window.close()}, 1)" >Да</a>
+                <button data-remodal-action="cancel" class="remodal-cancel">Нет</button>
+            </div>
+
             <a th:if="${flagEditUser}" th:href="'/adminpage/user/' + ${person.id}" class="btn btn-secondary" style="width: 120px;">Отмена</a>
             <a th:unless="${flagEditUser}" href="/adminpage/admins" class="btn btn-secondary" style="width: 120px;">Отмена</a>
         </form>

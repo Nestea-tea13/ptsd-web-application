@@ -79,6 +79,19 @@ public class QuestionnairesService {
         return results;
     }
 
+    public Boolean existsPassedQuestionnaire(String questionnaireName) {
+        if (questionnaireName.equals("CAPS")) { 
+            if (getAllCAPSForUser().size() == 0) return false;
+        } else if (questionnaireName.equals("IESR")) {
+            if (getAllIESRForUser().size() == 0) return false;
+        } else if (questionnaireName.equals("BHS")) {
+            if (getAllBHSForUser().size() == 0) return false;
+        } else if (questionnaireName.equals("TOP8")) { 
+            if (getAllTOP8ForUser().size() == 0) return false;
+        }    
+        return true;
+    }
+
     public List<CAPSResults> getAllCAPSForUser() {
         return capsRepository.findByUser(peopleService.getCurrentPerson());
     }
@@ -119,6 +132,45 @@ public class QuestionnairesService {
     }
 
     public Boolean checkPeriodQuestionnaire(String questionnaireName) {
+        Questionnaire questionnaire = getLastQuestionnaire(questionnaireName);
+        if (questionnaire != null) {
+            int needDiff;
+            if (questionnaireName.equals("CAPS")) needDiff = 30; else needDiff = 7;
+            if (TimeUnit.DAYS.convert(new Date().getTime() - questionnaire.getDate().getTime(), TimeUnit.MILLISECONDS) < needDiff) 
+                return false;
+        }
+        return true;
+    }
+
+    public Boolean checkNotCompletedQuestionnaires() {
+        String[] questionnaires = {"CAPS", "IESR", "BHS", "TOP8"};
+        String[] types = {"today", "missed"};
+        for (String q : questionnaires) {
+            for (String t : types) {
+                if (checkNeedQuestionnaire(q, t)) return false;
+            }
+        }
+        return true;
+    }
+
+    public Boolean checkNeedQuestionnaire(String questionnaireName, String type) {
+        Questionnaire questionnaire = getLastQuestionnaire(questionnaireName);
+        if (questionnaire != null) {
+            int needDiff;
+            if (questionnaireName.equals("CAPS")) needDiff = 30; else needDiff = 7;
+            if (type.equals("today")) {
+                if (TimeUnit.DAYS.convert(new Date().getTime() - questionnaire.getDate().getTime(), TimeUnit.MILLISECONDS) == needDiff) 
+                    return true;
+            } else if (type.equals("missed")) {
+                if (TimeUnit.DAYS.convert(new Date().getTime() - questionnaire.getDate().getTime(), TimeUnit.MILLISECONDS) > needDiff) 
+                    return true;
+            }
+            
+        }
+        return false;
+    }
+
+    public Questionnaire getLastQuestionnaire(String questionnaireName) {
         Questionnaire questionnaire = null;
         if (questionnaireName.equals("CAPS")) {
             List<CAPSResults> questionnaires = capsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
@@ -133,14 +185,7 @@ public class QuestionnairesService {
             List<TOP8Results> questionnaires = top8Repository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
             if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
         }
-
-        if (questionnaire != null) {
-            int needDiff;
-            if (questionnaireName.equals("CAPS")) needDiff = 30; else needDiff = 7;
-            if (TimeUnit.DAYS.convert(new Date().getTime() - questionnaire.getDate().getTime(), TimeUnit.MILLISECONDS) < needDiff) 
-                return false;
-        }
-        return true;
+        return questionnaire;
     }
 
     public String getMinMaxIntervalDate(String questionnaireName, String typeNeedValue) {

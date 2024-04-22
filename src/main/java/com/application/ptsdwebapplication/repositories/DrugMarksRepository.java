@@ -12,10 +12,10 @@ import com.application.ptsdwebapplication.models.PersonDrug;
 @Repository
 public interface DrugMarksRepository  extends JpaRepository<DrugMark, Integer> {
 
-    List<DrugMark> findByPersonDrugOrderByTakingNum (PersonDrug personDrug);
+    List<DrugMark> findByPersonDrugOrderByTakingNum(PersonDrug personDrug);
 
-    List<DrugMark> findByPersonDrugAndMarkAndDateBefore(PersonDrug personDrug, Object object, Date date);
+    List<DrugMark> findByPersonDrugAndMarkAndDateBeforeOrderByTakingNum(PersonDrug personDrug, Object object, Date date);
 
-    List<DrugMark> findByPersonDrugAndMarkAndDateBetween(PersonDrug personDrug, Object object, Date date1, Date date2);
+    List<DrugMark> findByPersonDrugAndMarkAndDateBetweenOrderByTakingNum(PersonDrug personDrug, Object object, Date date1, Date date2);
     
 }
