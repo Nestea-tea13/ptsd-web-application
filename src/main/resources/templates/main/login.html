@@ -5,6 +5,7 @@
     <title>Login</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -27,11 +28,12 @@
             <div class="form-group row">
                 <label class="input-group-text" style="height: 50%;">Пароль</label> 
                 <div class="col">
-                  <input type="password" class="form-control" name="password" id="password" required placeholder="Введите пароль">
+                  <input type="password" class="form-control" name="password" id="password" required placeholder="Пароль">
+                  <a href="#" class="password-control"></a>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 30%;">Войти</button> 
+            <button type="submit" class="btn btn-primary" style="width: 30%;">Войти</button>
         
             <div th:if="${param.error}" style="color: red">
                 Неправильные логин и/или пароль
@@ -39,12 +41,40 @@
         </form>
 
     </div>   
+
+    <script>
+        $('body').on('click', '.password-control', function(){
+            if ($('#password').attr('type') == 'password'){
+                $(this).addClass('view');
+                $('#password').attr('type', 'text');
+            } else {
+                $(this).removeClass('view');
+                $('#password').attr('type', 'password');
+            }
+            return false;
+        });
+    </script>
+
 </body>
 
 <style>
 
     .input-group-text {
         width: 20%;
+    }
+
+    .password-control {
+        position: absolute;
+        top: 10px;
+        right: 30px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url(https://snipp.ru/demo/495/view.svg) 0 0 no-repeat;
+    }
+
+    .password-control.view {
+        background: url(https://snipp.ru/demo/495/no-view.svg) 0 0 no-repeat;
     }
 
 </style>

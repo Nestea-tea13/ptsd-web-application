@@ -5,6 +5,7 @@
     <title>Add user</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/inputGroupText.css" />
 </head>
 
 <body>
@@ -18,13 +19,13 @@
             <input type="hidden" th:field="*{role}"/>
             <input type="hidden" th:field="*{status}"/>
 
-            <div class="text-left" th:if="${#fields.hasErrors('sername')}" th:errors="*{sername}">Sername Error</div>
+            <div class="text-justify" th:if="${#fields.hasErrors('sername')}" th:errors="*{sername}">Sername Error</div>
             <div class="form-group row">
                 <label class="input-group-text">Фамилия</label>
                 <div class="col"> <input type="text" th:field="*{sername}" class="form-control" placeholder="Фамилия" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
             </div>
 
-            <div class="text-left" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+            <div class="text-justify" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
             <div class="form-group row">
                 <label class="input-group-text">Имя</label>
                 <div class="col"> <input type="text" th:field="*{name}" class="form-control" placeholder="Имя" oninput="this.value = this.value[0].toUpperCase() + this.value.slice(1).toLowerCase()"/> </div>
@@ -38,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="text-left" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Gender Error</div> 
+            <div class="text-justify" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Gender Error</div> 
             <div class="form-group row">
                 <label class="input-group-text">Пол</label>
                 <div class="col-md-1"></div>
@@ -54,13 +55,13 @@
                 <div class="col-md-2"></div>
             </div>
 
-            <div class="text-left" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday Error</div> 
+            <div class="text-justify" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday Error</div> 
             <div class="form-group row">
                 <label class="input-group-text">Дата рождения</label>
                 <div class="col"> <input type="date" th:field="*{birthday}" class="form-control" min="1940-01-01" max="2020-01-01"/> </div>
             </div>
             
-            <div class="text-left" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+            <div class="text-justify" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
             <div class="form-group row">
                 <label class="input-group-text">Почта</label>
                 <div class="col"> <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="name@example.com"/> </div>
@@ -73,18 +74,4 @@
     </div>
 
 </body>
-
-<style>
-
-    .input-group-text {
-        width: 30%;
-    }
-
-    .text-left {
-        color: red; 
-        margin-left: 32%;
-    }
-
-</style>
-
 </html>

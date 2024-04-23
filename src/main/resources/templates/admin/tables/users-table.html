@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/scrollTable.css" />
 </head>
 
 <body>
@@ -31,24 +32,24 @@
         </div>
         <br>
 
-        <table class="table table-bordered table-hover">
-            <thead>
-                <th th:each="h : ${headers}" th:text="${h}"/>
-            </thead>
-            <tbody id="usersTable">
-                <tr th:each="u, iter : ${users}"> 
-                    <td class="filterData" th:text="${iter.index}+1"></td>
-                    <td class="filterData" th:text="${u.sername}"></td>
-                    <td class="filterData" th:text="${u.name}"></td>
-                    <td class="filterData" th:text="${u.email}"></td>
-                    <td class="filterData"><span th:text="${u.status}" th:class="${u.status} == 'В процессе' ? 'badge badge-danger rounded-pill d-inline' : 'badge badge-success rounded-pill d-inline'"/></td>
-                    <td><a th:href="'/adminpage/user/' + ${u.id}">Подробнее</a></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="scrollable-table">
+            <table class="table table-bordered table-hover myTable">
+                <thead>
+                    <th th:each="h : ${headers}" th:text="${h}"/>
+                </thead>
+                <tbody id="usersTable">
+                    <tr th:each="u, iter : ${users}"> 
+                        <td class="filterData" th:text="${iter.index}+1"></td>
+                        <td class="filterData" th:text="${u.sername}"></td>
+                        <td class="filterData" th:text="${u.name}"></td>
+                        <td class="filterData" th:text="${u.email}"></td>
+                        <td class="filterData"><span th:text="${u.status}" th:class="${u.status} == 'В процессе' ? 'badge badge-danger rounded-pill d-inline' : 'badge badge-success rounded-pill d-inline'"/></td>
+                        <td><a th:href="'/adminpage/user/' + ${u.id}">Подробнее</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <div th:insert="blocks/footer :: footer"></div>
 
     <script> 
         $(document).ready(function(){
@@ -68,5 +69,4 @@
     </script>
 
 </body>
-
 </html>

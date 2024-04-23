@@ -31,7 +31,7 @@ public class DrugValidator implements Validator {
 
         Optional<Drug> drugFromDB = drugsService.findByName(drug.getName());
         if (drugFromDB.isPresent())
-            errors.rejectValue("name", "", "Лекарство с таким названием уже есть");
+            errors.rejectValue("name", "", "Такое лекарство уже есть");
 
     }
     
