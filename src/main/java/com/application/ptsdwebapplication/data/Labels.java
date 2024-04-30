@@ -22,6 +22,13 @@ public class Labels {
         ""
     };
 
+    public static String[] drugsTableHeaders = {
+        "№",
+        "Название", 
+        "Статус", 
+        ""
+    };
+
     public static String[] PersonDrugsTableHeaders = {
         "№",
         "Название", 

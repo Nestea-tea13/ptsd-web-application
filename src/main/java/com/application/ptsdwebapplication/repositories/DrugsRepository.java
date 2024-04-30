@@ -11,5 +11,7 @@ import com.application.ptsdwebapplication.models.Drug;
 public interface DrugsRepository extends JpaRepository<Drug, Integer> {
 
     Optional<Drug> findByName(String name);
+
+    Iterable<Drug> findByStatus(int i);
     
 }

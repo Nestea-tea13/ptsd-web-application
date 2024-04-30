@@ -59,7 +59,7 @@
             </div>
         </div><br>
 
-        <a class="btn btn-primary" th:href="'/adminpage/user/' + ${user.id} + '/edit'" style="width: 140px;">Редактировать</a><br><br>
+        <a class="btn btn-primary" th:href="@{/adminpage/{role}/{id}/edit(id=${user.id}, role='user')}" style="width: 140px;">Редактировать</a><br><br>
         <a data-remodal-target="modal-remove" class="btn btn-danger" style="width: 140px;">Удалить</a>
         
         <div class="remodal text-center" data-remodal-id="modal-remove">

@@ -28,4 +28,7 @@
 -- INSERT INTO Drug(name) VALUES ('Клоназепам');
 
 select * from Drug;
+-- ALTER TABLE Drug
+-- ADD status int;
+-- UPDATE Drug SET status=1;
 -- DELETE FROM Drug WHERE id=27;

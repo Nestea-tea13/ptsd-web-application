@@ -1,5 +1,7 @@
 package com.application.ptsdwebapplication.controllers;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,14 +65,16 @@ public class AdminController {
         return "admin/user-details";
     }
 
-    @GetMapping({"/user/{id}/edit", "/admin/{id}/edit"})
-    public String editUserOrOtherAdmin(@PathVariable(value = "id") int id, Model model) {
-        if(!peopleService.existsPersonById(id)) {
-            return "redirect:/adminpage";
+    @GetMapping("/{role}/{id}/edit")
+    public String editUserOrOtherAdmin(@PathVariable(value = "role") String role, @PathVariable(value = "id") int id, Model model) {
+        if(!peopleService.existsPersonById(id) || !Arrays.asList("admin", "user").contains(role)) {
+            if (role.equals("admin"))
+                return "redirect:/adminpage/admins";
+            else return "redirect:/adminpage/users";
         }
 
         model.addAttribute("person", peopleService.findPersonById(id));
-        model.addAttribute("flagEditUser", peopleService.findPersonById(id).getRole().equals("ROLE_USER"));
+        model.addAttribute("flagEditUser", role.equals("user"));
         return "admin/person-edit";
     }
 
@@ -83,9 +87,8 @@ public class AdminController {
             model.addAttribute("flagEditUser", peopleService.findPersonById(id).getRole().equals("ROLE_USER"));
             return "admin/person-edit";
         }
-
-        model.addAttribute("user", peopleService.update(id, person));
-
+        
+        peopleService.update(id, person);
         if (person.getRole().equals("ROLE_USER")) return "admin/user-details";
         else return "redirect:/adminpage/admins";
     }
@@ -120,6 +123,7 @@ public class AdminController {
     @GetMapping("/drugs")
     public String getDrugsTable(@ModelAttribute("drug") Drug drug, Model model) {
         model.addAttribute("drugs", drugsService.findAll());
+        model.addAttribute("headers", Labels.drugsTableHeaders);
         return "admin/tables/drugs-table";
     }
 
@@ -137,6 +141,29 @@ public class AdminController {
         }
 
         drugsService.addDrug(drug);
+        return "redirect:/adminpage/drugs";
+    }
+
+    @GetMapping("/drug/{id}/edit")
+    public String editDrug(@PathVariable(value = "id") int id, Model model) {
+        if(!drugsService.existsById(id)) {
+            return "redirect:/adminpage/drugs";
+        }
+
+        model.addAttribute("drug", drugsService.findById(id));
+        return "admin/drug-edit";
+    }
+
+    @PostMapping("/drug/{id}")
+    public String drugUpdate(@ModelAttribute("drug") @Valid Drug drug, BindingResult bindingResult,
+            @PathVariable(value = "id") int id, Model model) {
+
+        drugValidator.validate(drug, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "admin/drug-edit";
+        }
+
+        drugsService.update(id, drug);
         return "redirect:/adminpage/drugs";
     }
         

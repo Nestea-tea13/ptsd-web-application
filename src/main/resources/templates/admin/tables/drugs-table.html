@@ -16,27 +16,33 @@
     <div class="container mt-4 text-center">
         <h2>Список доступных лекарственных средств</h2><br>
         
-        <div class="row" style="width: 40%; margin: 0 auto;">
-            <a href="/adminpage/drug/add" class="btn btn-success">Добавить</a>   
-            <input class="form-control ml-4" id="inputFilter" type="text" placeholder="Поиск" style="width: 63%;">
-            <button type="button" class="btn btn-outline-secondary" id="clearButton">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"></path>
-                </svg>
-            </button>
+        <div class="row" style="width: 55%; margin: 0 auto;">
+            <div class="col-md-2" style="padding-left: 0;"><a href="/adminpage/drug/add" class="btn btn-success">Добавить</a></div>   
+            <div class="col-md-3"></div>
+            <div class="col-md-7">
+                <div class="row">
+                    <input class="form-control" id="inputFilter" type="text" placeholder="Поиск" style="width: 87%;">
+                    <button type="button" class="btn btn-outline-secondary" id="clearButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
         <br>
 
-        <div class="scrollable-table" style="width: 40%; margin: 0 auto;">
+        <div class="scrollable-table" style="width: 55%; margin: 0 auto;">
             <table class="table table-bordered table-hover myTable">
                 <thead>
-                    <th>№</th>
-                    <th>Название</th>
+                    <th th:each="h : ${headers}" th:text="${h}"/>
                 </thead>
                 <tbody id="drugsTable">
                     <tr th:each="d, iter : ${drugs}"> 
                         <td th:text="${iter.index}+1"></td>
                         <td th:text="${d.name}"></td>
+                        <td><span th:text="${d.status} == 1 ? 'Доступно' : 'Скрыто'" th:class="${d.status} == 1 ? 'badge badge-success rounded-pill d-inline' : 'badge badge-danger rounded-pill d-inline'"/></td>
+                        <td><a th:href="'/adminpage/drug/' + ${d.id} + '/edit'">Редактировать</a></td>
                     </tr>
                 </tbody>
             </table>

@@ -42,10 +42,9 @@ public class PeopleService {
     }
 
     @Transactional
-    public Person update(int id, Person updatedUser) {
+    public void update(int id, Person updatedUser) {
         updatedUser.setId(id);
         peopleRepository.save(updatedUser);
-        return updatedUser;
     }
     
     @Transactional

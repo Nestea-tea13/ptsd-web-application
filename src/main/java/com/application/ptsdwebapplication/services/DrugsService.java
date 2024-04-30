@@ -27,6 +27,18 @@ public class DrugsService {
         return drugsRepository.findAll(Sort.by("name"));
     }
 
+    public Iterable<Drug> findAllVisible() {
+        return drugsRepository.findByStatus(1);
+    }
+
+    public Boolean existsById(int id) {
+        return drugsRepository.existsById(id);
+    }
+
+    public Drug findById(int id) {
+        return drugsRepository.findById(id).get();
+    }
+
     public Optional<Drug> findByName(String name) {
         return drugsRepository.findByName(name);
     }
@@ -37,10 +49,16 @@ public class DrugsService {
     }
 
     public List<String> getAllDrugsNames() {
-        List<String> drugs = ((Collection<Drug>) findAll()).stream().map((drug) -> drug.getName()).collect(Collectors.toList()); 
+        List<String> drugs = ((Collection<Drug>) findAllVisible()).stream().map((drug) -> drug.getName()).collect(Collectors.toList()); 
         Collections.sort(drugs);
         return drugs;
         
+    }
+
+    @Transactional
+    public void update(int id, Drug updatedDrug) {
+        updatedDrug.setId(id);
+        drugsRepository.save(updatedDrug);
     }
     
 }

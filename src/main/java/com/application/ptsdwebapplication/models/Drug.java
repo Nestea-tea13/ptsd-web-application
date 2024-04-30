@@ -25,6 +25,9 @@ public class Drug {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "status")
+    private int status;
+
     @OneToMany(mappedBy = "drug", fetch = FetchType.EAGER)
     private List<PersonDrug> persons;
 
@@ -44,6 +47,14 @@ public class Drug {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public List<PersonDrug> getPersons() {

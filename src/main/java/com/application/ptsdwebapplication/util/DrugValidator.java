@@ -30,7 +30,7 @@ public class DrugValidator implements Validator {
         Drug drug = (Drug) o;         
 
         Optional<Drug> drugFromDB = drugsService.findByName(drug.getName());
-        if (drugFromDB.isPresent())
+        if (drugFromDB.isPresent() && (drug.getId() != drugFromDB.get().getId()))
             errors.rejectValue("name", "", "Такое лекарство уже есть");
 
     }

@@ -46,7 +46,7 @@
                         <td class="filterData" th:text="${admin.gender}"></td>
                         <td class="filterData" th:text="${admin.birthday}"></td>
                         <td class="filterData" th:text="${admin.email}"></td>
-                        <td><a th:href="'/adminpage/admin/' + ${admin.id} + '/edit'">Редактировать</a></td>
+                        <td><a th:href="@{/adminpage/{role}/{id}/edit(id=${admin.id}, role='admin')}">Редактировать</a></td>
                     </tr>
                 </tbody>
             </table>  
