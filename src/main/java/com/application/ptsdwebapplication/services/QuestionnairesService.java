@@ -10,15 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.application.ptsdwebapplication.models.BHSResults;
-import com.application.ptsdwebapplication.models.CAPSResults;
-import com.application.ptsdwebapplication.models.IESRResults;
-import com.application.ptsdwebapplication.models.Questionnaire;
-import com.application.ptsdwebapplication.models.TOP8Results;
-import com.application.ptsdwebapplication.repositories.BHSRepository;
-import com.application.ptsdwebapplication.repositories.CAPSRepository;
-import com.application.ptsdwebapplication.repositories.IESRRepository;
-import com.application.ptsdwebapplication.repositories.TOP8Repository;
+import com.application.ptsdwebapplication.interfaces.Questionnaire;
+import com.application.ptsdwebapplication.models.questionnaireResults.*;
+import com.application.ptsdwebapplication.repositories.questionnaireRepositories.*;
 
 @Service
 @Transactional(readOnly = true)

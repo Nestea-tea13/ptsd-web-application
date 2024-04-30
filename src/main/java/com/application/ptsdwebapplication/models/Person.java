@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import com.application.ptsdwebapplication.models.questionnaireResults.*;
+
 @Entity
 @Table(name = "Person")
 public class Person {

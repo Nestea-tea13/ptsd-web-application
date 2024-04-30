@@ -1,4 +1,4 @@
-package com.application.ptsdwebapplication.models;
+package com.application.ptsdwebapplication.models.questionnaireResults;
 
 import java.util.Date;
 
@@ -15,6 +15,9 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.application.ptsdwebapplication.interfaces.Questionnaire;
+import com.application.ptsdwebapplication.models.Person;
 
 @Entity
 @Table(name = "TOP8Results")

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.application.ptsdwebapplication.models.DatesInterval;
+import com.application.ptsdwebapplication.models.subsidiaryClasses.DatesInterval;
 import com.application.ptsdwebapplication.services.QuestionnairesService;
 
 @Component

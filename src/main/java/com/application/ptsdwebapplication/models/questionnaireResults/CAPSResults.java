@@ -1,9 +1,6 @@
-package com.application.ptsdwebapplication.models;
+package com.application.ptsdwebapplication.models.questionnaireResults;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,9 +16,12 @@ import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.application.ptsdwebapplication.interfaces.Questionnaire;
+import com.application.ptsdwebapplication.models.Person;
+
 @Entity
-@Table(name = "IESRResults")
-public class IESRResults implements Questionnaire {
+@Table(name = "CAPSResults")
+public class CAPSResults implements Questionnaire {
 
     @Id
     @Column(name = "id")
@@ -37,14 +37,11 @@ public class IESRResults implements Questionnaire {
     @Column(name = "date")
     private Date date;
 
-    @Column(name = "result_in")
-    private int resultIN;
+    @Column(name = "result_frequency")
+    private int resultFrequency;
 
-    @Column(name = "result_av")
-    private int resultAV;
-
-    @Column(name = "result_ar")
-    private int resultAR;
+    @Column(name = "result_intensity")
+    private int resultIntensity;
 
     @Column(name = "answer1")
     private String answer1;
@@ -112,19 +109,54 @@ public class IESRResults implements Questionnaire {
     @Column(name = "answer22")
     private String answer22;
 
+    @Column(name = "answer23")
+    private String answer23;
+
+    @Column(name = "answer24")
+    private String answer24;
+
+    @Column(name = "answer25")
+    private String answer25;
+
+    @Column(name = "answer26")
+    private String answer26;
+
+    @Column(name = "answer27")
+    private String answer27;
+
+    @Column(name = "answer28")
+    private String answer28;
+
+    @Column(name = "answer29")
+    private String answer29;
+
+    @Column(name = "answer30")
+    private String answer30;
+
+    @Column(name = "answer31")
+    private String answer31;
+
+    @Column(name = "answer32")
+    private String answer32;
+
+    @Column(name = "answer33")
+    private String answer33;
+
+    @Column(name = "answer34")
+    private String answer34;
+
     @Transient
     private String[] answers;
 
-    public IESRResults() {}
+    public CAPSResults() {}
 
-    public IESRResults(String[] answers, Person user) {
+    public CAPSResults(String[] answers, Person user) {
         this.answers = answers;
         this.user = user;
         this.date = new Date();
-        int[] results = getResultIESR();
-        this.resultIN = results[0];
-        this.resultAV = results[1];
-        this.resultAR = results[2];
+        int[] results = getResultCAPS();
+        this.resultFrequency = results[0];
+        this.resultIntensity = results[1];
         this.answer1 = answers[0];
         this.answer2 = answers[1];
         this.answer3 = answers[2];
@@ -147,6 +179,18 @@ public class IESRResults implements Questionnaire {
         this.answer20 = answers[19];
         this.answer21 = answers[20];
         this.answer22 = answers[21];
+        this.answer23 = answers[22];
+        this.answer24 = answers[23];
+        this.answer25 = answers[24];
+        this.answer26 = answers[25];
+        this.answer27 = answers[26];
+        this.answer28 = answers[27];
+        this.answer29 = answers[28];
+        this.answer30 = answers[29];
+        this.answer31 = answers[30];
+        this.answer32 = answers[31];
+        this.answer33 = answers[32];
+        this.answer34 = answers[33];
     }
 
     public int getId() {
@@ -173,28 +217,20 @@ public class IESRResults implements Questionnaire {
         this.date = date;
     }
 
-    public int getResultIN() {
-        return resultIN;
+    public int getResultFrequency() {
+        return resultFrequency;
     }
 
-    public void setResultIN(int resultIN) {
-        this.resultIN = resultIN;
+    public void setResultFrequency(int resultFrequency) {
+        this.resultFrequency = resultFrequency;
     }
 
-    public int getResultAV() {
-        return resultAV;
+    public int getResultIntensity() {
+        return resultIntensity;
     }
 
-    public void setResultAV(int resultAV) {
-        this.resultAV = resultAV;
-    }
-
-    public int getResultAR() {
-        return resultAR;
-    }
-
-    public void setResultAR(int resultAR) {
-        this.resultAR = resultAR;
+    public void setResultIntensity(int resultIntensity) {
+        this.resultIntensity = resultIntensity;
     }
 
     public String getAnswer1() { return answer1; }
@@ -285,17 +321,59 @@ public class IESRResults implements Questionnaire {
 
     public void setAnswer22(String answer22) { this.answer22 = answer22; }
 
-    public int[] getResultIESR() {
-        int[] result = {0, 0, 0};
-        int[] answerWeight = {0, 1, 3, 5};
-        List<Integer> IN = new ArrayList<>(Arrays.asList(1, 2, 3, 6, 9, 16, 20));
-        List<Integer> AV = new ArrayList<>(Arrays.asList(5, 7, 8, 11, 12, 13, 17, 22));
-        List<Integer> AR = new ArrayList<>(Arrays.asList(4, 10, 14, 15, 18, 19, 21));
+    public String getAnswer23() { return answer23; }
 
-        for(int i = 0; i < answers.length; i++) {
-            if (IN.contains(i + 1)) result[0] += answerWeight[Integer.parseInt(answers[i])];
-            if (AV.contains(i + 1)) result[1] += answerWeight[Integer.parseInt(answers[i])];
-            if (AR.contains(i + 1)) result[2] += answerWeight[Integer.parseInt(answers[i])];
+    public void setAnswer23(String answer23) { this.answer23 = answer23; }
+
+    public String getAnswer24() { return answer24; }
+
+    public void setAnswer24(String answer24) { this.answer24 = answer24; }
+
+    public String getAnswer25() { return answer25; }
+
+    public void setAnswer25(String answer25) { this.answer25 = answer25; }
+
+    public String getAnswer26() { return answer26; }
+
+    public void setAnswer26(String answer26) { this.answer26 = answer26; }
+
+    public String getAnswer27() { return answer27; }
+
+    public void setAnswer27(String answer27) { this.answer27 = answer27; }
+
+    public String getAnswer28() { return answer28; }
+
+    public void setAnswer28(String answer28) { this.answer28 = answer28; }
+
+    public String getAnswer29() { return answer29; }
+
+    public void setAnswer29(String answer29) { this.answer29 = answer29; }
+
+    public String getAnswer30() { return answer30; }
+
+    public void setAnswer30(String answer30) { this.answer30 = answer30; }
+
+    public String getAnswer31() { return answer31; }
+
+    public void setAnswer31(String answer31) { this.answer31 = answer31; }
+
+    public String getAnswer32() { return answer32; }
+
+    public void setAnswer32(String answer32) { this.answer32 = answer32; }
+
+    public String getAnswer33() { return answer33; }
+
+    public void setAnswer33(String answer33) { this.answer33 = answer33; }
+
+    public String getAnswer34() { return answer34; }
+
+    public void setAnswer34(String answer34) { this.answer34 = answer34; }
+
+    public int[] getResultCAPS() {
+        int[] result = {0, 0};
+        for(int i = 0; i < answers.length; i = i + 2) {
+            result[0] += Integer.parseInt(answers[i]);
+            result[1] += Integer.parseInt(answers[i + 1]);
         }
         return result;
     }
@@ -309,7 +387,7 @@ public class IESRResults implements Questionnaire {
     }
 
     public void setAnswers() {
-        answers = new String[22];
+        answers = new String[34];
         this.answers[0] = this.answer1;
         this.answers[1] = this.answer2;
         this.answers[2] = this.answer3;
@@ -332,6 +410,18 @@ public class IESRResults implements Questionnaire {
         this.answers[19] = this.answer20;
         this.answers[20] = this.answer21;
         this.answers[21] = this.answer22;
+        this.answers[22] = this.answer23;
+        this.answers[23] = this.answer24;
+        this.answers[24] = this.answer25;
+        this.answers[25] = this.answer26;
+        this.answers[26] = this.answer27;
+        this.answers[27] = this.answer28;
+        this.answers[28] = this.answer29;
+        this.answers[29] = this.answer30;
+        this.answers[30] = this.answer31;
+        this.answers[31] = this.answer32;
+        this.answers[32] = this.answer33;
+        this.answers[33] = this.answer34;
     }
     
 }

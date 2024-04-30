@@ -1,4 +1,4 @@
-package com.application.ptsdwebapplication.models;
+package com.application.ptsdwebapplication.interfaces;
 
 import java.util.Date;
 

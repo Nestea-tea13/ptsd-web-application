@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.application.ptsdwebapplication.models.BHSResults;
-import com.application.ptsdwebapplication.models.CAPSResults;
-import com.application.ptsdwebapplication.models.IESRResults;
-import com.application.ptsdwebapplication.models.TOP8Results;
+import com.application.ptsdwebapplication.models.questionnaireResults.*;
 
 public class QuestionnaireData {
 

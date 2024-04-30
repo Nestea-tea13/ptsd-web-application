@@ -19,13 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.application.ptsdwebapplication.data.QuestionnaireData;
-import com.application.ptsdwebapplication.models.BHSResults;
-import com.application.ptsdwebapplication.models.CAPSResults;
-import com.application.ptsdwebapplication.models.DatesInterval;
-import com.application.ptsdwebapplication.models.IESRResults;
+import com.application.ptsdwebapplication.interfaces.Questionnaire;
 import com.application.ptsdwebapplication.models.Person;
-import com.application.ptsdwebapplication.models.Questionnaire;
-import com.application.ptsdwebapplication.models.TOP8Results;
+import com.application.ptsdwebapplication.models.questionnaireResults.*;
+import com.application.ptsdwebapplication.models.subsidiaryClasses.DatesInterval;
 import com.application.ptsdwebapplication.services.PDFGeneratorService;
 import com.application.ptsdwebapplication.services.PeopleService;
 import com.application.ptsdwebapplication.services.QuestionnairesService;

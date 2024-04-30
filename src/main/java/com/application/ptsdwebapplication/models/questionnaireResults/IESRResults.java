@@ -1,4 +1,4 @@
-package com.application.ptsdwebapplication.models;
+package com.application.ptsdwebapplication.models.questionnaireResults;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +19,12 @@ import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.application.ptsdwebapplication.interfaces.Questionnaire;
+import com.application.ptsdwebapplication.models.Person;
+
 @Entity
-@Table(name = "BHSResults")
-public class BHSResults implements Questionnaire {
+@Table(name = "IESRResults")
+public class IESRResults implements Questionnaire {
 
     @Id
     @Column(name = "id")
@@ -37,8 +40,14 @@ public class BHSResults implements Questionnaire {
     @Column(name = "date")
     private Date date;
 
-    @Column(name = "result")
-    private int result;
+    @Column(name = "result_in")
+    private int resultIN;
+
+    @Column(name = "result_av")
+    private int resultAV;
+
+    @Column(name = "result_ar")
+    private int resultAR;
 
     @Column(name = "answer1")
     private String answer1;
@@ -100,16 +109,25 @@ public class BHSResults implements Questionnaire {
     @Column(name = "answer20")
     private String answer20;
 
+    @Column(name = "answer21")
+    private String answer21;
+
+    @Column(name = "answer22")
+    private String answer22;
+
     @Transient
     private String[] answers;
 
-    public BHSResults() {}
+    public IESRResults() {}
 
-    public BHSResults(String[] answers, Person user) {
+    public IESRResults(String[] answers, Person user) {
         this.answers = answers;
         this.user = user;
         this.date = new Date();
-        this.result = getResultBHS();
+        int[] results = getResultIESR();
+        this.resultIN = results[0];
+        this.resultAV = results[1];
+        this.resultAR = results[2];
         this.answer1 = answers[0];
         this.answer2 = answers[1];
         this.answer3 = answers[2];
@@ -130,6 +148,8 @@ public class BHSResults implements Questionnaire {
         this.answer18 = answers[17];
         this.answer19 = answers[18];
         this.answer20 = answers[19];
+        this.answer21 = answers[20];
+        this.answer22 = answers[21];
     }
 
     public int getId() {
@@ -156,12 +176,28 @@ public class BHSResults implements Questionnaire {
         this.date = date;
     }
 
-    public int getResult() {
-        return result;
+    public int getResultIN() {
+        return resultIN;
     }
 
-    public void setResult(int result) {
-        this.result = result;
+    public void setResultIN(int resultIN) {
+        this.resultIN = resultIN;
+    }
+
+    public int getResultAV() {
+        return resultAV;
+    }
+
+    public void setResultAV(int resultAV) {
+        this.resultAV = resultAV;
+    }
+
+    public int getResultAR() {
+        return resultAR;
+    }
+
+    public void setResultAR(int resultAR) {
+        this.resultAR = resultAR;
     }
 
     public String getAnswer1() { return answer1; }
@@ -244,16 +280,25 @@ public class BHSResults implements Questionnaire {
 
     public void setAnswer20(String answer20) { this.answer20 = answer20; }
 
-    public int getResultBHS() {
-        int result = 0;
-        List<Integer> weightyTrue = new ArrayList<>(Arrays.asList(2, 4, 7, 9, 11, 12, 14, 16, 17, 18, 20));
-        List<Integer> weightyFalse = new ArrayList<>(Arrays.asList(1, 3, 5, 6, 8, 10, 13, 15, 19));     
+    public String getAnswer21() { return answer21; }
+
+    public void setAnswer21(String answer21) { this.answer21 = answer21; }
+
+    public String getAnswer22() { return answer22; }
+
+    public void setAnswer22(String answer22) { this.answer22 = answer22; }
+
+    public int[] getResultIESR() {
+        int[] result = {0, 0, 0};
+        int[] answerWeight = {0, 1, 3, 5};
+        List<Integer> IN = new ArrayList<>(Arrays.asList(1, 2, 3, 6, 9, 16, 20));
+        List<Integer> AV = new ArrayList<>(Arrays.asList(5, 7, 8, 11, 12, 13, 17, 22));
+        List<Integer> AR = new ArrayList<>(Arrays.asList(4, 10, 14, 15, 18, 19, 21));
 
         for(int i = 0; i < answers.length; i++) {
-            if (weightyTrue.contains(i + 1)) 
-                if (Integer.parseInt(answers[i]) == 0) result++;
-            if (weightyFalse.contains(i + 1)) 
-                if (Integer.parseInt(answers[i]) == 1) result++;
+            if (IN.contains(i + 1)) result[0] += answerWeight[Integer.parseInt(answers[i])];
+            if (AV.contains(i + 1)) result[1] += answerWeight[Integer.parseInt(answers[i])];
+            if (AR.contains(i + 1)) result[2] += answerWeight[Integer.parseInt(answers[i])];
         }
         return result;
     }
@@ -267,7 +312,7 @@ public class BHSResults implements Questionnaire {
     }
 
     public void setAnswers() {
-        answers = new String[20];
+        answers = new String[22];
         this.answers[0] = this.answer1;
         this.answers[1] = this.answer2;
         this.answers[2] = this.answer3;
@@ -288,6 +333,8 @@ public class BHSResults implements Questionnaire {
         this.answers[17] = this.answer18;
         this.answers[18] = this.answer19;
         this.answers[19] = this.answer20;
+        this.answers[20] = this.answer21;
+        this.answers[21] = this.answer22;
     }
     
 }

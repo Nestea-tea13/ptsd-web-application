@@ -1,6 +1,9 @@
-package com.application.ptsdwebapplication.models;
+package com.application.ptsdwebapplication.models.questionnaireResults;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +19,12 @@ import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.application.ptsdwebapplication.interfaces.Questionnaire;
+import com.application.ptsdwebapplication.models.Person;
+
 @Entity
-@Table(name = "CAPSResults")
-public class CAPSResults implements Questionnaire {
+@Table(name = "BHSResults")
+public class BHSResults implements Questionnaire {
 
     @Id
     @Column(name = "id")
@@ -34,11 +40,8 @@ public class CAPSResults implements Questionnaire {
     @Column(name = "date")
     private Date date;
 
-    @Column(name = "result_frequency")
-    private int resultFrequency;
-
-    @Column(name = "result_intensity")
-    private int resultIntensity;
+    @Column(name = "result")
+    private int result;
 
     @Column(name = "answer1")
     private String answer1;
@@ -100,60 +103,16 @@ public class CAPSResults implements Questionnaire {
     @Column(name = "answer20")
     private String answer20;
 
-    @Column(name = "answer21")
-    private String answer21;
-
-    @Column(name = "answer22")
-    private String answer22;
-
-    @Column(name = "answer23")
-    private String answer23;
-
-    @Column(name = "answer24")
-    private String answer24;
-
-    @Column(name = "answer25")
-    private String answer25;
-
-    @Column(name = "answer26")
-    private String answer26;
-
-    @Column(name = "answer27")
-    private String answer27;
-
-    @Column(name = "answer28")
-    private String answer28;
-
-    @Column(name = "answer29")
-    private String answer29;
-
-    @Column(name = "answer30")
-    private String answer30;
-
-    @Column(name = "answer31")
-    private String answer31;
-
-    @Column(name = "answer32")
-    private String answer32;
-
-    @Column(name = "answer33")
-    private String answer33;
-
-    @Column(name = "answer34")
-    private String answer34;
-
     @Transient
     private String[] answers;
 
-    public CAPSResults() {}
+    public BHSResults() {}
 
-    public CAPSResults(String[] answers, Person user) {
+    public BHSResults(String[] answers, Person user) {
         this.answers = answers;
         this.user = user;
         this.date = new Date();
-        int[] results = getResultCAPS();
-        this.resultFrequency = results[0];
-        this.resultIntensity = results[1];
+        this.result = getResultBHS();
         this.answer1 = answers[0];
         this.answer2 = answers[1];
         this.answer3 = answers[2];
@@ -174,20 +133,6 @@ public class CAPSResults implements Questionnaire {
         this.answer18 = answers[17];
         this.answer19 = answers[18];
         this.answer20 = answers[19];
-        this.answer21 = answers[20];
-        this.answer22 = answers[21];
-        this.answer23 = answers[22];
-        this.answer24 = answers[23];
-        this.answer25 = answers[24];
-        this.answer26 = answers[25];
-        this.answer27 = answers[26];
-        this.answer28 = answers[27];
-        this.answer29 = answers[28];
-        this.answer30 = answers[29];
-        this.answer31 = answers[30];
-        this.answer32 = answers[31];
-        this.answer33 = answers[32];
-        this.answer34 = answers[33];
     }
 
     public int getId() {
@@ -214,20 +159,12 @@ public class CAPSResults implements Questionnaire {
         this.date = date;
     }
 
-    public int getResultFrequency() {
-        return resultFrequency;
+    public int getResult() {
+        return result;
     }
 
-    public void setResultFrequency(int resultFrequency) {
-        this.resultFrequency = resultFrequency;
-    }
-
-    public int getResultIntensity() {
-        return resultIntensity;
-    }
-
-    public void setResultIntensity(int resultIntensity) {
-        this.resultIntensity = resultIntensity;
+    public void setResult(int result) {
+        this.result = result;
     }
 
     public String getAnswer1() { return answer1; }
@@ -310,67 +247,16 @@ public class CAPSResults implements Questionnaire {
 
     public void setAnswer20(String answer20) { this.answer20 = answer20; }
 
-    public String getAnswer21() { return answer21; }
+    public int getResultBHS() {
+        int result = 0;
+        List<Integer> weightyTrue = new ArrayList<>(Arrays.asList(2, 4, 7, 9, 11, 12, 14, 16, 17, 18, 20));
+        List<Integer> weightyFalse = new ArrayList<>(Arrays.asList(1, 3, 5, 6, 8, 10, 13, 15, 19));     
 
-    public void setAnswer21(String answer21) { this.answer21 = answer21; }
-
-    public String getAnswer22() { return answer22; }
-
-    public void setAnswer22(String answer22) { this.answer22 = answer22; }
-
-    public String getAnswer23() { return answer23; }
-
-    public void setAnswer23(String answer23) { this.answer23 = answer23; }
-
-    public String getAnswer24() { return answer24; }
-
-    public void setAnswer24(String answer24) { this.answer24 = answer24; }
-
-    public String getAnswer25() { return answer25; }
-
-    public void setAnswer25(String answer25) { this.answer25 = answer25; }
-
-    public String getAnswer26() { return answer26; }
-
-    public void setAnswer26(String answer26) { this.answer26 = answer26; }
-
-    public String getAnswer27() { return answer27; }
-
-    public void setAnswer27(String answer27) { this.answer27 = answer27; }
-
-    public String getAnswer28() { return answer28; }
-
-    public void setAnswer28(String answer28) { this.answer28 = answer28; }
-
-    public String getAnswer29() { return answer29; }
-
-    public void setAnswer29(String answer29) { this.answer29 = answer29; }
-
-    public String getAnswer30() { return answer30; }
-
-    public void setAnswer30(String answer30) { this.answer30 = answer30; }
-
-    public String getAnswer31() { return answer31; }
-
-    public void setAnswer31(String answer31) { this.answer31 = answer31; }
-
-    public String getAnswer32() { return answer32; }
-
-    public void setAnswer32(String answer32) { this.answer32 = answer32; }
-
-    public String getAnswer33() { return answer33; }
-
-    public void setAnswer33(String answer33) { this.answer33 = answer33; }
-
-    public String getAnswer34() { return answer34; }
-
-    public void setAnswer34(String answer34) { this.answer34 = answer34; }
-
-    public int[] getResultCAPS() {
-        int[] result = {0, 0};
-        for(int i = 0; i < answers.length; i = i + 2) {
-            result[0] += Integer.parseInt(answers[i]);
-            result[1] += Integer.parseInt(answers[i + 1]);
+        for(int i = 0; i < answers.length; i++) {
+            if (weightyTrue.contains(i + 1)) 
+                if (Integer.parseInt(answers[i]) == 0) result++;
+            if (weightyFalse.contains(i + 1)) 
+                if (Integer.parseInt(answers[i]) == 1) result++;
         }
         return result;
     }
@@ -384,7 +270,7 @@ public class CAPSResults implements Questionnaire {
     }
 
     public void setAnswers() {
-        answers = new String[34];
+        answers = new String[20];
         this.answers[0] = this.answer1;
         this.answers[1] = this.answer2;
         this.answers[2] = this.answer3;
@@ -405,20 +291,6 @@ public class CAPSResults implements Questionnaire {
         this.answers[17] = this.answer18;
         this.answers[18] = this.answer19;
         this.answers[19] = this.answer20;
-        this.answers[20] = this.answer21;
-        this.answers[21] = this.answer22;
-        this.answers[22] = this.answer23;
-        this.answers[23] = this.answer24;
-        this.answers[24] = this.answer25;
-        this.answers[25] = this.answer26;
-        this.answers[26] = this.answer27;
-        this.answers[27] = this.answer28;
-        this.answers[28] = this.answer29;
-        this.answers[29] = this.answer30;
-        this.answers[30] = this.answer31;
-        this.answers[31] = this.answer32;
-        this.answers[32] = this.answer33;
-        this.answers[33] = this.answer34;
     }
     
 }

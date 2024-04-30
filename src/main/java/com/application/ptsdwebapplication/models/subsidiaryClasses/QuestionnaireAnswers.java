@@ -1,4 +1,4 @@
-package com.application.ptsdwebapplication.models;
+package com.application.ptsdwebapplication.models.subsidiaryClasses;
 
 public class QuestionnaireAnswers {
     
