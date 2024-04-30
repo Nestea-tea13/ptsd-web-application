@@ -4,38 +4,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.application.ptsdwebapplication.interfaces.Questionnaire;
 import com.application.ptsdwebapplication.models.Person;
 
 @Entity
 @Table(name = "TOP8Results")
-public class TOP8Results implements Questionnaire {
-    
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Person user;
-
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "date")
-    private Date date;
+public class TOP8Results extends QuestionnaireResults implements Questionnaire {
 
     @Column(name = "result")
     private int result;
@@ -67,7 +44,7 @@ public class TOP8Results implements Questionnaire {
     @Transient
     private String[] answers;
 
-    public TOP8Results() {}
+    public TOP8Results() { super(); }
 
     public TOP8Results(String[] answers, Person user) {
         this.answers = answers;
@@ -82,30 +59,6 @@ public class TOP8Results implements Questionnaire {
         this.answer6 = answers[5];
         this.answer7 = answers[6];
         this.answer8 = answers[7];
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }    
-    
-    public Person getUser() {
-        return user;
-    }
-
-    public void setUser(Person user) {
-        this.user = user;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public int getResult() {

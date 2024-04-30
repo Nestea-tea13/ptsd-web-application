@@ -4,38 +4,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.application.ptsdwebapplication.interfaces.Questionnaire;
 import com.application.ptsdwebapplication.models.Person;
 
 @Entity
 @Table(name = "CAPSResults")
-public class CAPSResults implements Questionnaire {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Person user;
-
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "date")
-    private Date date;
+public class CAPSResults extends QuestionnaireResults implements Questionnaire {
 
     @Column(name = "result_frequency")
     private int resultFrequency;
@@ -148,7 +125,7 @@ public class CAPSResults implements Questionnaire {
     @Transient
     private String[] answers;
 
-    public CAPSResults() {}
+    public CAPSResults() { super(); }
 
     public CAPSResults(String[] answers, Person user) {
         this.answers = answers;
@@ -191,30 +168,6 @@ public class CAPSResults implements Questionnaire {
         this.answer32 = answers[31];
         this.answer33 = answers[32];
         this.answer34 = answers[33];
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }    
-    
-    public Person getUser() {
-        return user;
-    }
-
-    public void setUser(Person user) {
-        this.user = user;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public int getResultFrequency() {

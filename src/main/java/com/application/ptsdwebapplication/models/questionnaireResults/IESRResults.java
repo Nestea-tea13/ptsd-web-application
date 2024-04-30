@@ -7,38 +7,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.application.ptsdwebapplication.interfaces.Questionnaire;
 import com.application.ptsdwebapplication.models.Person;
 
 @Entity
 @Table(name = "IESRResults")
-public class IESRResults implements Questionnaire {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Person user;
-
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "date")
-    private Date date;
+public class IESRResults extends QuestionnaireResults implements Questionnaire {
 
     @Column(name = "result_in")
     private int resultIN;
@@ -118,7 +95,7 @@ public class IESRResults implements Questionnaire {
     @Transient
     private String[] answers;
 
-    public IESRResults() {}
+    public IESRResults() { super(); }
 
     public IESRResults(String[] answers, Person user) {
         this.answers = answers;
@@ -150,30 +127,6 @@ public class IESRResults implements Questionnaire {
         this.answer20 = answers[19];
         this.answer21 = answers[20];
         this.answer22 = answers[21];
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }    
-    
-    public Person getUser() {
-        return user;
-    }
-
-    public void setUser(Person user) {
-        this.user = user;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public int getResultIN() {
