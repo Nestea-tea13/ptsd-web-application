@@ -89,7 +89,7 @@ public class AdminController {
         }
         
         peopleService.update(id, person);
-        if (person.getRole().equals("ROLE_USER")) return "admin/user-details";
+        if (person.getRole().equals("ROLE_USER")) return "redirect:/adminpage/user/{id}";
         else return "redirect:/adminpage/admins";
     }
 

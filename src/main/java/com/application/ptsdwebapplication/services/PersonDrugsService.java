@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.application.ptsdwebapplication.models.Drug;
 import com.application.ptsdwebapplication.models.DrugMark;
-import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.models.Patient;
 import com.application.ptsdwebapplication.models.PersonDrug;
 import com.application.ptsdwebapplication.repositories.PersonDrugsRepository;
 
@@ -29,12 +29,12 @@ public class PersonDrugsService {
     }
 
     public List<PersonDrug> findPersonDrugs() {
-        return personDrugsRepository.findByPerson(peopleService.getCurrentPerson());
+        return personDrugsRepository.findByPatient(peopleService.getCurrentPatient());
     }
 
     public Boolean existsPersonDrugById(int id) {
         if (personDrugsRepository.existsById(id)) {
-            if (findById(id).getPerson().getId() == peopleService.getCurrentPerson().getId()) {
+            if (findById(id).getPatient().getId() == peopleService.getCurrentPerson().getId()) {
                 return true;
             }
         }
@@ -47,13 +47,13 @@ public class PersonDrugsService {
 
     @Transactional
     public void addDrug(PersonDrug personDrug, String name) {
-        Person person = peopleService.getCurrentPerson();
+        Patient patient = peopleService.getCurrentPatient();
         Drug drug = drugsService.findByName(name).get();
 
-        personDrug.setPerson(person);
+        personDrug.setPatient(patient);
         personDrug.setDrug(drug);
 
-        person.getDrugs().add(personDrug);
+        patient.getDrugs().add(personDrug);
         drug.getPersons().add(personDrug);
 
         personDrugsRepository.save(personDrug);

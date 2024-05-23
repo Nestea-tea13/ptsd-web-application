@@ -31,7 +31,7 @@ public class PersonValidator implements Validator {
 
         Optional<Person> personFromDB = peopleService.findByEmail(person.getEmail());
         if (personFromDB.isPresent() && (person.getId() != personFromDB.get().getId()))
-            errors.rejectValue("email", "", "Пользователь с такой почтой уже существует " + person.getId() + " и " + personFromDB.get().getId());
+            errors.rejectValue("email", "", "Пользователь с такой почтой уже существует");
 
         if(person.getBirthday().equals(""))
             errors.rejectValue("birthday", "", "Необходимо заполнить");

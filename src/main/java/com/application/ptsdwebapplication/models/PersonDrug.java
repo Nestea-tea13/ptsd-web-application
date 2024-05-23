@@ -28,7 +28,7 @@ public class PersonDrug {
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person person;
+    private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "drug_id", referencedColumnName = "id")
@@ -55,8 +55,8 @@ public class PersonDrug {
 
     public PersonDrug() {}
 
-    public PersonDrug(Person person, Drug drug, String dose, String period, Date startDate, Date endDate) {
-        this.person = person;
+    public PersonDrug(Patient patient, Drug drug, String dose, String period, Date startDate, Date endDate) {
+        this.patient = patient;
         this.drug = drug;
         this.dose = dose;
         this.period = period;
@@ -72,12 +72,12 @@ public class PersonDrug {
         this.id = id;
     }
 
-    public Person getPerson() {
-        return person;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public Drug getDrug() {

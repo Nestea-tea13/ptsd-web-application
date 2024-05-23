@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.models.Patient;
 
 @MappedSuperclass
 public class QuestionnaireResults {
@@ -26,7 +26,7 @@ public class QuestionnaireResults {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    protected Person user;
+    protected Patient patient;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -43,12 +43,12 @@ public class QuestionnaireResults {
         this.id = id;
     }    
     
-    public Person getUser() {
-        return user;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setUser(Person user) {
-        this.user = user;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public Date getDate() {

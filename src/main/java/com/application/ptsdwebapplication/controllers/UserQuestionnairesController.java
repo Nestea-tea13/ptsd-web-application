@@ -48,12 +48,8 @@ public class UserQuestionnairesController {
 
     @PostMapping("/{name}")
     public String saveQuestionnaireResults(@PathVariable(value = "name") String name, @ModelAttribute("answers") QuestionnaireAnswers answers, Model model) {
-        model.addAttribute("questionnare", name);
-        model.addAttribute("questions", QuestionnaireData.getQuestions(name));
-        if (name.equals("IESR") || name.equals("BHS")) model.addAttribute("answerOptions", QuestionnaireData.getSingleAnswerOptions(name));
-        else model.addAttribute("answerOptions", QuestionnaireData.getDoubleAnswerOptions(name));
-        model.addAttribute("results", questionnairesService.saveQuestionnaire(answers.getAnswers(), name));     
-        return "user/questionnaires/questionnaire-answers";
+        int id = (questionnairesService.saveQuestionnaire(answers.getAnswers(), name)).getId();
+        return "redirect:/questionnaires/{name}/" + id;
     }
 
     @GetMapping("/{name}/{id}")

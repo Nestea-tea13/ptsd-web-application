@@ -7,7 +7,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.application.ptsdwebapplication.models.Patient;
 import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.repositories.PatientsRepository;
 import com.application.ptsdwebapplication.repositories.PeopleRepository;
 import com.application.ptsdwebapplication.security.PersonDetails;
 
@@ -16,17 +18,22 @@ import com.application.ptsdwebapplication.security.PersonDetails;
 public class PeopleService {
 
     private final PeopleRepository peopleRepository;
+    private final PatientsRepository patientsRepository;
 
     @Autowired
     private MailSender mailSender;
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository) {
+    public PeopleService(PeopleRepository peopleRepository, PatientsRepository patientsRepository) {
         this.peopleRepository = peopleRepository;
+        this.patientsRepository = patientsRepository;
     }
 
     public Person findPersonById(int id) {
-        return peopleRepository.findById(id).get();
+        Person person = peopleRepository.findById(id).get();
+        if(person.getRole().equals("ROLE_USER"))
+            person.setStatus((patientsRepository.findById(id)).getStatus());
+        return person;
     }
 
     public Boolean existsPersonById(int id) {
@@ -34,7 +41,11 @@ public class PeopleService {
     }
  
     public Iterable<Person> findByRole(String role) {
-        return peopleRepository.findByRole(role);
+        Iterable<Person> patients = peopleRepository.findByRoleOrderBySername(role);
+        if(role.equals("ROLE_USER"))
+            for (Person patient : patients)
+                patient.setStatus((patientsRepository.findById(patient.getId())).getStatus());
+        return patients;
     }
 
     public Optional<Person> findByEmail(String email) {
@@ -45,15 +56,19 @@ public class PeopleService {
     public void update(int id, Person updatedUser) {
         updatedUser.setId(id);
         peopleRepository.save(updatedUser);
+        if(updatedUser.getRole().equals("ROLE_USER")) {
+            Patient patient = patientsRepository.findById(id);
+            patient.setStatus(updatedUser.getStatus());
+            patientsRepository.save(patient);
+        }
     }
     
     @Transactional
-    public Person updateCurrentPerson(Person updatedUser) {
+    public void updateCurrentPerson(Person updatedUser) {
         PersonDetails userDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         updatedUser.setId(userDetails.getPerson().getId());
         userDetails.setPerson(updatedUser);
         peopleRepository.save(updatedUser);
-        return updatedUser;
     }
 
     @Transactional
@@ -70,6 +85,7 @@ public class PeopleService {
                 + "\nПароль: " + person.getPassword() + "\nДанный пароль можно изменить на свой в личном кабинете.";
         
         peopleRepository.save(person);
+        patientsRepository.save(new Patient(person.getId(), "В процессе"));
 
         mailSender.send(person.getEmail(), "Регистрация в приложении", textEmail);
         return person;
@@ -79,11 +95,18 @@ public class PeopleService {
     public void removePerson(int id) {
         Person person = peopleRepository.findById(id).orElseThrow();
         peopleRepository.delete(person);
+
+        Patient patient = patientsRepository.findById(id);
+        patientsRepository.delete(patient);
     }
 
     public Person getCurrentPerson() {
         PersonDetails userDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getPerson();
+    }
+
+    public Patient getCurrentPatient() {
+        return patientsRepository.findById(getCurrentPerson().getId());
     }
 
     @Transactional

@@ -45,15 +45,29 @@ public class MainController {
 
     if (questionnairesService.checkNotCompletedQuestionnaires()) model.addAttribute("allQuestionnairesCompleted", true); 
     else {
-      if (questionnairesService.checkNeedQuestionnaire("CAPS", "today")) model.addAttribute("todayCAPS", true);
-      if (questionnairesService.checkNeedQuestionnaire("IESR", "today")) model.addAttribute("todayIESR", true);
-      if (questionnairesService.checkNeedQuestionnaire("BHS", "today")) model.addAttribute("todayBHS", true);
-      if (questionnairesService.checkNeedQuestionnaire("TOP8", "today")) model.addAttribute("todayTOP8", true);     
-  
-      if (questionnairesService.checkNeedQuestionnaire("CAPS", "missed")) model.addAttribute("missedCAPS", true);
-      if (questionnairesService.checkNeedQuestionnaire("IESR", "missed")) model.addAttribute("missedIESR", true);
-      if (questionnairesService.checkNeedQuestionnaire("BHS", "missed")) model.addAttribute("missedBHS", true);
-      if (questionnairesService.checkNeedQuestionnaire("TOP8", "missed")) model.addAttribute("missedTOP8", true);     
+      if (questionnairesService.getLastQuestionnaire("CAPS") == null) model.addAttribute("firstCAPS", true);
+      else {
+        if (questionnairesService.checkNeedQuestionnaire("CAPS", "today")) model.addAttribute("todayCAPS", true);
+        if (questionnairesService.checkNeedQuestionnaire("CAPS", "missed")) model.addAttribute("missedCAPS", true);
+      }
+      
+      if (questionnairesService.getLastQuestionnaire("IESR") == null) model.addAttribute("firstIESR", true);
+      else {
+        if (questionnairesService.checkNeedQuestionnaire("IESR", "today")) model.addAttribute("todayIESR", true);
+        if (questionnairesService.checkNeedQuestionnaire("IESR", "missed")) model.addAttribute("missedIESR", true);
+      }
+
+      if (questionnairesService.getLastQuestionnaire("BHS") == null) model.addAttribute("firstBHS", true);
+      else {
+        if (questionnairesService.checkNeedQuestionnaire("BHS", "today")) model.addAttribute("todayBHS", true);
+        if (questionnairesService.checkNeedQuestionnaire("BHS", "missed")) model.addAttribute("missedBHS", true);
+      }
+
+      if (questionnairesService.getLastQuestionnaire("TOP8") == null) model.addAttribute("firstTOP8", true);
+      else {
+        if (questionnairesService.checkNeedQuestionnaire("TOP8", "today")) model.addAttribute("todayTOP8", true);     
+        if (questionnairesService.checkNeedQuestionnaire("TOP8", "missed")) model.addAttribute("missedTOP8", true);     
+      }
     }
     return "user/user-start-page";
   }

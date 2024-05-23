@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.application.ptsdwebapplication.interfaces.Questionnaire;
-import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.models.Patient;
 
 @Entity
 @Table(name = "IESRResults")
@@ -97,9 +97,9 @@ public class IESRResults extends QuestionnaireResults implements Questionnaire {
 
     public IESRResults() { super(); }
 
-    public IESRResults(String[] answers, Person user) {
+    public IESRResults(String[] answers, Patient patient) {
         this.answers = answers;
-        this.user = user;
+        this.patient = patient;
         this.date = new Date();
         int[] results = getResultIESR();
         this.resultIN = results[0];

@@ -75,8 +75,7 @@ public class GeneralController {
 
     @PostMapping({"/profile", "/adminpage/profile"})
     public String profileUpdate(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, Model model) {
-        Person currentPerson = peopleService.getCurrentPerson();
-        boolean flagRoleAdmin = currentPerson.getRole().equals("ROLE_ADMIN");
+        boolean flagRoleAdmin = peopleService.getCurrentPerson().getRole().equals("ROLE_ADMIN");
 
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -84,9 +83,9 @@ public class GeneralController {
             return "general/profile-edit";
         }
 
-        model.addAttribute("person", peopleService.updateCurrentPerson(person));
-        model.addAttribute("flagRoleAdmin", flagRoleAdmin);
-        return "general/profile-page";
+        peopleService.updateCurrentPerson(person);
+        if(flagRoleAdmin) return "redirect:/adminpage/profile";
+        else return "redirect:/profile";
     }
 
 }

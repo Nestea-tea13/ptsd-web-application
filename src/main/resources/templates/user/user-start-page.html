@@ -102,9 +102,10 @@
                     </div>
                 </div>
 
-                <div th:if="${todayCAPS}">
+
+                <div th:if="${todayCAPS} or ${firstCAPS}">
                     <div class="alert alert-warning text-justify">
-                        <b>Сегодня</b> необходимо пройти опросник <b>CAPS</b>. 
+                        Необходимо <b th:if="${todayCAPS}">сегодня</b><b th:if="${firstCAPS}">первый раз</b> пройти опросник <b>CAPS</b>.
                         Вам необходимо <a th:href="@{/questionnaires/{name}(name='CAPS')}" class="alert-link">перейти по ссылке</a> для его заполнения. 
                     </div>
                 </div>
@@ -115,9 +116,9 @@
                     </div>
                 </div>
 
-                <div th:if="${todayIESR}">
+                <div th:if="${todayIESR} or ${firstIESR}">
                     <div class="alert alert-warning text-justify">
-                        <b>Сегодня</b> необходимо пройти опросник <b>IES-R</b>. 
+                        Необходимо <b th:if="${todayIESR}">сегодня</b><b th:if="${firstIESR}">первый раз</b> пройти опросник <b>IES-R</b>. 
                         Вам необходимо <a th:href="@{/questionnaires/{name}(name='IESR')}" class="alert-link">перейти по ссылке</a> для его заполнения. 
                     </div>
                 </div>
@@ -128,9 +129,9 @@
                     </div>
                 </div>
 
-                <div th:if="${todayBHS}">
+                <div th:if="${todayBHS} or ${firstBHS}">
                     <div class="alert alert-warning text-justify">
-                        <b>Сегодня</b> необходимо пройти опросник <b>BHS</b>. 
+                        Необходимо <b th:if="${todayBHS}">сегодня</b><b th:if="${firstBHS}">первый раз</b> пройти опросник <b>BHS</b>. 
                         Вам необходимо <a th:href="@{/questionnaires/{name}(name='BHS')}" class="alert-link">перейти по ссылке</a> для его заполнения. 
                     </div>
                 </div>
@@ -141,9 +142,9 @@
                     </div>
                 </div>
 
-                <div th:if="${todayTOP8}">
+                <div th:if="${todayTOP8} or ${firstTOP8}">
                     <div class="alert alert-warning text-justify">
-                        <b>Сегодня</b> необходимо пройти опросник <b>TOP-8</b>. 
+                        Необходимо <b th:if="${todayTOP8}">сегодня</b><b th:if="${firstTOP8}">первый раз</b> пройти опросник <b>TOP-8</b>. 
                         Вам необходимо <a th:href="@{/questionnaires/{name}(name='TOP8')}" class="alert-link">перейти по ссылке</a> для его заполнения.  
                     </div>
                 </div>

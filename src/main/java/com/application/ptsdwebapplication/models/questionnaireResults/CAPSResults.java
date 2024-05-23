@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.application.ptsdwebapplication.interfaces.Questionnaire;
-import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.models.Patient;
 
 @Entity
 @Table(name = "CAPSResults")
@@ -127,9 +127,9 @@ public class CAPSResults extends QuestionnaireResults implements Questionnaire {
 
     public CAPSResults() { super(); }
 
-    public CAPSResults(String[] answers, Person user) {
+    public CAPSResults(String[] answers, Patient patient) {
         this.answers = answers;
-        this.user = user;
+        this.patient = patient;
         this.date = new Date();
         int[] results = getResultCAPS();
         this.resultFrequency = results[0];

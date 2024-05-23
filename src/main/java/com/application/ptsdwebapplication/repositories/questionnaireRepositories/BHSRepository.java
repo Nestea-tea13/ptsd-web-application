@@ -7,17 +7,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.application.ptsdwebapplication.interfaces.Questionnaire;
-import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.models.Patient;
 import com.application.ptsdwebapplication.models.questionnaireResults.BHSResults;
 
 @Repository
 public interface BHSRepository extends JpaRepository<BHSResults, Integer> {
 
-    List<BHSResults> findByUser(Person currentPerson);
+    List<BHSResults> findByPatient(Patient patient);
 
-    List<BHSResults> findByUserOrderByDateDesc(Person currentPerson);
+    List<BHSResults> findByPatientOrderByDateDesc(Patient patient);
 
-    List<BHSResults> findByUserAndDateBetween(Person currentPerson, Date start, Date end);
+    List<BHSResults> findByPatientAndDateBetween(Patient patient, Date start, Date end);
 
     void save(Questionnaire saveQuestionnaire);
     

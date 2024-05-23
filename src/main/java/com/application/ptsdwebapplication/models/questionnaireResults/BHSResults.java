@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.application.ptsdwebapplication.interfaces.Questionnaire;
-import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.models.Patient;
 
 @Entity
 @Table(name = "BHSResults")
@@ -85,9 +85,9 @@ public class BHSResults extends QuestionnaireResults implements Questionnaire {
 
     public BHSResults() { super(); }
 
-    public BHSResults(String[] answers, Person user) {
+    public BHSResults(String[] answers, Patient patient) {
         this.answers = answers;
-        this.user = user;
+        this.patient = patient;
         this.date = new Date();
         this.result = getResultBHS();
         this.answer1 = answers[0];

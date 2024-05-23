@@ -12,19 +12,21 @@
     <header th:insert="blocks/headers :: header-user-page"></header>
 
     <div class="container mt-4">
-        <h2 class="text-center"> Опросник BHS </h2>
+        <h2 class="text-center"> Опросник BHS </h2><br>
 
         <form th:action="@{/questionnaires/{name}(name='BHS')}" th:object="${answers}" method="post">
-
-            <div th:each="question, iter1 : ${questions}">
-                <p th:text="${iter1.count} + '. ' + ${question}"/>
-                <div>
-                    <div th:each="answerOption, iter2 : ${answerOptions}" class="d-inline">
-                    <input type="radio" th:id="${iter2.index}" th:field="*{answers[__${iter1.index}__]}" th:value="${iter2.index}" required/>
-                    <label th:for="${iter2.index}" th:text="${answerOption}"/>
-                    </div>
-                </div><br>
-            </div> 
+            <table class="table table-bordered table-hover">
+                <tbody>
+                    <tr th:each="question, iter1 : ${questions}"> 
+                        <td th:text="${iter1.count}"></td>
+                        <td th:text="${question}"></td>
+                        <td th:each="answerOption, iter2 : ${answerOptions}" class="myCell">
+                            <input type="radio" th:id="${iter2.index}" th:field="*{answers[__${iter1.index}__]}" th:value="${iter2.index}" required/>
+                            <label th:for="${iter2.index}" th:text="${answerOption}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
             <button type="submit" class="btn btn-dark">Сохранить</button>
 
@@ -35,4 +37,13 @@
     <div th:insert="blocks/footer :: footer"></div>
     
 </body>
+
+<style>
+
+    .myCell {
+        width: 13%;
+    }
+
+</style>
+
 </html>

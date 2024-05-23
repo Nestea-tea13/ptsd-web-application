@@ -12,18 +12,18 @@
     <header th:insert="blocks/headers :: header-user-page"></header>
 
     <div class="container mt-4">
-        <h2 class="text-center"> Опросник TOP-8 </h2>
+        <h2 class="text-center"> Опросник TOP-8 </h2><br>
 
         <form th:action="@{/questionnaires/{name}(name='TOP8')}" th:object="${answers}" method="post">
 
-            <div th:each="question, iter1 : ${questions}">
-                <p th:text="${iter1.count} + '. ' + ${question}"/>
+            <div th:each="question, iter1 : ${questions}" class="card card-body mb-4">
+                <b class="mb-3"><span th:text="${iter1.count} + '. ' + ${question}"/></b>
                 <div>
                     <div th:each="answerOption, iter2 : ${answerOptions[iter1.index]}">
                     <input type="radio" th:id="${iter2.index}" th:field="*{answers[__${iter1.index}__]}" th:value="${iter2.index}" required/>
                     <label th:for="${iter2.index}" th:text="${answerOption}"/>
                     </div>
-                </div><br>
+                </div>
             </div> 
 
             <button type="submit" class="btn btn-dark">Сохранить</button>

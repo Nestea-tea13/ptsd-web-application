@@ -87,39 +87,35 @@ public class QuestionnairesService {
     }
 
     public List<CAPSResults> getAllCAPSForUser() {
-        return capsRepository.findByUser(peopleService.getCurrentPerson());
+        return capsRepository.findByPatient(peopleService.getCurrentPatient());
     }
 
     public List<IESRResults> getAllIESRForUser() {
-        return iesrRepository.findByUser(peopleService.getCurrentPerson());
+        return iesrRepository.findByPatient(peopleService.getCurrentPatient());
     }
 
     public List<BHSResults> getAllBHSForUser() {
-        return bhsRepository.findByUser(peopleService.getCurrentPerson());
+        return bhsRepository.findByPatient(peopleService.getCurrentPatient());
     }
 
     public List<TOP8Results> getAllTOP8ForUser() {
-        return top8Repository.findByUser(peopleService.getCurrentPerson());
+        return top8Repository.findByPatient(peopleService.getCurrentPatient());
     }
 
     @Transactional
     public Questionnaire saveQuestionnaire(String[] answers, String questionnaireName) {
         Questionnaire saveQuestionnaire;
         if (questionnaireName.equals("CAPS")) {
-            saveQuestionnaire = new CAPSResults(answers, peopleService.getCurrentPerson());
-            //peopleService.getCurrentPerson().getResultsCAPS().add(results); // получение данных после ленивой загрузки?
+            saveQuestionnaire = new CAPSResults(answers, peopleService.getCurrentPatient());
             capsRepository.save(saveQuestionnaire);
         } else if (questionnaireName.equals("IESR")) {
-            saveQuestionnaire = new IESRResults(answers, peopleService.getCurrentPerson());
-            //peopleService.getCurrentPerson().getResultsIESR().add(results);
+            saveQuestionnaire = new IESRResults(answers, peopleService.getCurrentPatient());
             iesrRepository.save(saveQuestionnaire);
         } else if (questionnaireName.equals("BHS")) {
-            saveQuestionnaire = new BHSResults(answers, peopleService.getCurrentPerson());
-            //peopleService.getCurrentPerson().getResultsBHS().add(results);
+            saveQuestionnaire = new BHSResults(answers, peopleService.getCurrentPatient());
             bhsRepository.save(saveQuestionnaire);
         } else {
-            saveQuestionnaire = new TOP8Results(answers, peopleService.getCurrentPerson());
-            //peopleService.getCurrentPerson().getResultsTOP8().add(results);
+            saveQuestionnaire = new TOP8Results(answers, peopleService.getCurrentPatient());
             top8Repository.save(saveQuestionnaire);
         }
         return saveQuestionnaire;
@@ -158,26 +154,25 @@ public class QuestionnairesService {
             } else if (type.equals("missed")) {
                 if (TimeUnit.DAYS.convert(new Date().getTime() - questionnaire.getDate().getTime(), TimeUnit.MILLISECONDS) > needDiff) 
                     return true;
-            }
-            
-        }
+            }  
+        } else return true;
         return false;
     }
 
     public Questionnaire getLastQuestionnaire(String questionnaireName) {
         Questionnaire questionnaire = null;
         if (questionnaireName.equals("CAPS")) {
-            List<CAPSResults> questionnaires = capsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
-            if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
+            List<CAPSResults> questionnaires = capsRepository.findByPatientOrderByDateDesc(peopleService.getCurrentPatient());
+            if (!questionnaires.isEmpty()) questionnaire = questionnaires.get(0);
         } else if (questionnaireName.equals("IESR")) {
-            List<IESRResults> questionnaires = iesrRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
-            if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
+            List<IESRResults> questionnaires = iesrRepository.findByPatientOrderByDateDesc(peopleService.getCurrentPatient());
+            if (!questionnaires.isEmpty()) questionnaire = questionnaires.get(0);
         } else if (questionnaireName.equals("BHS")) {
-            List<BHSResults> questionnaires = bhsRepository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
-            if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
+            List<BHSResults> questionnaires = bhsRepository.findByPatientOrderByDateDesc(peopleService.getCurrentPatient());
+            if (!questionnaires.isEmpty()) questionnaire = questionnaires.get(0);
         } else {
-            List<TOP8Results> questionnaires = top8Repository.findByUserOrderByDateDesc(peopleService.getCurrentPerson());
-            if (questionnaires.size() != 0) questionnaire = questionnaires.get(0);
+            List<TOP8Results> questionnaires = top8Repository.findByPatientOrderByDateDesc(peopleService.getCurrentPatient());
+            if (!questionnaires.isEmpty()) questionnaire = questionnaires.get(0);
         }
         return questionnaire;
     }
@@ -205,31 +200,31 @@ public class QuestionnairesService {
 
     public Boolean existsQuestionnaireResultsBetweenDates(String questionnaireName, Date start, Date end) {
         if (questionnaireName.equals("CAPS")) {
-            if (capsRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end).size() != 0) return true;
+            if (capsRepository.findByPatientAndDateBetween(peopleService.getCurrentPatient(), start, end).size() != 0) return true;
         } else if (questionnaireName.equals("IESR")) {
-            if (iesrRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end).size() != 0) return true;
+            if (iesrRepository.findByPatientAndDateBetween(peopleService.getCurrentPatient(), start, end).size() != 0) return true;
         } else if (questionnaireName.equals("BHS")) {
-            if (bhsRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end).size() != 0) return true;
+            if (bhsRepository.findByPatientAndDateBetween(peopleService.getCurrentPatient(), start, end).size() != 0) return true;
         } else if (questionnaireName.equals("TOP8")) {
-            if (top8Repository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end).size() != 0) return true;
+            if (top8Repository.findByPatientAndDateBetween(peopleService.getCurrentPatient(), start, end).size() != 0) return true;
         }
         return false;
     }
 
     public List<CAPSResults> getCAPSResultsBetweenDates(Date start, Date end) {
-        return capsRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end);
+        return capsRepository.findByPatientAndDateBetween(peopleService.getCurrentPatient(), start, end);
     }
 
     public List<IESRResults> getIESRResultsBetweenDates(Date start, Date end) {
-        return iesrRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end);
+        return iesrRepository.findByPatientAndDateBetween(peopleService.getCurrentPatient(), start, end);
     }
 
     public List<BHSResults> getBHSResultsBetweenDates(Date start, Date end) {
-        return bhsRepository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end);
+        return bhsRepository.findByPatientAndDateBetween(peopleService.getCurrentPatient(), start, end);
     }
 
     public List<TOP8Results> getTOP8ResultsBetweenDates(Date start, Date end) {
-        return top8Repository.findByUserAndDateBetween(peopleService.getCurrentPerson(), start, end);
+        return top8Repository.findByPatientAndDateBetween(peopleService.getCurrentPatient(), start, end);
     }
 
 }
