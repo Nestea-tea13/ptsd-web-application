@@ -25,7 +25,7 @@ public class QuestionnaireResults {
     protected int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "patient_id", referencedColumnName = "id")
     protected Patient patient;
 
     @Temporal(TemporalType.DATE)

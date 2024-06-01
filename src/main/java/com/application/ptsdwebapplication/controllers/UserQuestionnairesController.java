@@ -54,8 +54,8 @@ public class UserQuestionnairesController {
 
     @GetMapping("/{name}/{id}")
     public String getQuestionnaireResults(@PathVariable(value = "id") int id, @PathVariable(value = "name") String name, Model model) {
-        if(!questionnairesService.existsQuestionnaireResults(id, name)) {
-            return "redirect:/questionnaires/questionnaires-results";
+        if(!questionnairesService.existsQuestionnaireResultsForCurrentPatient(id, name)) {
+            return "redirect:/questionnaires/results/{name}";
         }
         
         model.addAttribute("questionnare", name);
@@ -80,7 +80,7 @@ public class UserQuestionnairesController {
     public String getQuestionnaireResults(@PathVariable(value = "name") String name, Model model,
                 @ModelAttribute("dates") DatesInterval dates) {
         if(!QuestionnaireData.checkQuestionnaireName(name)) {
-            return "redirect:/user/questionnaires/results";
+            return "redirect:/questionnaires/results";
         }
         
         if (name.equals("CAPS")) {
@@ -116,8 +116,7 @@ public class UserQuestionnairesController {
         model.addAttribute("questionnare", name);
         model.addAttribute("fullName", QuestionnaireData.getQuestionnairesNames(name));
         model.addAttribute("headers", QuestionnaireData.getQuestionnairesResultsTableHeaders(name));
-        model.addAttribute("minDate", questionnairesService.getMinMaxIntervalDate(name, "min"));
-        model.addAttribute("maxDate", questionnairesService.getMinMaxIntervalDate(name, "max"));
+        model.addAttribute("minMaxDates", questionnairesService.getMinMaxIntervalDate(name));
         return "user/questionnaires/questionnaire-results";
     }
 

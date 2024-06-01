@@ -1,5 +1,7 @@
 package com.application.ptsdwebapplication.models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class PersonDrug {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private Patient patient;
 
     @ManyToOne
@@ -118,6 +120,12 @@ public class PersonDrug {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public boolean getFlagForNumPerDay() {
+        List<String> optionsWithMoreOneTimePerDay = new ArrayList<>(Arrays.asList("2 раза в день", "3 раза в день"));  
+        if (optionsWithMoreOneTimePerDay.contains(this.period)) return true;
+        else return false;
     }
 
 }

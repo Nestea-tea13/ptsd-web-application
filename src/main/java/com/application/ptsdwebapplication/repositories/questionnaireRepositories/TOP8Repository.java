@@ -13,11 +13,13 @@ import com.application.ptsdwebapplication.models.questionnaireResults.TOP8Result
 @Repository
 public interface TOP8Repository extends JpaRepository<TOP8Results, Integer> {
 
-    List<TOP8Results> findByPatient(Patient patient);
+    List<TOP8Results> findByPatientOrderByDate(Patient patient);
 
     List<TOP8Results> findByPatientOrderByDateDesc(Patient patient);
 
     List<TOP8Results> findByPatientAndDateBetween(Patient patient, Date start, Date end);
+
+    boolean existsByIdAndPatient(int id, Patient patient);
 
     void save(Questionnaire saveQuestionnaire);
     

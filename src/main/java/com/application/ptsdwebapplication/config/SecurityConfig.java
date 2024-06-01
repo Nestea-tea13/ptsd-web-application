@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -52,19 +52,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new MySimpleUrlAuthenticationSuccessHandler();
     }
 
-    // Настраивает аутентификацию
+    // Настройка аутентификации
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(personDetailsService);
-        /*auth.userDetailsService(personDetailsService)
-                .passwordEncoder(getPasswordEncoder());*/
+        auth.userDetailsService(personDetailsService)
+            .passwordEncoder(getPasswordEncoder());
     }
 
     // Шифрование пароля
     @Bean
     public PasswordEncoder getPasswordEncoder() {
-         return NoOpPasswordEncoder.getInstance();
-        //return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
     
 }

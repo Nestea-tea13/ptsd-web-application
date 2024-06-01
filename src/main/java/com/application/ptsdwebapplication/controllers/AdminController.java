@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.application.ptsdwebapplication.data.DateBorders;
 import com.application.ptsdwebapplication.data.Labels;
 import com.application.ptsdwebapplication.models.Drug;
 import com.application.ptsdwebapplication.models.Person;
@@ -75,6 +76,7 @@ public class AdminController {
 
         model.addAttribute("person", peopleService.findPersonById(id));
         model.addAttribute("flagEditUser", role.equals("user"));
+        model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
         return "admin/person-edit";
     }
 
@@ -85,6 +87,7 @@ public class AdminController {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("flagEditUser", peopleService.findPersonById(id).getRole().equals("ROLE_USER"));
+            model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
             return "admin/person-edit";
         }
         
@@ -95,8 +98,9 @@ public class AdminController {
 
     @GetMapping("/person/add")
     public String addNewPerson(@ModelAttribute("person") Person person, @RequestParam(value = "role", required = false) String role, Model model) {
-        if(!role.equals("ROLE_USER") && !role.equals("ROLE_ADMIN")) return "redirect:/adminpage";
+        if(!role.equals("ROLE_USER") && !role.equals("ROLE_ADMIN")) return "redirect:/adminpage/users";
         model.addAttribute("flagEditUser", role.equals("ROLE_USER"));
+        model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
         return "admin/person-add";
     }
 
@@ -106,6 +110,7 @@ public class AdminController {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("flagEditUser", person.getRole().equals("ROLE_USER"));
+            model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
             return "admin/person-add";
         }
             

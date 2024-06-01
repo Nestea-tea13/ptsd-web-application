@@ -10,6 +10,9 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -132,7 +135,7 @@ public class Person {
         this.status = status;
     }
 
-    public void generateRandomPassword() {
+    public String generateRandomPassword() {
         String randomPassword = "";
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         int charactersLength = characters.length();
@@ -140,7 +143,9 @@ public class Person {
         for (int i = 0; i < 10; i++)
             randomPassword += characters.charAt((int) Math.floor(Math.random() * charactersLength));
 
-        this.password = randomPassword;
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(randomPassword);
+        return randomPassword;
     }
 
 }

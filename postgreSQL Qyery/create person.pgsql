@@ -6,7 +6,7 @@
 --     gender varchar(7) NOT NULL,
 --     birthday varchar(10) NOT NULL,
 --     email varchar(50) NOT NULL UNIQUE,
---     password varchar(50) NOT NULL,
+--     password varchar NOT NULL,
 --     role varchar(100) NOT NULL
 -- );
 

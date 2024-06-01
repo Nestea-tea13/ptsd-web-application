@@ -75,14 +75,14 @@ public class PeopleService {
     public Person addPerson(Person person) {
         String textEmail = "Здравствуйте, " + person.getName() + "!\nВы зарегистрированы в качестве "; 
         
-        person.generateRandomPassword(); // ДОБАВИТЬ ШИФРОВАНИЕ ПАРОЛЯ
+        String randomPassword = person.generateRandomPassword();
         if (person.getRole().equals("ROLE_USER")) {
             person.setStatus("В процессе");
             textEmail += "пациента ";
         } else textEmail += "администратора медицинского учреждения ";
         textEmail +="в web-приложении для оценки динамики посттравматического стрессового расстройства в процессе лечения.\n"
                 + "\nСсылка на сайт: http://localhost:8080/\nЛогин: " + person.getEmail() 
-                + "\nПароль: " + person.getPassword() + "\nДанный пароль можно изменить на свой в личном кабинете.";
+                + "\nПароль: " + randomPassword + "\nДанный пароль можно изменить в личном кабинете.";
         
         peopleRepository.save(person);
         patientsRepository.save(new Patient(person.getId(), "В процессе"));

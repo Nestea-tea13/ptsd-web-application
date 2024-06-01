@@ -13,11 +13,13 @@ import com.application.ptsdwebapplication.models.questionnaireResults.CAPSResult
 @Repository
 public interface CAPSRepository extends JpaRepository<CAPSResults, Integer> {
 
-    List<CAPSResults> findByPatient(Patient patient);
+    List<CAPSResults> findByPatientOrderByDate(Patient patient);
 
     List<CAPSResults> findByPatientOrderByDateDesc(Patient patient);
 
     List<CAPSResults> findByPatientAndDateBetween(Patient patient, Date start, Date end);
+
+    boolean existsByIdAndPatient(int id, Patient patient);
 
     void save(Questionnaire saveQuestionnaire);
     

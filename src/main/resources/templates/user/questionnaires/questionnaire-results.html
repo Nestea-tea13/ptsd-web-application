@@ -24,10 +24,10 @@
                     <form th:action="@{/questionnaires/{name}/pdf(name=${questionnare})}" method="post" th:object="${dates}" style="display: inline-block; width: 75%;">
                         <div class="form-group row">
                             <label class="input-group-text">С </label>
-                            <div class="col"> <input type="date" th:field="*{start}" class="form-control" th:min="${minDate}" th:max="${maxDate}"/> </div>
+                            <div class="col"> <input type="date" th:field="*{start}" class="form-control" th:min="${minMaxDates[0]}" th:max="${minMaxDates[1]}"/></div>
                         
                             <label class="input-group-text">По </label>
-                            <div class="col"> <input type="date" th:field="*{end}" class="form-control" th:min="${minDate}" th:max="${maxDate}"/> </div>  
+                            <div class="col"> <input type="date" th:field="*{end}" class="form-control" th:min="${minMaxDates[0]}" th:max="${minMaxDates[1]}"/></div>  
                             <button type="submit" id="loadButton" class="btn btn-dark">Скачать ответы за указанный период в pdf-файл</button>                     
                         </div>
                         <div id="comments">

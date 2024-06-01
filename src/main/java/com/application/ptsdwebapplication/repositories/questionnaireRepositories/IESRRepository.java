@@ -13,11 +13,13 @@ import com.application.ptsdwebapplication.models.questionnaireResults.IESRResult
 @Repository
 public interface IESRRepository extends JpaRepository<IESRResults, Integer> {
 
-    List<IESRResults> findByPatient(Patient patient);
+    List<IESRResults> findByPatientOrderByDate(Patient patient);
 
     List<IESRResults> findByPatientOrderByDateDesc(Patient patient);
 
     List<IESRResults> findByPatientAndDateBetween(Patient patient, Date start, Date end);
+
+    boolean existsByIdAndPatient(int id, Patient patient);
 
     void save(Questionnaire saveQuestionnaire);
     

@@ -20,7 +20,7 @@
         <h2>Добавление нового лекарства для отслеживания приемов</h2><br>
 
         <form th:action="@{/drugs/add}" method="post" th:object="${personDrug}" style="display: inline-block; width: 30rem;">  
-            <input type="hidden" th:field="*{person}"/>
+            <input type="hidden" th:field="*{patient}"/>
             <input type="hidden" th:field="*{drug}"/>
 
             <div class="text-justify" th:if="${#fields.hasErrors('drug')}" th:errors="*{drug}">drug Error</div>

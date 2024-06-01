@@ -48,14 +48,14 @@
                             <thead>
                                 <th>№</th>
                                 <th>Дата</th>
-                                <th>Номер приема за день</th>
+                                <th th:if="${flagNumPerDay}">Номер приема за день</th>
                                 <th>Статус приема</th>
                             </thead>
                             <tbody>
                                 <tr th:each="m : ${marks}">
                                     <td th:text="${m.takingNum}"></td>
                                     <td th:text="${m.date}"></td>
-                                    <td th:text="${m.markNumPerDay}"></td>
+                                    <td th:if="${flagNumPerDay}" th:text="${m.markNumPerDay}"></td>
                                     <td><span th:text="${m.mark}" th:class="${m.mark} == 'Принято' ? 'badge badge-success rounded-pill d-inline' : 
                                         (${m.mark} == 'Пропущено' ? 'badge badge-danger rounded-pill d-inline' : (${m.mark} == 'Не помню' ? 'badge badge-secondary rounded-pill d-inline'))"/>
                                     </td>

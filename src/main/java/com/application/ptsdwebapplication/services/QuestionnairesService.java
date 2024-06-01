@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.application.ptsdwebapplication.interfaces.Questionnaire;
+import com.application.ptsdwebapplication.models.Patient;
 import com.application.ptsdwebapplication.models.questionnaireResults.*;
 import com.application.ptsdwebapplication.repositories.questionnaireRepositories.*;
 
@@ -34,11 +35,12 @@ public class QuestionnairesService {
         this.top8Repository = top8Repository;
     }
 
-    public Boolean existsQuestionnaireResults(int id, String questionnaireName) {
-        if (questionnaireName.equals("CAPS")) return capsRepository.existsById(id);
-        else if (questionnaireName.equals("IESR")) return iesrRepository.existsById(id);
-        else if (questionnaireName.equals("BHS")) return bhsRepository.existsById(id);
-        else if (questionnaireName.equals("TOP8")) return top8Repository.existsById(id);
+    public Boolean existsQuestionnaireResultsForCurrentPatient(int id, String questionnaireName) {
+        Patient patient = peopleService.getCurrentPatient();
+        if (questionnaireName.equals("CAPS")) return capsRepository.existsByIdAndPatient(id, patient);
+        else if (questionnaireName.equals("IESR")) return iesrRepository.existsByIdAndPatient(id, patient);
+        else if (questionnaireName.equals("BHS")) return bhsRepository.existsByIdAndPatient(id, patient);
+        else if (questionnaireName.equals("TOP8")) return top8Repository.existsByIdAndPatient(id, patient);
         else return false;
     }
 
@@ -87,19 +89,19 @@ public class QuestionnairesService {
     }
 
     public List<CAPSResults> getAllCAPSForUser() {
-        return capsRepository.findByPatient(peopleService.getCurrentPatient());
+        return capsRepository.findByPatientOrderByDate(peopleService.getCurrentPatient());
     }
 
     public List<IESRResults> getAllIESRForUser() {
-        return iesrRepository.findByPatient(peopleService.getCurrentPatient());
+        return iesrRepository.findByPatientOrderByDate(peopleService.getCurrentPatient());
     }
 
     public List<BHSResults> getAllBHSForUser() {
-        return bhsRepository.findByPatient(peopleService.getCurrentPatient());
+        return bhsRepository.findByPatientOrderByDate(peopleService.getCurrentPatient());
     }
 
     public List<TOP8Results> getAllTOP8ForUser() {
-        return top8Repository.findByPatient(peopleService.getCurrentPatient());
+        return top8Repository.findByPatientOrderByDate(peopleService.getCurrentPatient());
     }
 
     @Transactional
@@ -177,25 +179,27 @@ public class QuestionnairesService {
         return questionnaire;
     }
 
-    public String getMinMaxIntervalDate(String questionnaireName, String typeNeedValue) {
+    public String[] getMinMaxIntervalDate(String questionnaireName) {
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String[] dates = {"", ""}; // min, max
         if (questionnaireName.equals("CAPS")) { 
             List<CAPSResults> resultsCAPS = getAllCAPSForUser(); 
-            if (typeNeedValue.equals("min")) return dateFormatter.format(resultsCAPS.get(0).getDate());
-            else return dateFormatter.format(resultsCAPS.get(resultsCAPS.size() - 1).getDate());
+            dates[0] = dateFormatter.format(resultsCAPS.get(0).getDate());
+            dates[1] = dateFormatter.format(resultsCAPS.get(resultsCAPS.size() - 1).getDate());
         } else if (questionnaireName.equals("IESR")) { 
             List<IESRResults> resultsIESR = getAllIESRForUser();
-            if (typeNeedValue.equals("min")) return dateFormatter.format(resultsIESR.get(0).getDate());
-            else return dateFormatter.format(resultsIESR.get(resultsIESR.size() - 1).getDate());
+            dates[0] = dateFormatter.format(resultsIESR.get(0).getDate());
+            dates[1] = dateFormatter.format(resultsIESR.get(resultsIESR.size() - 1).getDate());
         } else if (questionnaireName.equals("BHS")) {
             List<BHSResults> resultsBHS = getAllBHSForUser();
-            if (typeNeedValue.equals("min")) return dateFormatter.format(resultsBHS.get(0).getDate());
-            else return dateFormatter.format(resultsBHS.get(resultsBHS.size() - 1).getDate());
+            dates[0] = dateFormatter.format(resultsBHS.get(0).getDate());
+            dates[1] = dateFormatter.format(resultsBHS.get(resultsBHS.size() - 1).getDate());
         } else {
             List<TOP8Results> resultsTOP8 = getAllTOP8ForUser();
-            if (typeNeedValue.equals("min")) return dateFormatter.format(resultsTOP8.get(0).getDate());
-            else return dateFormatter.format(resultsTOP8.get(resultsTOP8.size() - 1).getDate());
+            dates[0] = dateFormatter.format(resultsTOP8.get(0).getDate());
+            dates[1] = dateFormatter.format(resultsTOP8.get(resultsTOP8.size() - 1).getDate());
         }
+        return dates;
     }
 
     public Boolean existsQuestionnaireResultsBetweenDates(String questionnaireName, Date start, Date end) {

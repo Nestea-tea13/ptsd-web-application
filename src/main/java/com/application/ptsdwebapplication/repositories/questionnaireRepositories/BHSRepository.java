@@ -13,11 +13,13 @@ import com.application.ptsdwebapplication.models.questionnaireResults.BHSResults
 @Repository
 public interface BHSRepository extends JpaRepository<BHSResults, Integer> {
 
-    List<BHSResults> findByPatient(Patient patient);
+    List<BHSResults> findByPatientOrderByDate(Patient patient);
 
     List<BHSResults> findByPatientOrderByDateDesc(Patient patient);
 
     List<BHSResults> findByPatientAndDateBetween(Patient patient, Date start, Date end);
+
+    boolean existsByIdAndPatient(int id, Patient patient);
 
     void save(Questionnaire saveQuestionnaire);
     

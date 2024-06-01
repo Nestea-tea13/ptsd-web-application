@@ -86,6 +86,7 @@ public class UserDrugsController {
 
         PersonDrug personDrug = personDrugsService.findById(id);
         model.addAttribute("personDrug", personDrug);
+        model.addAttribute("flagNumPerDay", personDrug.getFlagForNumPerDay());
         model.addAttribute("marks", drugMarksService.findByPersonDrug(personDrug));
         model.addAttribute("quantityMarks", drugMarksService.getQuantityMarksForPersonDrug(personDrug));
         return "user/drugs/drug-details";

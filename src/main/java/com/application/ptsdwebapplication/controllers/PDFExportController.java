@@ -49,8 +49,8 @@ public class PDFExportController {
     @GetMapping("/{name}/{id}/pdf")
     public String createPdfWithQuestionnaireAnswers(@PathVariable(value = "id") int id, @PathVariable(value = "name") String name, 
                                         HttpServletResponse response, Model model)  throws IOException, DocumentException {
-        if(!questionnairesService.existsQuestionnaireResults(id, name)) {
-            return "redirect:/questionnaires/results";
+        if(!questionnairesService.existsQuestionnaireResultsForCurrentPatient(id, name)) {
+            return "redirect:/questionnaires/results/{name}";
         }
 
         Questionnaire questionnaire = questionnairesService.findQuestionnaireResults(id, name);
@@ -129,8 +129,7 @@ public class PDFExportController {
             model.addAttribute("questionnare", name);
             model.addAttribute("fullName", QuestionnaireData.getQuestionnairesNames(name));
             model.addAttribute("headers", QuestionnaireData.getQuestionnairesResultsTableHeaders(name));
-            model.addAttribute("minDate", questionnairesService.getMinMaxIntervalDate(name, "min"));
-            model.addAttribute("maxDate", questionnairesService.getMinMaxIntervalDate(name, "max"));    
+            model.addAttribute("minMaxDates", questionnairesService.getMinMaxIntervalDate(name));
             return "user/questionnaires/questionnaire-results";
         }
 

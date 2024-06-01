@@ -1,7 +1,5 @@
 package com.application.ptsdwebapplication.controllers;
 
-import java.util.regex.Pattern;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.application.ptsdwebapplication.data.DateBorders;
 import com.application.ptsdwebapplication.models.Person;
+import com.application.ptsdwebapplication.models.subsidiaryClasses.ChangePassword;
 import com.application.ptsdwebapplication.services.PeopleService;
+import com.application.ptsdwebapplication.util.ChangePasswordValidator;
 import com.application.ptsdwebapplication.util.PersonValidator;
 
 @Controller
@@ -22,11 +22,13 @@ public class GeneralController {
 
     private final PeopleService peopleService;
     private final PersonValidator personValidator;
+    private final ChangePasswordValidator changePasswordValidator;
 
     @Autowired
-    public GeneralController(PeopleService peopleService, PersonValidator personValidator) { 
+    public GeneralController(PeopleService peopleService, PersonValidator personValidator, ChangePasswordValidator changePasswordValidator) { 
         this.peopleService = peopleService;
         this.personValidator = personValidator;
+        this.changePasswordValidator = changePasswordValidator;
     }
     
     @GetMapping({"/profile", "/adminpage/profile"})
@@ -37,29 +39,21 @@ public class GeneralController {
     }
 
     @GetMapping({"/profile/changepassword", "/adminpage/profile/changepassword"})
-    public String changePassword(Model model) {
+    public String changePassword(@ModelAttribute("passwords") ChangePassword passwords, Model model) {
         model.addAttribute("flagRoleAdmin", peopleService.getCurrentPerson().getRole().equals("ROLE_ADMIN"));
         return "general/change-password";
     }
 
     @PostMapping({"/profile/changepassword", "/adminpage/profile/changepassword"})
-    public String saveEditPassword(@RequestParam String lastPassword, @RequestParam String newPassword, @RequestParam String newPasswordRepeat, Model model) { 
-        boolean errorLastPassword = lastPassword.equals(peopleService.getCurrentPerson().getPassword());
-        boolean errorNewPassword = newPassword.equals(newPasswordRepeat);
-        boolean errorSuitablePassword = Pattern.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$", newPassword);
+    public String saveEditPassword(@ModelAttribute("passwords") @Valid ChangePassword passwords, BindingResult bindingResult, Model model) {     
 
-        if (!errorLastPassword || !errorNewPassword || !errorSuitablePassword) { // ПОТОМ ДОБАВИТСЯ ШИФРОВАНИЕ
-            if (!errorLastPassword) model.addAttribute("errorLastPassword", true);
-            if (!errorNewPassword) model.addAttribute("errorNewPassword", true);
-            if (!errorSuitablePassword) model.addAttribute("errorSuitablePassword", true);
-            model.addAttribute("lastPassword", lastPassword);
-            model.addAttribute("newPassword", newPassword);
-            model.addAttribute("newPasswordRepeat", newPasswordRepeat);
+        changePasswordValidator.validate(passwords, peopleService.getCurrentPerson(), bindingResult);
+        if (bindingResult.hasErrors()) {
             model.addAttribute("flagRoleAdmin", peopleService.getCurrentPerson().getRole().equals("ROLE_ADMIN"));
             return "general/change-password";
         }
 
-        peopleService.updatePassword(newPassword);
+        peopleService.updatePassword(passwords.getNewPasswordEncoder());
 
         if(peopleService.getCurrentPerson().getRole().equals("ROLE_ADMIN")) return "redirect:/adminpage/profile";
         else return "redirect:/profile";
@@ -70,6 +64,7 @@ public class GeneralController {
         Person currentPerson = peopleService.getCurrentPerson();
         model.addAttribute("person", currentPerson);
         model.addAttribute("flagRoleAdmin", currentPerson.getRole().equals("ROLE_ADMIN"));
+        model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
         return "general/profile-edit";
     }
 
@@ -80,6 +75,7 @@ public class GeneralController {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("flagRoleAdmin", flagRoleAdmin);
+            model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
             return "general/profile-edit";
         }
 
