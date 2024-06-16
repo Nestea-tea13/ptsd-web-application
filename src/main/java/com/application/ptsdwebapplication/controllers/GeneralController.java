@@ -75,7 +75,7 @@ public class GeneralController {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("flagRoleAdmin", flagRoleAdmin);
-            model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
+            model.addAttribute("birthdayDateBorders", DateBorders.getBirthdayBorders());
             return "general/profile-edit";
         }
 

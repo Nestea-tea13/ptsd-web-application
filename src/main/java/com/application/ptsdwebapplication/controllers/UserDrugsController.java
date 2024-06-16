@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.application.ptsdwebapplication.data.DateBorders;
 import com.application.ptsdwebapplication.data.Labels;
 import com.application.ptsdwebapplication.models.PersonDrug;
 import com.application.ptsdwebapplication.services.DrugMarksService;
@@ -55,8 +55,7 @@ public class UserDrugsController {
     public String settingNewDrugForUser(@ModelAttribute("personDrug") PersonDrug personDrug, Model model) {
         model.addAttribute("periodoptions", Labels.PeriodDrugOptions);
         model.addAttribute("names", drugsService.getAllDrugsNames());
-        model.addAttribute("minDate", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
-        model.addAttribute("maxDate", (new SimpleDateFormat("yyyy-MM-dd")).format(DateUtils.addYears(new Date(), 1)));
+        model.addAttribute("drugDateBorders", DateBorders.getDrugBorders());
         return "user/drugs/drug-add";
     }
 
@@ -69,8 +68,7 @@ public class UserDrugsController {
             model.addAttribute("name", drugname);
             model.addAttribute("periodoptions", Labels.PeriodDrugOptions);
             model.addAttribute("names", drugsService.getAllDrugsNames());
-            model.addAttribute("minDate", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
-            model.addAttribute("maxDate", (new SimpleDateFormat("yyyy-MM-dd")).format(DateUtils.addYears(new Date(), 1)));
+            model.addAttribute("drugDateBorders", DateBorders.getDrugBorders());
             return "user/drugs/drug-add";
         }
 

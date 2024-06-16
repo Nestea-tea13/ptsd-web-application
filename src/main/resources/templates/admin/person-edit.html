@@ -62,7 +62,7 @@
             <div class="text-justify" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday Error</div> 
             <div class="form-group row">
                 <label class="input-group-text">Дата рождения</label>
-                <div class="col"> <input type="date" th:field="*{birthday}" class="form-control" th:min="${BirthdayDateBorders[0]}" th:max="${BirthdayDateBorders[1]}"/> </div>
+                <div class="col"> <input type="date" th:field="*{birthday}" class="form-control" th:min="${birthdayDateBorders[0]}" th:max="${birthdayDateBorders[1]}"/> </div>
             </div>
             
             <div class="text-justify" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>

@@ -10,17 +10,14 @@ import org.springframework.validation.Validator;
 import com.application.ptsdwebapplication.models.Drug;
 import com.application.ptsdwebapplication.models.PersonDrug;
 import com.application.ptsdwebapplication.services.DrugsService;
-import com.application.ptsdwebapplication.services.PersonDrugsService;
 
 @Component
 public class PersonDrugValidator implements Validator {
 
-    private final PersonDrugsService personDrugsService;
     private final DrugsService drugsService;
 
     @Autowired
-    public PersonDrugValidator(PersonDrugsService personDrugsService, DrugsService drugsService) {
-        this.personDrugsService = personDrugsService;
+    public PersonDrugValidator(DrugsService drugsService) {
         this.drugsService = drugsService;
     }
 
@@ -44,25 +41,18 @@ public class PersonDrugValidator implements Validator {
                 errors.rejectValue("drug", "", "Лекарства с таким названием нет в списках для выбора");
         }
 
-        boolean checkStartDate = (drug.getStartDate() == null);
-        if(checkStartDate)
+        if (drug.getStartDate() == null)
             errors.rejectValue("startDate", "", "Необходимо заполнить");
 
-        boolean checkEndDate = (drug.getEndDate() == null);
-        if(checkEndDate)
+        if (drug.getEndDate() == null)
             errors.rejectValue("endDate", "", "Необходимо заполнить");
 
-        if(!checkStartDate && !checkEndDate) {
+        if (!(drug.getStartDate() == null) && !(drug.getEndDate() == null)) {
             if (drug.getStartDate().after(drug.getEndDate())) {
                 errors.rejectValue("startDate", "", "Начальная дата должна быть раньше завершающей");
                 errors.rejectValue("endDate", "", "Конечная дата должна быть позже начальной");
             }
         }
-
-        // Проверка на наличие текущей незаконченной записи об этом же лекарстве
-        /*Optional<PersonDrug> drugFromDB = personDrugsService...
-        if (drugFromDB.isPresent())
-            errors.rejectValue("name", "", "Уже существует запись для данного лекарства, у которой еще не закончился срок");*/
 
     }
     

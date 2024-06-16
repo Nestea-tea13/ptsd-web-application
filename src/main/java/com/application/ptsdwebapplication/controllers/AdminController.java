@@ -100,7 +100,7 @@ public class AdminController {
     public String addNewPerson(@ModelAttribute("person") Person person, @RequestParam(value = "role", required = false) String role, Model model) {
         if(!role.equals("ROLE_USER") && !role.equals("ROLE_ADMIN")) return "redirect:/adminpage/users";
         model.addAttribute("flagEditUser", role.equals("ROLE_USER"));
-        model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
+        model.addAttribute("birthdayDateBorders", DateBorders.getBirthdayBorders());
         return "admin/person-add";
     }
 
@@ -110,7 +110,7 @@ public class AdminController {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("flagEditUser", person.getRole().equals("ROLE_USER"));
-            model.addAttribute("BirthdayDateBorders", DateBorders.getBirthdayBorders());
+            model.addAttribute("birthdayDateBorders", DateBorders.getBirthdayBorders());
             return "admin/person-add";
         }
             

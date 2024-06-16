@@ -51,8 +51,7 @@ public class DrugsService {
     public List<String> getAllDrugsNames() {
         List<String> drugs = ((Collection<Drug>) findAllVisible()).stream().map((drug) -> drug.getName()).collect(Collectors.toList()); 
         Collections.sort(drugs);
-        return drugs;
-        
+        return drugs; 
     }
 
     @Transactional
